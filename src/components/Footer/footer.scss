@@ -1,0 +1,63 @@
+.footer {
+    background-color: rgba(29, 38, 53, 0.87);
+    color: #ddc1c1;
+    padding: 2rem auto;
+    font-size: 1.4rem;
+     
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    align-items: center;
+  
+    .logo-box {
+            
+      .logo-box--name {
+        font-family: 'Revalia', cursive;
+        color: rgba(77, 255, 0, 0.89);
+        font-size: 2rem ;
+        margin: 1rem auto;
+        font-weight: 400;
+        letter-spacing: 2rem;
+        height: auto;
+        transition: all .3s;
+       }
+        .logo-box--name:hover {
+          box-shadow: 6rem 4rem 6rem rgba(172, 248, 219, 0.5);
+          transform: scale(1.1); }
+      & > img {
+        width: 7rem;
+        height: auto;
+        margin-bottom: 3rem; 
+      }
+    }
+    .container {
+      display: flex;
+      flex: 1 0 20%;
+      flex-direction: column;
+      
+      
+   
+      .navigation 
+        {
+          margin-bottom: 2rem;
+          ul {
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            li {
+              a {
+                text-decoration: none;
+                color: rgba(77, 255, 0, 0.89);
+                padding: 2rem;
+              }
+            }
+            
+          }  
+        }
+        .copyright {
+          margin-top: -1rem; 
+                width: 100%;
+              text-align: center; }
+
+    }
+  }

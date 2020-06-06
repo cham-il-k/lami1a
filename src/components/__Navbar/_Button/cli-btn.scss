@@ -1,0 +1,28 @@
+@import './../../containers/variables';
+.cli-btn {
+    font-size: 1.4rem;
+    background-color: $c-green-2;
+    outline: 0.5rem solide $c-green;
+    border-radius:0.5rem;
+    color:$c-green;
+    flex: 1 1 23%;
+    height: 3rem;
+    padding: .5rem ;
+    cursor: pointer;
+    margin:  0.2rem 2rem;
+    transition: all 0.5s ease-in-out;
+    * { 
+        text-transform: capitalize;
+    
+    }
+    &.signup {
+        background-color: $c-b-head;
+    }
+    &:hover {
+        background-color:$c-back-button;
+        }
+    &:focus {
+        outline: none
+    }
+
+}

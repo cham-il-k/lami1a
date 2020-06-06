@@ -1,0 +1,20 @@
+{
+  "name": "om",
+  "version": "1.0.0",
+  "description": "Om acces cours",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest -w",
+    "build": "webpack -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "om"
+  },
+  "keywords": [
+    "interface",
+    "Om"
+  ],
+  "author": "kaZius",
+  "license": "ISC"
+}
