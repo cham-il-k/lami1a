@@ -8,6 +8,9 @@ import FormInput from '../FormInput/FormInput';
 import CustomButton from '../CustomButton/CustomButton';
 import { googleSigninStart, signinStart, setCurrentProfil} from '../../store/actions/profil';
 import { createStructuredSelector } from 'reselect'
+import { ToastProvider, useToasts } from 'react-toast-notifications'
+import { firestore, auth} from './../../util/db/db'
+
 import {
   SignInContainer,
   SignInTitle,
@@ -15,33 +18,33 @@ import {
 } from './SignIn-styled';
 
 class SignIn extends React.Component {
-  state = {
-    email: '',
-    password: ''
-  };
+  
+  
+  
   handleSubmit = async event => {
-    const { signInStart } = this.props
+    const { selectCurrentProfil, setCurrentProfil } = this.props
     event.preventDefault();
     const { email, password } = this.state;
-    signInStart(email, password)  
-    /* try {
-       userRef = await auth.signInWithEmailAndPassword(email, password);
+    const { addToast } = useToasts()
+     
+     try {
+      const  userRef = await auth.signInWithEmailAndPassword(email, password);
       if (userRef) {
         userRef.onSnapshot(snapshot => {
           setCurrentProfil({
-            id: snapshot.id,
-            ...snapshot.data()
+            id: userRef.id,
+            ...userRef.data()
           })
         })
+      this.props.history.push(`/profil/${userRef.uid}`);
+      
       } else {
-        console.log(`cant set setCurrentProfil or cant connect  ${email}`)
+        return addToast( `cant set setCurrentProfil or cant connect  ${email}`, { appearance: 'error' })
       }
     } catch (error) {
-      console.error(error);
+      return addToast( ` Error ${error}`, { appearance: 'error' })
     }
-    this.setState({ email: '', password: '' });
-    this.props.history.push(`/profil/${userRef.user.uid}`) */
-  }
+    }
   handleChange = event => {
     const { value, name } = event.target;
 

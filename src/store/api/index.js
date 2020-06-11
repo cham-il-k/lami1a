@@ -1,7 +1,9 @@
 import firebaseApp, {
-    firestore
+    firestore, auth
 } from '../../util/db/db'
-
+/**
+ * Selections
+ */
 export const apifetchSelections = async () => {
     try {
         const selectionSnapshot = await firestore.collection('selections').get()
@@ -32,4 +34,35 @@ export const apifetchCollections = async () => {
     })
     return collections
 }
+/**
+ * product manageement
+ * @param {string} productId 
+ */
+export const apifetchProductById = async (productId) => {
+     firestore.collection('products').doc(productId).get().then(snapshot => ({
+         id: snapshot.id,
+         ...snapshot.data()
+     }))
+}
+export const apifetchProducts = async (productId) => {
+    firestore.collection('products').get().then(async snapshot => {
+        const products = await snapshot.docs.map(product => ({
+            id: product.id,
+            ...product.data()
+        }))
+        return products
+    })
+}
+/**
+ * Auth registratipon User management
+ */
+export const register = async ({email, password, login, ...props}) => {
+    try {
+       const user =  await auth.createUserWithEmailAndPassword(
+            email,
+            password
+          ) 
+          return user      
+    } catch (error) {return Promise.reject(error.message)
+}}
 

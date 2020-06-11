@@ -2,7 +2,7 @@
 import { Route } from 'react-router-dom';
 import CollectionsOverview from '../../components/Collections-Overview/Collections-Overview';
 import CollectionPage from '../collection/collection';
-import ProductPage from '../product/product';
+import ProductsPage from '../products/products';
 import React, { Component } from 'react'
 import { auth, firestore} from './../../util/db/db'
 import 'firebase/auth'
@@ -22,7 +22,8 @@ class ShopPage extends Component {
           <div className='shop-page'>
             <Route exact path={`${match.url}`} component={CollectionsOverview} />
             <Route exact path={`${match.path}/:selectionId`} component={CollectionPage} />
-            <Route exact path={`${match.path}/:selectionId/:collectionId`} component={ProductPage} />
+            <Route exact path={`${match.path}/:collectionId`} component={ProductsPage} />
+            
           </div>
         );
   }

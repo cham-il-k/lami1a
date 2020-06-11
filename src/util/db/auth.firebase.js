@@ -1,25 +1,13 @@
-import firebase from 'firebase'
-import 'firebase/auth'
-import 'firebase/firestore'
 import options from './../../config'
 import {isEmpty } from '../is-empty'
-import firebaseApp from './../db/db'
+import firebase, { auth, firestore} from './../db/db'
 import bcrypt from 'bcryptjs'
-export const auth = firebase.auth()
-const firestore = firebase.firestore()
 
-export const googleProvider = new firebase.auth.GoogleAuthProvider();
+const googleProvider = new firebase.auth.GoogleAuthProvider();
+
 googleProvider.setCustomParameters({ prompt: 'select_account' });
-export const signInWithGoogle = () => auth.signInWithPopup(googleProvider);
 
-/* auth.getRedirectResult().then(function (result) {
-  if (result.credential) {
-    // This gives you a Google Access Token.
-    var token = result.credential.accessToken;
-  }
-  var user = result.user;
-});
- */
+export const signInWithGoogle = () => auth.signInWithPopup(googleProvider);
 
 export const encryptePassword = ( password ) => {
   if (!password) {
@@ -37,52 +25,48 @@ export const encryptePassword = ( password ) => {
 }
 
 export const verifPassword = (password, hash) => {
- 
   const passwordHash = hash
   return new Promise((resolve, reject) => {
   bcrypt.compare(password, passwordHash, (err, same) => {
     if (err) {
       return reject(err)
     }
-
     resolve(same)
   })
   })
 }
 
-
-export const createUserProfilDocument = async (userAuth, additionalData) => {
-  if (!userAuth) return {
-          error:true,
-          message:'dont have a userAuth'
-        };
+export const createUserProfilDocument = async (userAuth) => {
+  if (!userAuth) return ;
+  let userRef = null
   try {
-    const { email, password , uid} =  {...userAuth};
-    const userRef = firestore.collection('profils').doc(uid)
-    const snapShot = await userRef.get();
-    if (!snapShot.exists && !isEmpty(email)) {
-        const hashPassword = hashPassword(password)
+    const { email, uid, login, products, collections } =  userAuth;
+      userRef = firestore.doc(`/profils/${uid}`)
+    const profilSnapshot = await userRef.get();
+    //console.log(profilSnapshot.data())
+    if (!profilSnapshot.exists && !isEmpty(email)) {
         const createdAt = new Date();
         await userRef.set({
+          uid,
           email,
-          password:hashPassword,
           createdAt,
-          ...additionalData
-        });
-        return userRef;
+          login:login || '',
+          products: products || [],
+          collections:collections || [],
+       });
+       return userRef
       } else {
         return {
-          message:true,
-          error: false,
           message:`user  ${email} exists`
         }
-        }
+     }
     } catch (error) {
+        
+      console.log(error)
       return {
-        error: true,
-        message: `firebase Error to create profile ${error}`
+           message : error['code']}
       }
-      }
+     
   };  
 // on envoie le nom de la collection  [selections] // et collectin 'coran / sagesse / objets ludiques / discount'
 export const addCollectionAndDocuments = async (collectionKey, collections) => {

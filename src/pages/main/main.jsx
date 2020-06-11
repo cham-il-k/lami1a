@@ -1,71 +1,51 @@
 import React, { Component, } from 'react';
-import { Switch, Route, Redirect} from 'react-router-dom';
+import { Switch, Route, Redirect, withRouter} from 'react-router-dom';
 import { connect } from 'react-redux'
+import { createStructuredSelector} from 'reselect'
 import Selection from '../../components/Selection/Selection'
 import About from '../about/about'
-//import NotFound from '../NotFound/NotFound'
 import CheckoutPage from '../checkout/checkout.jsx'
 import ShopPage from '../shop/shop.jsx'
+import ProductPage from '../product/product';
 import ProfilPage from '../profil/profil.jsx'
 import Contact from '../contact/contact'
 import {isEmpty} from './../../util/is-empty'
 import SignUp from './../../components/SignUp/SignUp'
 import SignIn from '../../components/SignIn/SignIn';
+import  { selectCurrentProfil} from './../../store/selectors/profil'
 import { MainContainer } from'./main-styled.jsx';
-
 class MainPage extends Component {
+    
 
     render() {
-        const { currentProfil} = this.props
-        return (
-            <Switch>
-                <MainContainer>
-                    <Route exact path='/contact' component={Contact} />
-                    <Route exact path='/about' component={About} />
-                    <Route exact path='/' component={ Selection} />
-                    {/* <Route  path='/shop' component={ShopPage} />
-                    <Route exact path='/checkout' component={CheckoutPage} />
-                    <Route  path='/profil' component={ProfilPage} />
-                    
-                    <Route exact path='/signup' render={() => {
-                        return !isEmpty(this.props.currentProfil) ? (<Redirect to='/profil' />) : (<SignUp />)
-                        }
-                    }/>
-                    <Route exact path='/signin' render={ () => {
-                        return this.currentProfil ? (<Redirect to='/profil'/>) :(< SignIn/>)
-                        }
-                    } />
-                 */}
-
-                </MainContainer>
-                
-                {/*
-        Route exact path='/sign' component= { SignUpPage} />
-
-                <Route path='*' component={NotFound} />
-
-        
-        <Route exact path='/signin' component= { SignInPage} />
-        
-        <Route exact path='/signup' component= { props =>
-            <WithRouterSign 
-            buttonText='Sign up'
-            heading='Join Us'
-            {...props}
-            />
+const { currentProfil} = this.props
+return (
+    <Switch>
+        <MainContainer>
+            <Route exact path='/' component= { Selection} />
+            <Route exact path='/contact' component= {Contact} />
+            <Route exact path='/signup' render={() => {
+                return !isEmpty(currentProfil.userAuth) ? (<Redirect to='/profil' />) : 
+                (<SignUp/>)
+                }
             }/>
-            
-        <Route exact path='/profil' render= {(props) => 
-            <Profil  currentUser={this.props.currentUser} {...props}
-            />
-        }  /> 
-       */}
-            </Switch>
-        )
+            <Route exact path='/signin' render={ () => {
+                return !isEmpty(currentProfil) ? (<Redirect to='/profil'/>) :
+                (<SignIn />)
+                }
+            } />
+            <Route extact path='/shop' component={ShopPage} />
+            <Route exact path='/about' component= {About} />
+            <Route exact path='/checkout' component={CheckoutPage} />
+            <Route exact path='/profil' component={ProfilPage} />
+            <Route exact path='/products/:productId' component={ProductPage} />
+        </MainContainer>
+    </Switch>
+)
     }
 }
-const mapStateToProps = ( errors )  => {
-    
-}
+const mapStateToProps = createStructuredSelector ({
+    currentProfil: selectCurrentProfil
+}) 
 
-export default MainPage
+export default withRouter(connect(mapStateToProps)(MainPage))

@@ -5,14 +5,19 @@ import App from './App.jsx';
 import * as serviceWorker from './serviceWorker';
 import {Provider} from 'react-redux'
 import { BrowserRouter as Router} from 'react-router-dom'
-import {store} from './store/store'
+import {store, persistor} from './store/store'
+import { PersistGate } from 'redux-persist/integration/react'
+import Spinner from './components/Spinner/Spinner'
+
 ReactDOM.render(
   <React.StrictMode>
-    <Router>
     <Provider store={store} >
+    <Router>
+    <PersistGate loading={ <Spinner/>} persistor={ persistor }>
       <App />
-      </Provider>
+      </PersistGate>
     </Router>
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );

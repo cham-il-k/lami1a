@@ -1,13 +1,13 @@
 import styled from 'styled-components';
-import {textBleu} from './../variables'
-export const SignUpContainer = styled.div`
+import {textBleu} from '../../components/variables'
+export const ContactContainer = styled.div`
   display: flex;
   margin: 0 auto;
   flex-direction: column;
   width: 400px;
 `;
 
-export const SignUpTitle = styled.h2`
+export const ContactTitle = styled.h2`
   margin: 10px 0;
 `;
 export const ButtonsBarContainer = styled.div`

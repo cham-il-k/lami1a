@@ -10,7 +10,7 @@ import {
   CollectionPageContainer,
   CollectionTitle,
   CollectionItemsContainer
-} from './product.styled';
+} from './product-styled';
 
 class ProductPage extends Component {
 

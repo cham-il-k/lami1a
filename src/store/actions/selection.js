@@ -1,9 +1,7 @@
-import { apifetchSelections, apifetchCollections, apiInitSelections} from './../api'
+import { apifetchSelections, apifetchCollections} from './../api'
 import {firestore} from './../../util/db/db'
 
-import {
-    INITIAL_COLLECTIONS
-} from './../reducers/shopData'
+
 export const ADD_SELECTION = 'ADD_SELECTION'
 export const FETCH_SELECTIONS_SUCCESS = 'FETCH_SELECTIONS_SUCCESS'
 export const FETCH_COLLECTIONS = 'FETCH_COLLECTIONS'
@@ -17,31 +15,12 @@ export const INIT_COLLECTION = 'INIT_COLLECTION'
 export const FETCH_COLLECTION = 'FETCH_COLLECTION'
 export const REMOVE_COLLECTION = 'REMOVE_COLLECTION'
 
-export const fetchSelections = async () => {
-    try {
-        const selections = [];
-        //const collections = [];
-        await firestore.collection('selections').get().then(snapshot => {
-            console.log(`Api Fetch Selections ${snapshot.docs}`)
-             snapshot.docs.map(docRef => {
-                docRef.data().get().then(col_shot => {
-                    selections.push(col_shot.get())
-                })
-            })
-        
-        })
+export const fetchSelections =  (selections) => {
         return {
-            type: FETCH_SELECTIONS_SUCCESS,
-            selections: selections,
-            errors: null
-    }
-    } catch (err) {
-        return {
-            type: FETCH_FAIL,
-            selections: {},
-            errors: err
-        }
-    }
+                type: FETCH_SELECTIONS_SUCCESS,
+                payload:selections,
+                errors: null
+            }
     }
 export const addCollection = (collection) => {
     return {

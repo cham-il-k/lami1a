@@ -6,40 +6,50 @@ import {
   getSelectionCollections
 } from './utilsSelectors'
 
-const selectedSelections = state => state.selection.selections;
+const selectedSelection = state => state.selection;
 
 //const mapSelection =  new Map(selectSelection)
+export const selectSelectedSelections = createSelector(
+  [selectedSelection],
+  selection => selection.selections
+)
 export const selectCollectionForOverview = selectionId => createSelector(
-  [selectedSelections],
-  collections => {
-    console.log({
-      collections
-    })
-    const _selection = collections[selectionId]
-  }
+  [selectSelectedSelections],
+  selections => selections ? selections[selectionId]: []
+  
 )
 
 export const selectSelections = createSelector(
-  [selectedSelections],
+  [selectSelectedSelections],
+  selections =>  selections ?  Object.keys(selections).map(selection => {
+     return selections[selection]
+    }) : []
+  
+)
+export const selectSelectionsForShopPreview = collectionId => createSelector(
+  [selectSelections],
   selections => {
-    return Object.keys(selections).map(selection => {
-      return selections[selection]
+      const productDeCollection = new Set()
+     Object.keys(selections).map(selection => {
+        const collections = Object.keys(selection['collections'])
+          if(collectionId in collections) {
+            productDeCollection.add(selection['collections'][collectionId])
+          }
     })
+    return productDeCollection
   }
 )
-export const selectSelectionsForShopPreview = createSelector(
-  [selectedSelections],
+export const selectProductsCollection = collectionId => createSelector(
+  [selectSelections],
   selections => {
-    return Object.keys(selections).map(selection => {
-
-      return {
-        title: selections[selection]['title'],
-        id: selections[selection]['id'],
-        imageUrl: selections[selection]['imageUrl'],
-        linkUrl: selections[selection]['linkUrl'],
-        collections: selections[selection]['collections'],
-      }
+      const productDeCollection = new Set()
+     Object.keys(selections).map(selection => {
+        const collections = Object.keys(selection['collections'])
+          if(collectionId in collections) {
+            productDeCollection.add(selection['collections'][collectionId])
+          }
     })
+    return productDeCollection
   }
 )
         /* 

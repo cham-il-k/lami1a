@@ -3,13 +3,13 @@ import { connect } from 'react-redux';
 
 import CollectionItem from '../../components/Collection-Item/Collection-Item';
 
-import { selectSelectionForShopCollection } from '../../store/selectors/selection';
+import { selectProductsCollection } from '../../store/selectors/selection';
 
 import {
   CollectionPageContainer,
   CollectionTitle,
   CollectionItemsContainer
-} from './collection.styled';
+} from './products-styled';
 
 const CollectionPage = ({ sel ,match, history }) => {
   var collection; 
@@ -32,7 +32,7 @@ const CollectionPage = ({ sel ,match, history }) => {
 };
 
 const mapStateToProps = (state, ownProps) => ({
-  sel: selectSelectionForShopCollection(ownProps.match.params.selectionId)(state)
+  products: selectProductsCollection(ownProps.match.params.collectionId)(state)
 });
 
 export default connect(mapStateToProps)(CollectionPage);

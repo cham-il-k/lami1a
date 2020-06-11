@@ -14,10 +14,11 @@ import {
   HeaderContainer,
   LogoContainer,
   OptionsContainer,
-  OptionLink
+  OptionLink,
+  OptionLinkHide
 } from './header-styled';
 const Header = ({ currentProfil, hidden }) => {
-     
+     console.log((currentProfil.user))
     return (
       <HeaderContainer>
         <LogoContainer to='/'>
@@ -26,8 +27,15 @@ const Header = ({ currentProfil, hidden }) => {
         <OptionsContainer>
           <OptionLink to='/shop'>SHOP</OptionLink>
           <OptionLink to='/contact'>CONTACT</OptionLink>
-          {!isEmpty(currentProfil) ? (
-            <OptionLink as='div' onClick={() => auth.signOut()}>
+          { !isEmpty(currentProfil.userAuth) ? (
+           <>
+           <OptionLinkHide to='/profil'>Profil</OptionLinkHide>
+          <OptionLinkHide to='/collection'>Collection</OptionLinkHide>
+          </>
+          ):('')
+          }
+          {!isEmpty(currentProfil.userAuth) ? (
+            <OptionLink to='/' onClick={() => auth.signOut()}>
               SIGN OUT
             </OptionLink>
           ) : (
@@ -41,7 +49,7 @@ const Header = ({ currentProfil, hidden }) => {
 
   }
  const mapStateToProps = createStructuredSelector({
-  //currentProfil: selectCurrentProfil,
+  currentProfil: selectCurrentProfil,
   hidden: selectCartHidden
 });
 export default withRouter(connect(mapStateToProps)(Header))

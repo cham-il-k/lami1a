@@ -1,4 +1,3 @@
-import {INITIAL_COLLECTIONS} from './shopData'
 import {
     FETCH_SELECTIONS_SUCCESS,
     FETCH_COLLECTIONS,
@@ -11,7 +10,7 @@ import {
     INIT_SELECTIONS
 } from './../actions/selection'
 const initialState = {
-        selections: INITIAL_COLLECTIONS,
+        selections:{},
         error: '',
         loading: false
     };
@@ -19,6 +18,7 @@ const initialState = {
 const selectionReducer = ( state = initialState , action) => {
     switch (action.type) {
         case FETCH_SELECTIONS_SUCCESS:
+           // console.log(action.payload)
             return {
                 ...state,
                 selections: action.payload

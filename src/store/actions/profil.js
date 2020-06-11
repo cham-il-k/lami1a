@@ -1,5 +1,6 @@
 import { firestore } from "firebase";
-
+import { auth } from "../../util/db/db";
+import { register } from './../api'
 /**
  * ACTION TYPE
  */
@@ -24,6 +25,24 @@ export const GET_COLLECTION = 'GET_COLLECTION';
 export const REMOVE_FROM_COLLECTION = 'REMOVE_FROM_COLLECTION';
 export const LOGOUT = 'LOGOUT'
 
+
+export const setCurrentProfil = (profil) => {
+    return {
+        type: SET_CURRENT_PROFIL,
+        payload: profil
+    }
+}
+export const  registerStart = async ({email, password}) => {
+    return register({email, password}).then( userAuth => {
+        return {
+            type: SIGNUP_SUCCESS,
+            payload:userAuth
+
+        }
+    }, (errorMessage => Promise.reject(errorMessage)
+    ))
+}  
+
 export const signinStart = (emailAndPassword) => ({
     type: SIGNIN_START,
     payload: emailAndPassword
@@ -46,11 +65,6 @@ export const googleSigninStart = () => ({
 })
 
 
-export const signupStart = (profil) => ({
-        type: SIGNUP_START
-    })
-    
-
 export const setAuthToken = token => {
 if (token) {
     localStorage.setItem('jwtToken', `Bearer ${token}`)
@@ -59,17 +73,10 @@ if (token) {
 }
 }
 
-export const setCurrentProfil = (profil) => {
-     
-    return {
-        type: SET_CURRENT_PROFIL,
-        payload: profil
-    }
-}
-
 export const logOut = () => {
+    auth().logOut()
     return {
         type: LOGOUT,
-        payload: {}
+        
     }
 }

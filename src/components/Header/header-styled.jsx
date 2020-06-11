@@ -34,3 +34,12 @@ export const OptionLink = styled(Link)`
   color:${greenAzur};
   text-decoration:none;
 `;
+export const OptionLinkHide = styled(Link)`
+padding: 10px 15px;
+cursor: pointer;
+display:none;
+font-weight: lighter;
+font-size: 1.5rem;
+color:${greenAzur};
+text-decoration:none;
+`;

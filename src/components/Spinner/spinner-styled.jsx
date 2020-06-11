@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+
 export const Loader = styled.div`
 .loader {
   color: #40c5c3;

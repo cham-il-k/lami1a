@@ -1,15 +1,14 @@
 import styled, { css } from 'styled-components';
-import { bleuAzur, greenGrey, greenFin} from './../variables'
+import {  btnGgl, btnV, btnB, btnInvert, subText} from './../variables'
 import {Link} from 'react-router-dom'
 
 const buttonStyles = css`
-  background-color: ${greenFin};
-  color: white;
+  color: ${btnInvert};
   border: none;
 
   &:hover {
-    background-color: ${bleuAzur};
-    color: black;
+    background-color: ${btnInvert};
+    color: ${subText};
     border: 1px solid black;
   }
 `;
@@ -27,8 +26,8 @@ const invertedButtonStyles = css`
 `;
 
 const googleSignInStyles = css`
-  background-color: ${greenGrey};
-  color: white;
+  background-color: ${btnGgl};
+  color: ${btnInvert};
 
   &:hover {
     background-color: #357ae8;
@@ -46,7 +45,8 @@ const getButtonStyles = props => {
 
 export const CustomButtonContainer = styled.button`
   min-width: 165px;
-  width: auto;
+  background-color: ${btnV};
+   width: auto;
   height: 50px;
   letter-spacing: 0.5px;
   line-height: 50px;
@@ -74,8 +74,27 @@ export const CustomLinkContainer = styled(Link)`
   font-weight: bolder;
   cursor: pointer;
   display: flex;
-
+  background-color:${btnB};
   justify-content: center;
 
   ${getButtonStyles}
+`;
+
+export const CustomInputContainer = styled.input`
+min-width: 165px;
+width: 165px;
+height: 50px;
+letter-spacing: 0.5px;
+line-height: 50px;
+padding: 0 5px 0 5px;
+font-size: 15px;
+text-transform: uppercase;
+font-family: 'Open Sans Condensed';
+font-weight: bolder;
+cursor: pointer;
+display: flex;
+background-color:${btnV};
+justify-content: center;
+
+${getButtonStyles}
 `;

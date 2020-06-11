@@ -17,7 +17,9 @@ export const LogoContainer = styled.div`
     }
     `
 export const NameSite = styled(Link)`
-    line-height:3rem;
+    box-sizing:border-box;
+    line-height:2rem;
+    padding:0;
     text-decoration:none;
     text-transform: uppercase;
     cursor:pointer;

@@ -35,4 +35,14 @@ export const tete = 'rgba(92, 124, 142, 0.966)';
 export const cor = 'rgba(190, 84, 90, 0.876)';
 export const yad = 'rgba(162, 218, 103, 0.897)';
 export const point = 'rgba(190, 92, 46, 0.918)';
+/**forms */
+export const subText = 'rgba(73, 100, 116, 0.966);';
+export const mainText = 'rgb(21, 26, 29)';
 
+/**
+ * Buttons
+ */
+export const btnV = 'rgba(37, 192, 171, 0.753)';
+export const btnB = 'rgba(73, 100, 116, 0.966)';
+export const btnInvert = 'rgba(212, 240, 237, 0.89)';
+export const btnGgl = 'rgb(9, 102, 156)';

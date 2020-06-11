@@ -1,14 +1,98 @@
-import React from 'react';
+import React, {Component} from 'react';
 import { Route } from 'react-router-dom';
+import { connect } from 'react-redux'
+import {createStructuredSelector} from 'reselect'
+import { setCurrentProfil } from '../../store/actions/profil';
+import {selectCurrentProfil, selectProfilCollection} from './../../store/selectors/profil'
 
-import Profil from './../../components/Profil/Profil';
 import ProfilCollectonPage from './ProfilCollection';
+import { ProfilContainer ,Message, ButtonsBarContainer, ProfilTitle} from './profil-styled'
+import  FormInput from './../../components/FormInput/FormInput' 
+import CustomButton  from './../../components/CustomButton/CustomButton' 
 
-const ProfilPage = ({ match }) => (
-  <div className='shop-page'>
-    <Route exact path={`${match.path}`} component={Profil} />
-     <Route path={`${match.path}/:profilId`} component={ProfilCollectonPage} />
-   </div>
-);
+class ProfilPage extends Component   {
 
-export default ProfilPage;
+  render() {
+    const { login, email, password, city, country, address} = this.props.setCurrentProfil
+
+    return(
+     <ProfilContainer>
+      <ProfilTitle>Profil</ProfilTitle>
+      <form  onSubmit={this.handleSubmit}>
+        <FormInput
+          type='text'
+          name='login'
+          value={login}
+          onChange={this.handleChange}
+          label='Login'
+          required
+        />
+        <FormInput
+          type='email'
+          name='email'
+          value={email}
+          onChange={this.handleChange}
+          label='Email'
+          required
+        />
+        <FormInput
+          type='password'
+          name='password'
+          value={password}
+          onChange={this.handleChange}
+          label='Password'
+          required
+        />
+        <FormInput
+          type='text'
+          name='address'
+          value={address}
+          onChange={this.handleChange}
+          label='Confirm Password'
+          required
+        />
+        
+        <FormInput
+          type='text'
+          name='city'
+          value={city}
+          onChange={this.handleChange}
+          label='Confirm Password'
+          required
+        />
+        <FormInput
+          type='text'
+          name='country'
+          value={country}
+          onChange={this.handleChange}
+          label='Confirm Password'
+          required
+        />
+        </form>
+        < ButtonsBarContainer>
+          <CustomButton type='submit'>SIGN UP</CustomButton>
+          <Message>
+            Already User?
+          </Message>
+            <CustomButton link='link' to='/signin' > SIGNIN</CustomButton>
+          </ButtonsBarContainer>
+        </ProfilContainer>
+
+      )
+    
+    
+  }
+
+}
+
+const mapStateToProps = createStructuredSelector ({
+  profil: selectCurrentProfil
+})
+const mapDispatchToProps = (dispatch) => {
+return {
+  setCurrentProfil: (profil) => dispatch(setCurrentProfil(profil))
+}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProfilPage);
+
