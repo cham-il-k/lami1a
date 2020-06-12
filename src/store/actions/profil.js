@@ -1,6 +1,5 @@
-import { firestore } from "firebase";
 import { auth } from "../../util/db/db";
-import { register } from './../api'
+import { apiRegister, apiGetAllProfils} from './../api'
 /**
  * ACTION TYPE
  */
@@ -20,6 +19,8 @@ export const SIGNUP_FAIL = 'SIGNUP_FAIL'
 export const SET_CURRENT_PROFIL = 'SET_CURRENT_PROFIL'
 export const SELECT_CURRENT_PROFIL = 'SELECT_CURRENT_PROFIL'
 
+export const GET_ALL_PROFILS = 'GET_ALL_PROFILS'
+
 export const ADD_TO_COLLECTION = 'ADD_TO_COLLECTION';
 export const GET_COLLECTION = 'GET_COLLECTION';
 export const REMOVE_FROM_COLLECTION = 'REMOVE_FROM_COLLECTION';
@@ -32,8 +33,8 @@ export const setCurrentProfil = (profil) => {
         payload: profil
     }
 }
-export const  registerStart = async ({email, password}) => {
-    return register({email, password}).then( userAuth => {
+export const  signUp = async ({email, password}) => {
+    return apiRegister({email, password}).then( userAuth => {
         return {
             type: SIGNUP_SUCCESS,
             payload:userAuth
@@ -43,10 +44,14 @@ export const  registerStart = async ({email, password}) => {
     ))
 }  
 
-export const signinStart = (emailAndPassword) => ({
-    type: SIGNIN_START,
-    payload: emailAndPassword
-})
+export const getAllProfils = async () => {
+   const profils = await apiGetAllProfils()
+   console.log(profils) 
+   return {
+        type: GET_ALL_PROFILS,
+        payload: profils
+}
+}
 
 export const signinSuccess = (profil) => ({
     type: SIGNIN_SUCCESS,

@@ -12,13 +12,12 @@ import {
   PriceContainer
 } from './collection-item.styled';
 
-const CollectionItem = ({ collection, match, history}) => {
+const CollectionItem = ({ collection, match, history,...otherProps}) => {
   const { title, dispo, imageUrl } = collection;
-  console.log(`match dans CollectioItem ${JSON.stringify(match)}`)
-
+ console.log(match, history)
   return (
     <CollectionItemContainer onClick={() => history.push(`${match['url']}/${title}`)}>
-      <LinkProduct to={`${match['url']}/${title}`}>
+      <LinkProduct to={`/products/${title}`}>
         <BackgroundImage className='image' imageUrl={imageUrl} />
         <CollectionFooterContainer>
           <NameContainer>{title}</NameContainer>

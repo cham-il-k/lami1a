@@ -19,14 +19,16 @@ import {
 
 class SignIn extends React.Component {
   
-  
+  state = {
+    email:'',
+    password:''
+  }
   
   handleSubmit = async event => {
     const { selectCurrentProfil, setCurrentProfil } = this.props
     event.preventDefault();
     const { email, password } = this.state;
-    const { addToast } = useToasts()
-     
+    //const { addToast } = useToasts()
      try {
       const  userRef = await auth.signInWithEmailAndPassword(email, password);
       if (userRef) {
@@ -38,13 +40,11 @@ class SignIn extends React.Component {
         })
       this.props.history.push(`/profil/${userRef.uid}`);
       
-      } else {
-        return addToast( `cant set setCurrentProfil or cant connect  ${email}`, { appearance: 'error' })
       }
-    } catch (error) {
-      return addToast( ` Error ${error}`, { appearance: 'error' })
+    }catch(error) {
+      console.log(error)
     }
-    }
+  }
   handleChange = event => {
     const { value, name } = event.target;
 
@@ -54,8 +54,8 @@ class SignIn extends React.Component {
     const {googleSigninStart, signInStart} = this.props
     return (
       <SignInContainer>
-        <SignInTitle>I already have an account</SignInTitle>
-        <span>Sign in with your email and password</span>
+        <SignInTitle>Sign in </SignInTitle>
+        
         <form onSubmit={this.handleSubmit}>
           <FormInput
             name='email'

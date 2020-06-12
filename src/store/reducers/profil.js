@@ -7,6 +7,7 @@ import {
     ADD_TO_COLLECTION,
     GET_COLLECTION,
     REMOVE_FROM_COLLECTION,
+    GET_ALL_PROFILS,
   
 } from '../actions/profil'
 import { removeProductsFromProfil } from './reducersUtils'
@@ -119,8 +120,7 @@ const initialState = {
 const profilReducer = (state = initialState, action) => {
     switch (action.type) {
         case SET_CURRENT_PROFIL:
-                
-        return {
+            return {
                 ...state,
                 loading: false,
                 currentProfil: action.payload,
@@ -144,6 +144,11 @@ const profilReducer = (state = initialState, action) => {
         case GET_COLLECTION:
             return {
                 ...state,
+            };
+        case GET_ALL_PROFILS:
+            return {
+                ...state,
+                profils:action.payload
             };
         case ADD_TO_COLLECTION:
             return {

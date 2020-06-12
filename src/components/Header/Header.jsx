@@ -18,7 +18,6 @@ import {
   OptionLinkHide
 } from './header-styled';
 const Header = ({ currentProfil, hidden }) => {
-     console.log((currentProfil.user))
     return (
       <HeaderContainer>
         <LogoContainer to='/'>
@@ -27,18 +26,15 @@ const Header = ({ currentProfil, hidden }) => {
         <OptionsContainer>
           <OptionLink to='/shop'>SHOP</OptionLink>
           <OptionLink to='/contact'>CONTACT</OptionLink>
-          { !isEmpty(currentProfil.userAuth) ? (
+          { (currentProfil != null ) || (!isEmpty(currentProfil) ) ? (
            <>
-           <OptionLinkHide to='/profil'>Profil</OptionLinkHide>
-          <OptionLinkHide to='/collection'>Collection</OptionLinkHide>
-          </>
-          ):('')
-          }
-          {!isEmpty(currentProfil.userAuth) ? (
-            <OptionLink to='/' onClick={() => auth.signOut()}>
+           <OptionLink to='/profil'>Profil</OptionLink>
+           <OptionLink to='/collection'>Collection</OptionLink>
+          <OptionLink to='/' onClick={() => auth.signOut()}>
               SIGN OUT
             </OptionLink>
-          ) : (
+          </>
+          ): (
               <OptionLink to='/signup'>SIGN in/up </OptionLink>
             )}
           <CartIcon />

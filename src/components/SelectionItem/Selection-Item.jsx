@@ -11,11 +11,11 @@ import {
 
 const SelectionItem = ({ title, imageUrl, size, history, linkUrl, match }) => {
    
-  const imageUrlrep = `..${imageUrl}`
-
+  const imageUrlrep = `./assets${imageUrl}`
+  const link = (!!linkUrl) ? linkUrl:'/' 
   return <SelectionItemContainer
             size={size}
-            onClick={() => history.push(`shop${linkUrl}`)
+            onClick={() => history.push(`shop${link}`)
             }
              >
             <BackgroundImageContainer

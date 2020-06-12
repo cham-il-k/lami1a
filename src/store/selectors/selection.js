@@ -15,7 +15,10 @@ export const selectSelectedSelections = createSelector(
 )
 export const selectCollectionForOverview = selectionId => createSelector(
   [selectSelectedSelections],
-  selections => selections ? selections[selectionId]: []
+  selections => {
+    console.log(selections[selectionId])
+    return (selections ? selections[selectionId]: [])
+  }
   
 )
 
@@ -39,15 +42,16 @@ export const selectSelectionsForShopPreview = collectionId => createSelector(
     return productDeCollection
   }
 )
-export const selectProductsCollection = collectionId => createSelector(
+export const selectProductsCollection = ({selectionId, collectionId}) => createSelector(
   [selectSelections],
   selections => {
-      const productDeCollection = new Set()
-     Object.keys(selections).map(selection => {
-        const collections = Object.keys(selection['collections'])
-          if(collectionId in collections) {
-            productDeCollection.add(selection['collections'][collectionId])
-          }
+    const selection = selectCollectionForOverview(selectionId)
+      
+    const productDeCollection = new Set()
+
+     Object.keys(selection['collections']).map(collection => {
+          console.log(collection)
+          return collection
     })
     return productDeCollection
   }

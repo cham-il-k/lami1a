@@ -8,6 +8,6 @@ background: white;
 display: flex;
 flex-direction: column;
 text-align: center;
-margin: 0 auto;
+margin: 7rem auto 0;
 flex: 1 0 auto;
 `

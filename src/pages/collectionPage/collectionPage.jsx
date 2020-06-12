@@ -9,11 +9,12 @@ import {
   CollectionPageContainer,
   CollectionTitle,
   CollectionItemsContainer
-} from './products-styled';
+} from './collection-styled';
 
-const CollectionPage = ({ sel ,match, history }) => {
+const CollectionPage = ({ products ,match, history }) => {
+  console.log(products)  
   var collection; 
-  sel.forEach(selection => {
+  products.forEach(selection => {
     collection = <>
           <CollectionTitle>{selection['title']}</CollectionTitle>
                   <CollectionItemsContainer>
@@ -31,8 +32,11 @@ const CollectionPage = ({ sel ,match, history }) => {
   );
 };
 
-const mapStateToProps = (state, ownProps) => ({
-  products: selectProductsCollection(ownProps.match.params.collectionId)(state)
-});
+const mapStateToProps = (state, ownProps) => {
+ const collectionId =  ownProps.match.params.collectionId
+ //const selectionId =  ownProps.match.params.selectionId
+ return{
+  products: selectProductsCollection(collectionId)(state)
+}};
 
 export default connect(mapStateToProps)(CollectionPage);

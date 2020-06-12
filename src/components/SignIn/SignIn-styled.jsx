@@ -13,6 +13,7 @@ export const SignInContainer = styled.div`
 
 export const SignInTitle = styled.h2`
   margin: 10px 0;
+  font-size:2rem;
 `;
 
 export const ButtonsBarContainer = styled.div`

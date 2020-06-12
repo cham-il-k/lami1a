@@ -6,7 +6,7 @@ import Selection from '../../components/Selection/Selection'
 import About from '../about/about'
 import CheckoutPage from '../checkout/checkout.jsx'
 import ShopPage from '../shop/shop.jsx'
-import ProductPage from '../product/product';
+import CollectionPage from './../collectionPage/collectionPage';
 import ProfilPage from '../profil/profil.jsx'
 import Contact from '../contact/contact'
 import {isEmpty} from './../../util/is-empty'
@@ -25,7 +25,7 @@ return (
             <Route exact path='/' component= { Selection} />
             <Route exact path='/contact' component= {Contact} />
             <Route exact path='/signup' render={() => {
-                return !isEmpty(currentProfil.userAuth) ? (<Redirect to='/profil' />) : 
+                return !isEmpty(currentProfil) ? (<Redirect to='/profil' />) : 
                 (<SignUp/>)
                 }
             }/>
@@ -38,7 +38,8 @@ return (
             <Route exact path='/about' component= {About} />
             <Route exact path='/checkout' component={CheckoutPage} />
             <Route exact path='/profil' component={ProfilPage} />
-            <Route exact path='/products/:productId' component={ProductPage} />
+            
+            <Route exact path='/products/:collectionId' component={CollectionPage} />
         </MainContainer>
     </Switch>
 )

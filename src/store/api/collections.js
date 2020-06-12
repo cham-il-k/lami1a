@@ -1,21 +1,31 @@
-import firebaseApp, {
+import firebase, {
     firestore, auth
 } from '../../util/db/db'
 /**
  * Selections
  */
-export const apifetchSelections = async () => {
+export const apiCreateCollections = async (collections) => {
     try {
-        const selectionSnapshot = await firestore.collection('selections').get()
-        const selections = []
-        console.log({selectionSnapshot})
-        await selectionSnapshot.onSnapshot(async snapshot => {
-            console.log(`Api Fetch Selections ${snapshot.docs}`)
-             selections = await snapshot.docs.map(docRef => {
-                        return docRef.data()
-                    })
-        }) 
-        return selections
+        const collectionsRef = await firestore.collection('collections')
+        collections.forEach(collection => {
+                collectionsRef.onSnapshot(async snapshot => {
+                collectionsRef.doc(collection[0]).set(collection[1])
+           }) 
+        })
+    } catch (error) {
+        throw error
+    }    
+}
+
+export const apiCreateProducts = async ({collectionKey, products}) => {
+    try {
+        const productsRef = await firestore.collection('products')
+         const docRef = await productsRef.doc(collectionKey)     
+           const docSnapshot = docRef.get()
+           if(!docSnapshot.exists) {
+            docRef.set(products)
+           } 
+    
     } catch (error) {
         throw error
     }    

@@ -16,7 +16,7 @@ const CollectionsOverview = ({ selections }) => {
         selections.map( collection => {
           
           const  {id, ...otherCollectionProps} = collection;
-         return     <CollectionPreview key={id} {...otherCollectionProps} />
+         return     <CollectionPreview key={id} id={id}  {...otherCollectionProps} />
         }
         )
       } 

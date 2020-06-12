@@ -38,13 +38,12 @@ export const verifPassword = (password, hash) => {
 
 export const createUserProfilDocument = async (userAuth) => {
   if (!userAuth) return ;
-  let userRef = null
-  try {
-    const { email, uid, login, products, collections } =  userAuth;
-      userRef = firestore.doc(`/profils/${uid}`)
-    const profilSnapshot = await userRef.get();
-    //console.log(profilSnapshot.data())
-    if (!profilSnapshot.exists && !isEmpty(email)) {
+  
+  const { email, uid, login, products, collections } =  userAuth;
+  let userRef = firestore.doc(`/profils/${uid}`)
+  const profilSnapshot = await userRef.get();
+  if (!profilSnapshot.exists && !isEmpty(email)) {
+    try {
         const createdAt = new Date();
         await userRef.set({
           uid,
@@ -54,20 +53,15 @@ export const createUserProfilDocument = async (userAuth) => {
           products: products || [],
           collections:collections || [],
        });
-       return userRef
-      } else {
+      } catch (error) {
         return {
-          message:`user  ${email} exists`
+          message : error['code']
         }
-     }
-    } catch (error) {
-        
-      console.log(error)
-      return {
-           message : error['code']}
       }
+  return userRef
      
-  };  
+  };
+}  
 // on envoie le nom de la collection  [selections] // et collectin 'coran / sagesse / objets ludiques / discount'
 export const addCollectionAndDocuments = async (collectionKey, collections) => {
   const collectionRef = firestore.collection(collectionKey)

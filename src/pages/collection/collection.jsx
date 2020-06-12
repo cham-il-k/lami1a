@@ -12,22 +12,20 @@ import {
 } from './collection.styled';
 
 const CollectionPage = ({ sel ,match, history }) => {
-  var collection; 
-  sel.forEach(selection => {
-    console.log(`collection Page ${selection}`)
-    collection = <>
-          <CollectionTitle>{selection['title']}</CollectionTitle>
+  var selection = 
+        (<>
+          <CollectionTitle>{sel['title']}</CollectionTitle>
                   <CollectionItemsContainer>
-                    {Object.values(selection['collections']).map(collection => (
+                    {
+                    Object.values(sel['collections']).map(collection => (
                       <CollectionItem key={collection['id']} collection={collection} />
-                    ))}
-                  </CollectionItemsContainer>
-            </>
-              })
-
-  return (
+                    ))
+                    }
+            </CollectionItemsContainer>
+            </>)        
+    return (
     <CollectionPageContainer>
-      {collection}
+      {selection}
     </CollectionPageContainer>
   );
 };

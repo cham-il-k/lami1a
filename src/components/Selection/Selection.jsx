@@ -13,15 +13,15 @@ class Selection extends Component {
   unsubscribeFromSelections= null
 
 componentDidMount() {
-    const {fetchSelections} = this.props
+  /*   const {fetchSelections} = this.props
     this.unsubscribeFromSelections = firestore.collection('selections')
     .get().then(async snapshot => {
     const selectionsMap =  await transformCollectionSnapshotToMap(snapshot)
     console.log(selectionsMap)  
+ */
+//    fetchSelections(selectionsMap)
+    }
 
-    fetchSelections(selectionsMap)
-    })
-}
 
   render() {
     const { selections } = this.props

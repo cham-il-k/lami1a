@@ -14,29 +14,31 @@ import {
 class CollectionPreview extends Component {
 
 render() {
-    
-    const {collections, imageUrl, title, history, match, linkUrl } = this.props
+    const {collections,location , imageUrl, title, id, routeName, history, match, linkUrl } = this.props
+    console.log({collections, location , imageUrl, title, id, routeName, history, match, linkUrl}) 
     return (
       <CollectionPreviewContainer>
-          <TitleContainer onClick={() => history.push(`${match.path}/${title}`)}>
+          <TitleContainer onClick={() => history.push(`${match.path}/${routeName}`)}>
           {title.toUpperCase()}
         </TitleContainer>
       <PreviewCollections>
         {
-          
-          Object.values(collections).map(collection => {
-            console.log(`${collection}`)
-          
-          return (
-            <PreviewCollection onClick={() => history.push(`${match.path}/${title}/${collection['title']}`)} imageUrl={imageUrl}>
-            <h2>{ collection['title'].toUpperCase()} </h2>
+        Object.entries(collections).map(collection => {
+        console.log(`${collection[0]}: ${collection[1]['items']}`)
 
-          </PreviewCollection>
+        console.log(`./assets${collection[1]['imageUrl']}`)
+        return (
+        <PreviewCollection onClick={()=>
+          history.push(`${collection[1]['linkUrl']}`)}
+          imageUrl={ `./assets${collection[1]['imageUrl']}`} >
+          <h2>{ collection[1]['title'].toUpperCase()} </h2>
 
-           )
+        </PreviewCollection>
+
+        )
         })
         }
-           </PreviewCollections>
+      </PreviewCollections>
       </CollectionPreviewContainer>
   )
 }
