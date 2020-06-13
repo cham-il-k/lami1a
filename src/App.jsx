@@ -39,14 +39,8 @@ componentDidMount(){
       const selectionsMap =  await transformCollectionSnapshotToMap(snapshot)
       //console.log(selectionsMap)  
       fetchSelections(selectionsMap)
-    }).then(_ => {
-      this.props.selections.forEach(selection => {
-        const entries = Object.entries(selection['collections'])
-        entries.forEach(col => {
-          const collection  = {collectionKey:col[0], products:col[1]}
-              apiCreateProducts(collection) 
-        })
-      })  
+    }).catch(error => {
+        console.log(error)
     }
     )
         this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
@@ -106,7 +100,6 @@ const  mapDispatchToProps = (dispatch) => {
     setCurrentProfil: (profil) => dispatch(setCurrentProfil(profil)),
     getAllProfils:() => dispatch(getAllProfils()),
     fetchSelections:(selectionsMap) => dispatch(fetchSelections(selectionsMap))
-  
   }
 }
 

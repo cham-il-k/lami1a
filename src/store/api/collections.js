@@ -4,7 +4,24 @@ import firebase, {
 /**
  * Selections
  */
-export const apiCreateCollections = async (collections) => {
+
+export const apifetchSelections = async () => {
+    try {
+        const selectionSnapshot = await firestore.collection('selections').get()
+        const selections = []
+        console.log({selectionSnapshot})
+        await selectionSnapshot.onSnapshot(async snapshot => {
+            console.log(`Api Fetch Selections ${snapshot.docs}`)
+             selections = await snapshot.docs.map(docRef => {
+                        return docRef.data()
+                    })
+        }) 
+        return selections
+    } catch (error) {
+        throw error
+    }    
+}
+ export const apiCreateCollections = async (collections) => {
     try {
         const collectionsRef = await firestore.collection('collections')
         collections.forEach(collection => {
@@ -17,13 +34,14 @@ export const apiCreateCollections = async (collections) => {
     }    
 }
 
-export const apiCreateProducts = async ({collectionKey, products}) => {
+export const apiProductsCollection = async ({collectionKey, products}) => {
     try {
         const productsRef = await firestore.collection('products')
          const docRef = await productsRef.doc(collectionKey)     
            const docSnapshot = docRef.get()
            if(!docSnapshot.exists) {
-            docRef.set(products)
+               docRef
+            .docRef.set(products)
            } 
     
     } catch (error) {
@@ -36,7 +54,7 @@ export const apifetchCollections = async () => {
     const collections = []
 
     selectionSnapshot.onSnapshot(async snapshot => {
-        console.log(`Api Fetch collections ${snapshot.docs}`)
+       // console.log(`Api Fetch collections ${snapshot.docs}`)
         collections = await snapshot.docs.map(docRef => {
             const collection_Ref = docRef.get()
             return collection_Ref.data()
@@ -63,26 +81,13 @@ export const apifetchProducts = async (productId) => {
         return products
     })
 }
-/**
- * Auth registratipon User management
- */
-export const apiRegister = async ({email, password, login, ...props}) => {
-    try {
-       const user =  await auth.createUserWithEmailAndPassword(
-            email,
-            password
-          ) 
-          return user      
-    } catch (error) {return Promise.reject(error.message)
-}}
-
-export const apiGetAllProfils = async () => {
-
-    const profilCollectionSnapshot = await firestore.collection('profils').get()
-    if(!!profilCollectionSnapshot) {
-        const profils = await profilCollectionSnapshot.docs.map(profilRef => profilRef.data())
-        return {profils}
-    }else {
-        return {profils: []}
-    }
-} 
+//Version batch
+export const apiaddCollectionAndDocuments = async (collectionKey, collections) => {
+    const collectionRef = firestore.collection(collectionKey)
+     const batch = firestore.batch()
+     collections.forEach(object => {
+       const newCollRef = collectionRef.doc(object.title)
+       batch.set(newCollRef,object)  
+     })
+     return await batch.commit()  
+  }

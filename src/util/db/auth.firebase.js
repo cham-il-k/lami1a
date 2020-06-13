@@ -63,12 +63,3 @@ export const createUserProfilDocument = async (userAuth) => {
   };
 }  
 // on envoie le nom de la collection  [selections] // et collectin 'coran / sagesse / objets ludiques / discount'
-export const addCollectionAndDocuments = async (collectionKey, collections) => {
-  const collectionRef = firestore.collection(collectionKey)
-   const batch = firestore.batch()
-   collections.forEach(object => {
-     const newCollRef = collectionRef.doc(object.title)
-     batch.set(newCollRef,object)  
-   })
-   return await batch.commit()  
-}

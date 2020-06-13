@@ -1,5 +1,4 @@
 import { apifetchSelections, apifetchCollections} from './../api'
-import {firestore} from './../../util/db/db'
 
 
 export const ADD_SELECTION = 'ADD_SELECTION'
