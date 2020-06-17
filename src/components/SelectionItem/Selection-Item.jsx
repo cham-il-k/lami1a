@@ -9,13 +9,12 @@ import {
   ContentSubtitle
 } from './selection-item-styled';
 
-const SelectionItem = ({ title, imageUrl, size, history, linkUrl, match }) => {
+const SelectionItem = ({ title, imageUrl, size, history, routeName, linkUrl, match }) => {
    
   const imageUrlrep = `./assets${imageUrl}`
-  const link = (!!linkUrl) ? linkUrl:'/' 
   return <SelectionItemContainer
             size={size}
-            onClick={() => history.push(`shop${link}`)
+            onClick={() => history.push(`shop/${routeName}`)
             }
              >
             <BackgroundImageContainer

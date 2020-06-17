@@ -13,15 +13,15 @@ import {
 } from './collection-item.styled';
 
 const CollectionItem = ({ collection, match, history,...otherProps}) => {
-  const { title, dispo, imageUrl } = collection;
- console.log(match, history)
+  const { id, name ,edition, imageUrl, price ,desc ,tags } = collection;
+ console.log({match, history, collection})
   return (
-    <CollectionItemContainer onClick={() => history.push(`${match['url']}/${title}`)}>
-      <LinkProduct to={`/products/${title}`}>
-        <BackgroundImage className='image' imageUrl={imageUrl} />
+    <CollectionItemContainer onClick={() => history.push(`${match['url']}/${name}`)}>
+      <LinkProduct to={`/products/${name}`}>
+        <BackgroundImage className='image' imageUrl={`/assets${imageUrl}`} />
         <CollectionFooterContainer>
-          <NameContainer>{title}</NameContainer>
-          <PriceContainer>{dispo}</PriceContainer>
+          <NameContainer>{name}</NameContainer>
+          <PriceContainer>{price}</PriceContainer>
         </CollectionFooterContainer>
       </LinkProduct>
       

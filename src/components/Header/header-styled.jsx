@@ -1,7 +1,7 @@
 
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import {greenAzur, btnInvert} from './../variables'
+import {green1, green2, green3, green51, green4, btnInvert} from './../variables'
 export const HeaderContainer = styled.div`
   height: 70px;
   width: 100%;
@@ -30,7 +30,7 @@ export const OptionLink = styled(Link)`
   padding: 10px 10px;
   font-weight: lighter;
   font-size: 1.5rem;
-  color:${greenAzur};
+  color:${green4};
   text-decoration:none;
   transform: scale(1.1);
 	transition: transform 6s cubic-bezier(0.25, 0.45, 0.45, 0.95);
@@ -46,6 +46,6 @@ cursor: pointer;
 display:none;
 font-weight: lighter;
 font-size: 1.5rem;
-color:${greenAzur};
+color:${green4};
 text-decoration:none;
 `;

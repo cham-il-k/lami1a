@@ -1,11 +1,11 @@
 import styled, { css } from 'styled-components'
 import {Link} from 'react-router-dom'
-import { maxWidth, blanc, blueFin, greenFlash, greenAzur, textBlack, bleuAzur, greenGrey} from './../../components/variables'
+import { maxWidth, blanc, blueFin, green2, green1, textBlack,} from './../../components/variables'
 
 export const FooterContainer = styled.div`
     background-color: ${blanc};
-    display: flex;
     flex-direction:row ;
+    display: flex;
     max-width:${maxWidth} ;
     justify-content: center;
     align-items:flex-end;
@@ -27,7 +27,7 @@ export const NavigationContainer = styled.div`
     `
 
 export const CustomLinkContainer = styled(Link)`
-      color: ${greenAzur};
+      color: ${green1};
       text-decoration:none;
       display:flex;
       letter-spacing: 0.5px;
@@ -38,14 +38,14 @@ export const CustomLinkContainer = styled(Link)`
       text-transform: uppercase;
       cursor: pointer;
       &:hover {
-        background-color: ${greenFlash};
+        background-color: ${green2};
         border: none;
         font-size: 1.5rem;
         color:${textBlack};
  }
  `
 export const CustomAContainer = styled.a `
-      color: ${greenAzur};
+      color: ${green1};
       text-decoration:none;
       display:flex;
       letter-spacing: 0.5px;
@@ -56,7 +56,7 @@ export const CustomAContainer = styled.a `
       text-transform: uppercase;
       cursor: pointer;
       &:hover {
-        background-color: ${greenFlash};
+        background-color: ${green2};
         border: none;
         font-size: 1.5rem;
         color:${textBlack};

@@ -68,7 +68,7 @@ export const {
      return  transformedCollection.reduce((accumulator, collection) => {
         accumulator[collection.title.toLowerCase()]= collection
         return accumulator
-         },{})
+    },{})
 }
 
 export const createContatctDocument = (country, email, message) => {

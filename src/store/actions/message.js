@@ -1,14 +1,14 @@
 import { apiCall } from "../../util/api-call";
 import { addError,removeError} from './error'
 
-export const ADD_MESSAGE = 'ADD_MESSAGE';
+export const CREATE_MESSAGE_START = 'CREATE_MESSAGE_START';
 export const LOAD_MESSAGES = 'LOAD_MESSAGES';
 //export const FETCH_PROGRAM = 'FETCH_PROGRAM';
 export const REMOVE_MESSAGE = 'REMOVE_MESSAGE';
 
-export const addMessage = (message ) => {
+export const createMessageStart = (message ) => {
     return {
-        type:ADD_MESSAGE,
+        type:CREATE_MESSAGE_START,
         payload : {
             ...message
         }

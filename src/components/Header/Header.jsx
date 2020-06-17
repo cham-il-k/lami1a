@@ -8,8 +8,7 @@ import LogoBox from './../Logo/Logo'
 import { selectCurrentProfil } from '../../store/selectors/profil';
 import { selectCartHidden } from '../../store/selectors/cart';
 import {isEmpty} from './../../util/is-empty'
-import { auth, firestore} from './../../util/db/db'
-
+import { logOutStart } from './../../store/actions/profil'
 import {
   HeaderContainer,
   LogoContainer,
@@ -17,7 +16,7 @@ import {
   OptionLink,
   OptionLinkHide
 } from './header-styled';
-const Header = ({ currentProfil, hidden }) => {
+const Header = ({ currentProfil, hidden, logOutStart }) => {
     return (
       <HeaderContainer>
         <LogoContainer to='/'>
@@ -26,13 +25,15 @@ const Header = ({ currentProfil, hidden }) => {
         <OptionsContainer>
           <OptionLink to='/shop'>SHOP</OptionLink>
           <OptionLink to='/contact'>CONTACT</OptionLink>
-          { (currentProfil != null ) || (!isEmpty(currentProfil) ) ? (
+          { 
+          (currentProfil !== null ) && (!isEmpty(currentProfil) ) ? (
+            
            <>
            <OptionLink to='/profil'>Profil</OptionLink>
            <OptionLink to='/collection'>Collection</OptionLink>
-          <OptionLink to='/' onClick={() => auth.signOut()}>
+          <OptionLink to='/' onClick={logOutStart}>
               SIGN OUT
-            </OptionLink>
+          </OptionLink>
           </>
           ): (
               <OptionLink to='/signup'>SIGN in/up </OptionLink>
@@ -48,5 +49,8 @@ const Header = ({ currentProfil, hidden }) => {
   currentProfil: selectCurrentProfil,
   hidden: selectCartHidden
 });
-export default withRouter(connect(mapStateToProps)(Header))
-//export default Header
+const mapDispatchToProps = (dispatch) => ({
+  logOutStart : () => dispatch(logOutStart())
+})
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Header))

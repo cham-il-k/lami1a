@@ -1,8 +1,8 @@
 import styled from 'styled-components'
-import {bleuAzur, maxWidth, greenGrey, blanc} from './components/variables'
+import {blue1, maxWidth} from './components/variables'
 
 export const AppContainer =  styled.div`
-  color: ${bleuAzur};
+  color: ${blue1};
   padding:  auto;
   text-align: center;
   display: flex;

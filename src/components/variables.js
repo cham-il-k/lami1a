@@ -1,48 +1,53 @@
 /**
  * fond bouton 
 export  */
-export const bleuAzur = 'rgb(92, 124, 142)';
-export const blueFin = 'rgba(37, 192, 171, 0.753)';
-export const bleuDense = 'rgb(98, 132, 101)';
-export const bleuGrey =  'rgb(119, 153, 171)';
-export const blueFond =  'rgba(212, 240, 237, 0.89)';
+export const blue1 = '#ADF';
+export const blue2 = '#5AF';
+export const blue3 = '#08F';
+export const blue4 =  '#025';
+export const blue41 =  '#AFD';
 
-export const blanc = 'rgb(223, 233, 213)';
+export const blanc = '#DDD';
 
-export const greenAzur = 'rgba(36, 97, 21)';
-export const greenFin = 'rgb(142, 184, 99)';
-export const greenDense = 'rgb(162, 218, 103)';
-export const greenGrey = 'rgb(191, 229, 148)';
-export const greenFlash = 'rgba(0, 250, 154, 0.89)'; 
+export const green1 = '#AFA';
+export const green2 = '#AF5';
+export const green3 = '#0F0';
+export const green4 = '#250';
+export const green51 = '#AA0'; 
 
-export const contOrange ='rgb(253, 176, 33)';
-export const contJaune = 'rgb(238, 241, 16)'; 
-export const contMarron ='rgb(148, 41, 17)';
-export const contCafe = 'rgb(196, 92, 42)';
-export const contRose = 'rgb(238, 120, 93)'; 
+export const orange1 ='#FDA';
+export const orange2 = '#F80'; 
+export const red1 ='#FAA';
+export const red2 = '#F00';
+export const redorang = '#A50'; 
 
-export const textVert = 'rgba(35, 87, 80, 0.658)';
-export const textBleu = 'rgba(36, 97, 21, 0.616)';
-export const textBlack = 'rgb(21, 26, 29)';
-export const textBlanc = 'rgb(223, 233, 213)';
+export const textVert = '#282';
+export const textBleu = '#258';
+export const textBlack = '#222';
+export const textBlanc = '#DDD';
 
 export const maxWidth ="1100px"
 
 /**
  * logo
  */
-export const tete = 'rgba(92, 124, 142, 0.966)';
-export const cor = 'rgba(190, 84, 90, 0.876)';
-export const yad = 'rgba(162, 218, 103, 0.897)';
-export const point = 'rgba(190, 92, 46, 0.918)';
+export const tete = orange1;
+export const cor = red1;
+export const yad = green2;
+export const point = redorang;
 /**forms */
-export const subText = 'rgba(73, 100, 116, 0.966);';
-export const mainText = 'rgb(21, 26, 29)';
+export const subText = green1;
+export const mainText = textBleu;
 
 /**
  * Buttons
  */
-export const btnV = 'rgba(37, 192, 171, 0.753)';
-export const btnB = 'rgba(73, 100, 116, 0.966)';
-export const btnInvert = 'rgba(212, 240, 237, 0.89)';
-export const btnGgl = 'rgb(9, 102, 156)';
+export const btnV = green2;
+export const btnB = blue3;
+export const btnInvert = blanc;
+export const btnGgl = blue4;
+/**
+ * logo
+ */
+export const logoB = '#08F';
+export const logV = '#AFA'

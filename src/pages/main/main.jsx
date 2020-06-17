@@ -1,4 +1,4 @@
-import React, { Component, } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Switch, Route, Redirect, withRouter} from 'react-router-dom';
 import { connect } from 'react-redux'
 import { createStructuredSelector} from 'reselect'
@@ -6,7 +6,7 @@ import Selection from '../../components/Selection/Selection'
 import About from '../about/about'
 import CheckoutPage from '../checkout/checkout.jsx'
 import ShopPage from '../shop/shop.jsx'
-import CollectionPage from './../collectionPage/collectionPage';
+import productsPage from './../productsPage/productsPage';
 import ProfilPage from '../profil/profil.jsx'
 import Contact from '../contact/contact'
 import {isEmpty} from './../../util/is-empty'
@@ -14,11 +14,13 @@ import SignUp from './../../components/SignUp/SignUp'
 import SignIn from '../../components/SignIn/SignIn';
 import  { selectCurrentProfil} from './../../store/selectors/profil'
 import { MainContainer } from'./main-styled.jsx';
-class MainPage extends Component {
-    
 
-    render() {
-const { currentProfil} = this.props
+const MainPage = ({ currentProfil}) => {
+
+useEffect(() => {
+
+})
+
 return (
     <Switch>
         <MainContainer>
@@ -29,6 +31,7 @@ return (
                 (<SignUp/>)
                 }
             }/>
+            
             <Route exact path='/signin' render={ () => {
                 return !isEmpty(currentProfil) ? (<Redirect to='/profil'/>) :
                 (<SignIn />)
@@ -39,12 +42,12 @@ return (
             <Route exact path='/checkout' component={CheckoutPage} />
             <Route exact path='/profil' component={ProfilPage} />
             
-            <Route exact path='/products/:collectionId' component={CollectionPage} />
+            <Route exact path='/products/:collectionId' component={productsPage} />
         </MainContainer>
     </Switch>
 )
     }
-}
+
 const mapStateToProps = createStructuredSelector ({
     currentProfil: selectCurrentProfil
 }) 

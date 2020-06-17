@@ -1,121 +1,24 @@
 import {
-    SIGNIN_FAIL, SIGNIN_SUCCESS,
-    GOOGLE_SIGNIN_FAIL,GOOGLE_SIGNIN_SUCCESS,
-    SIGNUP_FAIL,SIGNUP_SUCCESS,
-    LOGOUT,
+    
+    SIGNIN_FAIL,SIGNIN_SUCCESS, EMAIL_SIGNIN_START,
+    SIGNUP_FAIL, SIGNUP_SUCCESS,
+     LOGOUT_SUCCESS,LOGOUT_FAIL, 
     SET_CURRENT_PROFIL,
     ADD_TO_COLLECTION,
     GET_COLLECTION,
     REMOVE_FROM_COLLECTION,
-    GET_ALL_PROFILS,
-  
-} from '../actions/profil'
-import { removeProductsFromProfil } from './reducersUtils'
-
-const initialState = {
-    currentProfil: '',
-    products: '',
-    /* {
-        title: "cheikh",
-        imageUrl: "/img/01.jpg",
-        linkUrl: '/cheikh',
-        products: [{
-                id: 11,
-                name: " tafsir",
-                imageUrl: "/img/01.jpg",
-                tags: ['fath1var4', "word1", "word1", "word2", 'fath1var5', 'fath6var4'],
-                desc: "tab_ charh , mot ayat / resumé7a",
-                edition: "qq hose edition",
-                price: "11",
-
-            },
-            {
-                id: 12,
-                name: " tafsir2",
-                imageUrl: "/img/02.jpg",
-                tags: ["word1", "word1", 'fath1var4', 'fath2var5', "word2", "word3", "word5"],
-                desc: "tab_ charh , mot ayat / resumé7a / les aquipeds le suivie",
-                edition: "qq hose edition",
-                price: "21",
-
-            },
-            {
-                id: 13,
-                name: "tafsir 4",
-                imageUrl: "/img/03.jpg",
-                tags: ["word1", 'fath3var4', 'fath3var5', 'fath3__6var4', "word1", "word2", "word3", "word5"],
-                desc: "tab_ fath 3 charh , de sxpliactaion exercices recomandation , girftsmot ayat / resumé7a",
-                edition: "qq edigtion 2",
-                price: "21",
-
-            }
-        ]
-    } */
-    /* 
+    GET_ALL_PROFILS} from '../actions/profil'
+    import { removeProductsFromProfil } from './reducersUtils'
     
-    {
-         currentProfil:{
-        login: 'hicham',
-        email:'hicham@hicham.com',
-        password:'hicham',
-        identite : {
-            location :'maison blanche',
-            adress: '140 rue qq chose',    
-            bio:  'm'  ,
-            website : 'https://lami1a.org'  ,
-            status :'org',
-            skills :[ 'lecture','autre chose' ,'velo' ,'programmation' ]     
-            },
-        articles: [
-            '33434','3343434', '34343'        
-        ],
-        messages: [
-            '33434','3343434', '34343'
-        ],
-        instagram: '@insta',
-        isAdmin: true,
-        loading:false
-        login: '',
-        email:'',
-        password:'',
-        collection:{
-            title: "cheikh",
-            imageUrl: "/img/01.jpg",
-            linkUrl: '/cheikh',
-            products:
-            [{
-        id: 11,
-        name: " tafsir",
-        imageUrl: "/img/01.jpg",
-        tags: ['fath1var4', "word1", "word1", "word2", 'fath1var5', 'fath6var4'],
-        desc: "tab_ charh , mot ayat / resumé7a",
-        edition: "qq hose edition",
-        price: "11",
-
-    },
-    {
-        id: 12,
-        name: " tafsir2",
-        imageUrl: "/img/02.jpg",
-        tags: ["word1", "word1", 'fath1var4', 'fath2var5', "word2", "word3", "word5"],
-        desc: "tab_ charh , mot ayat / resumé7a / les aquipeds le suivie",
-        edition: "qq hose edition",
-        price: "21",
-
-    },
-    {
-        id: 13,
-        name: "tafsir 4",
-        imageUrl: "/img/03.jpg",
-        tags: ["word1", 'fath3var4', 'fath3var5', 'fath3__6var4', "word1", "word2", "word3", "word5"],
-        desc: "tab_ fath 3 charh , de sxpliactaion exercices recomandation , girftsmot ayat / resumé7a",
-        edition: "qq edigtion 2",
-        price: "21",
-
-    }]}}, */
-    loading: false,
-    error:null
-}
+    const initialState = {
+        currentProfil: '',
+        products: '',
+        //status: user / org / fam
+        status:'user',
+        admin:false,
+        loading: false,
+        error:null
+       }
 
 const profilReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -125,17 +28,22 @@ const profilReducer = (state = initialState, action) => {
                 loading: false,
                 currentProfil: action.payload,
             };
+        case EMAIL_SIGNIN_START:
+            return {
+                ...state,
+                currentProfil: action.payload
+            }; 
+        case SIGNUP_SUCCESS:
         case SIGNIN_SUCCESS:
-        case GOOGLE_SIGNIN_SUCCESS:
             return {
                 ...state,
                 loading: false,
                 error: null,
                 currentProfil: action.payload
             };
-        case SIGNIN_FAIL:
         case SIGNUP_FAIL:
-        case GOOGLE_SIGNIN_FAIL:
+        case SIGNIN_FAIL:
+        case LOGOUT_FAIL:
             return {
                 ...state,
                 loading: false,
@@ -161,10 +69,11 @@ const profilReducer = (state = initialState, action) => {
                 ...state,
                 products: [...products]
             };
-        case LOGOUT:
+        case LOGOUT_SUCCESS:
             return {
-                loading: false,
-                currentProfil: null
+                ...state,
+                currentProfil:'',
+                error: null
             };
         default:
             return state;

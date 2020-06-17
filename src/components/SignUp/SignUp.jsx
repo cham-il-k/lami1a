@@ -1,90 +1,57 @@
-import React from 'react';
+import React, { useState} from 'react';
 import { connect } from 'react-redux'
 import {withRouter} from 'react-router-dom'
 import FormInput from './../FormInput/FormInput';
 import CustomButton from './../CustomButton/CustomButton';
-import {createStructuredSelector} from 'reselect'
-import { createUserProfilDocument } from '../../util/db/auth.firebase';
+import {  createStructuredSelector } from 'reselect'
 import { selectCurrentProfil} from './../../store/selectors/profil'
-import { setCurrentProfil} from './../../store/actions/profil'
 import { SignUpContainer, SignUpTitle, ButtonsBarContainer, Message } from './signUp-styled';
-import { ToastProvider, useToasts } from 'react-toast-notifications'
-import { auth } from './../../util/db/db'
+import { ToastContainer, toast } from 'react-toastify';
+import { signUpStart } from './../../store/actions/profil'
+import 'react-toastify/dist/ReactToastify.css';
 
-class SignUp extends React.Component {
-  state= {
-    login:'',
-    email:'',
-    password:''
-  }
+const SignUp = ({signUpStart, setCurrentProfil, match, history} ) => {
   
-  componentDidMount() {
-    }
-
-  handleSubmit =  event => {
+const [credential, setCredential] = useState({
+        email:'', password:'',confirmPassword:'', login:''})
+  
+const notify = (message) => toast(`${message}`);
+const {  email, login, password, confirmPassword } = credential;
+  
+const  handleSubmit =  event => {
     event.preventDefault();
-    const {setCurrentProfil, match, history} = this.props
-    
-    // const { addToast } = useToasts()
-    
-    const { login, email, password, confirmPassword } = this.state;
     if (password !== confirmPassword) {
-      console.log('password and confirmed Fail', { appearance: 'error' })
-    return 
+      notify('password and confirmed dont match')
+      history.push('/signup')
+      return
     }
-    try {
-      console.log('dans le signUp')
-       auth.createUserWithEmailAndPassword(
-        email,
-        password
-      ).then(userAuth => {
-        const additionalData = {
-          login,
-          products:[],
-          collections:[]
-        }
-        const  { user} = userAuth
-        //console.log(user)
-        createUserProfilDocument({...user,...additionalData}).then(
-          userRefdb =>  {
-            userRefdb.onSnapshot(snapshot => {
-              console.log(snapshot)
-              const {email,login, products, collections} = snapshot.data() 
-              setCurrentProfil({
-                id: snapshot.id,
-                email,login, products, collections
-                })
-            })
-            history.push('/')
-        })})
-        } catch (error) {
-         return Promise.reject(error.message);
-        }
+    
+  signUpStart({email,password,login})
+    notify(`signup succeed ${email}`)
+    history.push('/')
   }
-  
-  handleChange = event => {
-    const { name, value } = event.target;
-      this.setState({ [name] : value });
-  }
-  render() {
-    const { login, email, password, confirmPassword } = this.props;
+const handleChange = event => {
+  const { name, value } = event.target;
+    setCredential({ ...credential, [name] : value });
+}
+
     return (
       <SignUpContainer>
         <SignUpTitle>Join us</SignUpTitle>
-        <form  onSubmit={this.handleSubmit}>
+        <form  onSubmit={handleSubmit}>
           <FormInput
           type='text'
           name='login'
           value={login}
-          onChange={this.handleChange}
+          onChange={handleChange}
           label='Login'
           required
         />
           <FormInput
-            type='email'
             name='email'
+            type='email'
             value={email}
-            onChange={this.handleChange}
+            onChange={handleChange}
             label='Email'
             required
           />
@@ -92,7 +59,7 @@ class SignUp extends React.Component {
             type='password'
             name='password'
             value={password}
-            onChange={this.handleChange}
+            onChange={handleChange}
             label='Password'
             required
           />
@@ -100,7 +67,7 @@ class SignUp extends React.Component {
             type='password'
             name='confirmPassword'
             value={confirmPassword}
-            onChange={this.handleChange}
+            onChange={handleChange}
             label='Confirm Password'
             required
           />
@@ -111,20 +78,19 @@ class SignUp extends React.Component {
             </Message>
               <CustomButton link='link' to='/signin' > SIGNIN</CustomButton>
           </ButtonsBarContainer>
+          <ToastContainer />
         </form>
       </SignUpContainer>
     );
-  }
 }
+
 
 const mapStateToProps = createStructuredSelector ({
     profil: selectCurrentProfil
 })
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    setCurrentProfil: (profil) => dispatch(setCurrentProfil(profil))
-  }
-}
+const mapDispatchToProps = ( dispatch) => ({
+  signUpStart: (userCredential) => dispatch(signUpStart(userCredential))
+})
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SignUp))

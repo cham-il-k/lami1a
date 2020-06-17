@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import { Route } from 'react-router-dom';
 import { connect } from 'react-redux'
 import {createStructuredSelector} from 'reselect'
-import { setCurrentProfil } from '../../store/actions/profil';
 import {selectCurrentProfil, selectProfilCollection} from './../../store/selectors/profil'
 
 import ProfilCollectonPage from './ProfilCollection';
@@ -13,7 +12,7 @@ import CustomButton  from './../../components/CustomButton/CustomButton'
 class ProfilPage extends Component   {
 
   render() {
-    const { login, email, password, city, country, address} = this.props.setCurrentProfil
+    const { login, email, password, city, country, address} = this.props.profil
 
     return(
      <ProfilContainer>
@@ -88,11 +87,6 @@ class ProfilPage extends Component   {
 const mapStateToProps = createStructuredSelector ({
   profil: selectCurrentProfil
 })
-const mapDispatchToProps = (dispatch) => {
-return {
-  setCurrentProfil: (profil) => dispatch(setCurrentProfil(profil))
-}
-}
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProfilPage);
+export default connect(mapStateToProps )(ProfilPage);
 

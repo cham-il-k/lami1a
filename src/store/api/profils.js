@@ -1,14 +1,16 @@
 import firebase, {
     firestore, auth
 } from '../../util/db/db'
-
+import { createUserProfilDocument } from './../../util/db/auth.firebase'
 export const apiRegister = async ({email, password, login, ...props}) => {
     try {
-       const user =  await auth.createUserWithEmailAndPassword(
+       const userRef =  await auth.createUserWithEmailAndPassword(
             email,
             password
           ) 
-          return user      
+        const { user } = userRef
+       const userCred =  createUserProfilDocument(user,login,...props)
+        return ({...userCred})
     } catch (error) {return Promise.reject(error.message)
 }}
 

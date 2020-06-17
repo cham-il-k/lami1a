@@ -7,24 +7,23 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 
 import createSagaMiddleware from 'redux-saga'
 import rootReducer from './reducers'
-//import rootSaga from './rootSaga'
-import thunk from 'redux-thunk'
-//export const history = createBrowserHistory()
+import rootSaga from './rootSaga'
+//import thunk from 'redux-thunk'
 
 React.lazy(() => import('./selectors/shop'));
-//const sagaMiddleware = createSagaMiddleware()
-const middleware = [ thunk ]
-   
+const sagaMiddleware = createSagaMiddleware()
+const middleware = [ sagaMiddleware ]
+    
 if (process.env.NODE_ENV === 'development') {
        middleware.push(logger)
 }
 
 export const store = createStore( rootReducer, composeWithDevTools(applyMiddleware(...middleware)))
+sagaMiddleware.run(rootSaga)
 
 export const persistor = persistStore(store, ()=> {
        console.log(store)
 })
-//sagaMiddleware.run(rootSaga)
 
 /**@todo*/
 /* 

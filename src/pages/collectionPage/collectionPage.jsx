@@ -1,10 +1,12 @@
-import React from 'react';
+import React, {Component} from 'react';
 import { connect } from 'react-redux';
-
+import { createStructuredSelector} from 'reselect'
+import WithSpinner from './../../components/With-Spinner/With-Spinner'
+import {compose} from 'redux'
 import CollectionItem from '../../components/Collection-Item/Collection-Item';
-
+import moduleName from 'module'
 import { selectProductsCollection } from '../../store/selectors/selection';
-
+import { fetchProducts  } from './../../store/actions/selection'
 import {
   CollectionPageContainer,
   CollectionTitle,
@@ -12,31 +14,32 @@ import {
 } from './collection-styled';
 
 const CollectionPage = ({ products ,match, history }) => {
-  console.log(products)  
-  var collection; 
-  products.forEach(selection => {
-    collection = <>
-          <CollectionTitle>{selection['title']}</CollectionTitle>
-                  <CollectionItemsContainer>
-                    {Object.values(selection['collections']).map(collection => (
-                      <CollectionItem key={collection['id']} collection={collection} />
-                    ))}
-                  </CollectionItemsContainer>
-            </>
-              })
+let collection = []  
+products.forEach(col => {
+  console.log({col})
+  collection = (<>
+        <CollectionTitle>{` ${col['selection']} / ${col['collection']}` }</CollectionTitle>
+                <CollectionItemsContainer>
+                  {(col['items']).map(item => (
+                    <CollectionItem key={item['id']} collection={item} />
+                  ))}
+                </CollectionItemsContainer>
+          </>)
+    })
 
-  return (
-    <CollectionPageContainer>
-      {collection}
-    </CollectionPageContainer>
-  );
+return (
+  <CollectionPageContainer>
+    {collection}
+  </CollectionPageContainer>
+);
 };
+  
 
-const mapStateToProps = (state, ownProps) => {
- const collectionId =  ownProps.match.params.collectionId
- //const selectionId =  ownProps.match.params.selectionId
- return{
-  products: selectProductsCollection(collectionId)(state)
-}};
+const mapStateToProps =  (state, ownProps) => createStructuredSelector({
+    products : selectProductsCollection(ownProps.match.params.selectionId)
+ }) 
+const CollectionPageContain = compose(
+  connect(mapStateToProps),
+  WithSpinner)(CollectionPage)
 
-export default connect(mapStateToProps)(CollectionPage);
+  export default CollectionPageContain;

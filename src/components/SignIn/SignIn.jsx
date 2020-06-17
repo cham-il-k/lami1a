@@ -1,15 +1,16 @@
 /**
  * 23bmgPxAML4e
  */
-import React from 'react';
+import React, { useState} from 'react';
 import { connect } from 'react-redux'
 import {selectCurrentProfil } from './../../store/selectors/profil'
 import FormInput from '../FormInput/FormInput';
 import CustomButton from '../CustomButton/CustomButton';
-import { googleSigninStart, signinStart, setCurrentProfil} from '../../store/actions/profil';
+import { googleSigninStart, emailSigninStart, setCurrentProfil} from '../../store/actions/profil';
 import { createStructuredSelector } from 'reselect'
-import { ToastProvider, useToasts } from 'react-toast-notifications'
-import { firestore, auth} from './../../util/db/db'
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import {
   SignInContainer,
@@ -17,59 +18,44 @@ import {
   ButtonsBarContainer
 } from './SignIn-styled';
 
-class SignIn extends React.Component {
+const SignIn = ({googleSigninStart, emailSigninStart, history}) =>  {
+  const [credential, setCredential] = useState({ email:'', password:'' })
   
-  state = {
-    email:'',
-    password:''
-  }
   
-  handleSubmit = async event => {
-    const { selectCurrentProfil, setCurrentProfil } = this.props
-    event.preventDefault();
-    const { email, password } = this.state;
-    //const { addToast } = useToasts()
-     try {
-      const  userRef = await auth.signInWithEmailAndPassword(email, password);
-      if (userRef) {
-        userRef.onSnapshot(snapshot => {
-          setCurrentProfil({
-            id: userRef.id,
-            ...userRef.data()
-          })
-        })
-      this.props.history.push(`/profil/${userRef.uid}`);
-      
-      }
-    }catch(error) {
-      console.log(error)
-    }
-  }
-  handleChange = event => {
-    const { value, name } = event.target;
+const notify = (message) => toast(`${message}`);
 
-    this.setState({ [name]: value });
-  };
-  render() {
-    const {googleSigninStart, signInStart} = this.props
-    return (
+const handleSubmit = async event => {
+  event.preventDefault();
+    try {
+      emailSigninStart(credential)
+      notify(`${credential} is connected`)
+      history.push(`/profil/`);
+  }catch(error) {
+    notify(`${error}` )
+}
+}
+
+const handleChange = (event ) => {
+  const {value, name} = event.target
+  setCredential({...credential, [name]:value})
+}
+return (
       <SignInContainer>
-        <SignInTitle>Sign in </SignInTitle>
-        
-        <form onSubmit={this.handleSubmit}>
+       <SignInTitle>Sign in </SignInTitle>
+        <form onSubmit={handleSubmit}>
           <FormInput
             name='email'
             type='email'
-            handleChange={this.handleChange}
-            value={this.state.email}
+            handleChange={handleChange }
+            value={credential['email']}
             label='email'
             required
           />
           <FormInput
             name='password'
             type='password'
-            value={this.state.password}
-            handleChange={this.handleChange}
+            value={credential['password']}
+            handleChange={handleChange}
             label='password'
             required
           />
@@ -79,18 +65,19 @@ class SignIn extends React.Component {
               Google SignIn 
             </CustomButton>
           </ButtonsBarContainer>
+          <ToastContainer />
         </form>
+
       </SignInContainer>
     );
   }
-}
+
 const mapStateToProps = createStructuredSelector 
 ({ profil: selectCurrentProfil })
 
 const mapDispatchToProps = (dispatch) => ({ 
-  setCurrentProfil : (profil) => dispatch(setCurrentProfil(profil)),
   googleSigninStart : () => dispatch(googleSigninStart()),
- // signInStart : (email, password) => dispatch(signinStart({  email, password }))
+  emailSigninStart : (email, password) => dispatch(emailSigninStart({email, password}))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignIn)

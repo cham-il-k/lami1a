@@ -13,13 +13,24 @@ export const selectSelectedSelections = createSelector(
   [selectedSelection],
   selection => selection.selections
 )
+
+
+export const selectIsSelectionFetching = createSelector(
+  [selectedSelection],
+  selection => selection.isFetching
+);
+
+export const selectIsSelectionsLoaded = createSelector(
+  [selectedSelection],
+  selection => !!selection.selections
+);
+
 export const selectCollectionForOverview = selectionId => createSelector(
   [selectSelectedSelections],
   selections => {
     console.log(selections[selectionId])
     return (selections ? selections[selectionId]: [])
   }
-  
 )
 
 export const selectSelections = createSelector(
@@ -27,8 +38,51 @@ export const selectSelections = createSelector(
   selections =>  selections ?  Object.keys(selections).map(selection => {
      return selections[selection]
     }) : []
-  
+  )
+export const selectProductsCollection = (selectionId) => createSelector(
+  [selectSelections],
+  selections => {
+    let products = []
+    const selection = selections.filter(selection => {
+       return selection['title'] === selectionId
+     })
+    products = Object.entries(selection[0]['collections']).map(collection => {
+      const product = {
+        collection:collection[1]['title'],
+        selection:collection[1]['selection'],
+        items:collection[1]['items']
+      }
+      return product
+    })
+    return products  
+  }
 )
+export const selectProducts = (collectionId) => createSelector(
+  [selectSelections],
+  selections => {
+    let products = []
+    
+    const selection = selections.map(selection => {
+        const colNames = Object.entries(selection['collections'])
+      return colNames.filter(col => (col[0]=== collectionId))
+     })
+     const masel = selection[0][0][1]
+    products = (selection[0][0][1]['items']).map(item => {
+     const collection = masel['title']
+     const selection = masel['selection']
+     const prod = {
+        selection,
+        collection,
+        product:item
+      }
+      return prod
+    })
+    
+    console.log(products)
+    return products  
+  }
+)
+
 export const selectSelectionsForShopPreview = collectionId => createSelector(
   [selectSelections],
   selections => {
@@ -38,20 +92,6 @@ export const selectSelectionsForShopPreview = collectionId => createSelector(
           if(collectionId in collections) {
             productDeCollection.add(selection['collections'][collectionId])
           }
-    })
-    return productDeCollection
-  }
-)
-export const selectProductsCollection = ({selectionId, collectionId}) => createSelector(
-  [selectSelections],
-  selections => {
-    const selection = selectCollectionForOverview(selectionId)
-      
-    const productDeCollection = new Set()
-
-     Object.keys(selection['collections']).map(collection => {
-          console.log(collection)
-          return collection
     })
     return productDeCollection
   }

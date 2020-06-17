@@ -3,7 +3,7 @@ import {isEmpty } from '../is-empty'
 import firebase, { auth, firestore} from './../db/db'
 import bcrypt from 'bcryptjs'
 
-const googleProvider = new firebase.auth.GoogleAuthProvider();
+export const googleProvider = new firebase.auth.GoogleAuthProvider();
 
 googleProvider.setCustomParameters({ prompt: 'select_account' });
 
@@ -36,10 +36,18 @@ export const verifPassword = (password, hash) => {
   })
 }
 
+export const getCurrentProfil = () => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe =  auth.onAuthStateChanged(userAuth => {
+      unsubscribe()
+      resolve(userAuth)
+    }, reject)
+})
+} 
+
 export const createUserProfilDocument = async (userAuth) => {
   if (!userAuth) return ;
-  
-  const { email, uid, login, products, collections } =  userAuth;
+ const { email, uid, login, products, collections,...otherProps } =  userAuth;
   let userRef = firestore.doc(`/profils/${uid}`)
   const profilSnapshot = await userRef.get();
   if (!profilSnapshot.exists && !isEmpty(email)) {
@@ -52,6 +60,7 @@ export const createUserProfilDocument = async (userAuth) => {
           login:login || '',
           products: products || [],
           collections:collections || [],
+          ...otherProps
        });
       } catch (error) {
         return {
@@ -59,7 +68,6 @@ export const createUserProfilDocument = async (userAuth) => {
         }
       }
   return userRef
-     
-  };
+ };
 }  
 // on envoie le nom de la collection  [selections] // et collectin 'coran / sagesse / objets ludiques / discount'

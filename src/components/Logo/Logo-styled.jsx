@@ -1,6 +1,6 @@
 import styled, {keyframes, css}  from 'styled-components'
 import {Link} from 'react-router-dom'
-import {textBlanc, tete, yad, point,cor, textBlack, bleuDense,greenFlash ,blueFond, greenFin} from '../variables'
+import {textBlanc, tete, yad, point,cor, textBlack, bleuDense,green2} from '../variables'
 import { faTextWidth } from '@fortawesome/free-solid-svg-icons'
 
 export const LogoContainer = styled.div`
@@ -24,7 +24,7 @@ export const NameSite = styled(Link)`
     text-transform: uppercase;
     cursor:pointer;
     margin:50% 50%;
-    color: ${greenFlash} !important;
+    color: ${green2} !important;
 `
 
 export const TeteLogo = styled.div`

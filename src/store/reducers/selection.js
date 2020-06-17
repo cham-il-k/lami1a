@@ -1,16 +1,21 @@
 import {
     FETCH_SELECTIONS_SUCCESS,
-    FETCH_COLLECTIONS,
-    FETCH_SELECTION,
-    ADD_COLLECTION,
+    FETCH_COLLECTIONS_SUCCESS,
+    FETCH_PRODUCTS_SUCCESS,
+    FETCH_SELECTIONS_FAIL,
     INIT_COLLECTION,
     FETCH_COLLECTION,
-    REMOVE_COLLECTION,
+    REMOVE_COLLECTION_SUCCESS,
     REMOVE_SELECTION,
-    INIT_SELECTIONS
+    INIT_SELECTIONS,
+    ADD_COLLECTION_SUCCESS,
+    FETCH_PRODUCTS_FAIL,
 } from './../actions/selection'
 const initialState = {
         selections:{},
+        collections:{},
+        isFetching:false,
+        items:{},
         error: '',
         loading: false
     };
@@ -24,28 +29,31 @@ const selectionReducer = ( state = initialState , action) => {
                 selections: action.payload
             };
             
-        case FETCH_COLLECTIONS:
+        case FETCH_COLLECTIONS_SUCCESS:
             return {
                 ...state,
                 collections: action.payload
             };
+            
+        case FETCH_PRODUCTS_SUCCESS:
+            return {
+                ...state,
+                items: action.payload
+            };
         
-        case ADD_COLLECTION:
+
+        case ADD_COLLECTION_SUCCESS:
             return {
                 ...state,
                  collections: [...state.collections, action.payload]
             };
         
-        case REMOVE_COLLECTION:
+        case REMOVE_COLLECTION_SUCCESS:
             return {
                 ...state,
                 collections: action.payload
             };
-        case REMOVE_SELECTION:
-            return {
-                ...state,
-                selections: action.payload
-            };
+        
         default:
             return state ;       
     

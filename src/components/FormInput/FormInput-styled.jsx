@@ -1,15 +1,10 @@
 import styled, { css } from 'styled-components';
-import {subText, mainText} from './../variables'
+import {blue1,blue2, blue3, blue4, textBlack, } from './../variables'
 
 const shrinkLabelStyles = css`
   top: -14px;
   font-size: 12px;
-  color: ${mainText};
-`;
-const LabelStyles = css`
-  top: -14px;
-  font-size: 12px;
-  color: ${mainText};
+  color: ${blue1};
 `;
 export const GroupContainer = styled.div`
   position: relative;
@@ -23,47 +18,45 @@ export const GroupContainer = styled.div`
 export const FormInputContainer = styled.input`
   background: none;
   background-color: white;
-  color: ${subText};
+  color: ${textBlack};
   font-size: 18px;
   padding: 10px 10px 10px 5px;
   display: block;
   width: 100%;
   border: none;
   border-radius: 0;
-  border-bottom: 1px solid ${subText};
+  border-bottom: 1px solid ${blue1};
   margin: 25px 0;
   &:focus {
     outline: none;
   }
-  &:focus ~ label {
-    ${shrinkLabelStyles}
+  &:focus + label {
+    ${shrinkLabelStyles};
+    
   }
 `;
-
-
 export const FormTextAreaContainer = styled.textarea`
   background: none;
   background-color: white;
-  color: ${subText};
+  color: ${textBlack};
   font-size: 18px;
   padding: 10px 10px 10px 5px;
   display: block;
   width: 100%;
   border: none;
   border-radius: 0;
-  border-bottom: 1px solid ${subText};
+  border-bottom: 1px solid ${blue1};
   margin: 25px 0;
-
   &:focus {
     outline: none;
   }
-
-  &:focus ~ label {
+  &:focus + label {
     ${shrinkLabelStyles}
+
   }
 `;
 export const FormInputLabel = styled.label`
-  color: ${subText};
+  color: ${blue4};
   font-size: 16px;
   font-weight: normal;
   position: absolute;

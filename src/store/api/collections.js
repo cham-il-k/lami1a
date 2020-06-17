@@ -48,6 +48,21 @@ export const apiProductsCollection = async ({collectionKey, products}) => {
         throw error
     }    
 }
+export const apiShopProducts = async () => {
+    try {
+        const productsRef = await firestore.collection('products')
+        const productsSnapshot = productsRef.get()
+        productsSnapshot.docs.map((colDoc) => {
+                const items = colDoc.data()
+                return items.reduce((acc, item) => {
+                    acc[item.id] = item
+                    return acc
+                }, {})
+            })
+         } catch (error) {
+        throw error
+    }
+}
 
 export const apifetchCollections = async () => {
     const selectionSnapshot = await firestore.collection('selections').get()
@@ -91,3 +106,14 @@ export const apiaddCollectionAndDocuments = async (collectionKey, collections) =
      })
      return await batch.commit()  
   }
+export const storeImage = async (file) => {
+    const metadata = {'contentType': file.type}
+    const storageRef = firebase.storage() 
+    storageRef.child(`selectionGallery/${file.name}`).put(file, metadata).then(snapshot => {
+      const messageByteTransfered = snapshot.byteTransfered
+       const  uploaded =  snapshot.totalBytes
+        const snapshhorDownload =  snapshot.ref.getDownloadURL().then(url => {
+        return url
+        })
+})
+    }
