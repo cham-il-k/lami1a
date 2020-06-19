@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import {textBlanc} from './../variables'
+import {textBlanc, blue4} from './../variables'
 export const CollectionPreviewContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -7,8 +7,9 @@ export const CollectionPreviewContainer = styled.div`
 `;
 
 export const TitleContainer = styled.h1`
-  font-size: 28px;
+  font-size: 2rem;
   margin-bottom: 16px;
+  color:${blue4};
   cursor: pointer;
   &:hover {
     color: grey;
@@ -32,7 +33,6 @@ export const PreviewCollection = styled.div`
   justify-content: center;
   margin:-3rem 1rem 1rem;
   background-image:${({ imageUrl }) => `url(${imageUrl})`};
-  
   width:100%;
   height:300px;
   color:${textBlanc}

@@ -7,13 +7,12 @@ import {Provider} from 'react-redux'
 import { BrowserRouter as Router} from 'react-router-dom'
 import {store, persistor} from './store/store'
 import { PersistGate } from 'redux-persist/integration/react'
-import Spinner from './components/Spinner/Spinner'
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store} >
     <Router>
-    <PersistGate loading={ <Spinner/>} persistor={ persistor }>
+    <PersistGate  persistor={ persistor }>
       <App />
       </PersistGate>
     </Router>

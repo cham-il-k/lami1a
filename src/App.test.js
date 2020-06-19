@@ -1,9 +1,18 @@
-import React from 'react';
-import { render } from '@testing-library/react';
-import App from './App';
+const React = require('react')
+//import {describe, it}  from 'jest'
+//import { render } from '@testing-library/react';
+//import App from './App';
 
-test('renders learn react link', () => {
-  const { getByText } = render(<App />);
-  const linkElement = getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
-});
+describe('application root',(done) => {
+
+  it('find app.js',(done) => {
+    expect.assertions(1)
+      expect('hello').toBe('hello');
+      done()
+    })
+    it('find component',()=> {
+  
+  
+    })  
+})
+

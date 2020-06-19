@@ -13,7 +13,6 @@ export function* fetchSelectionsAsync( ) {
         let collectionsMap = null
         const selectionRef = yield firestore.collection('selections')
          const snapshot = yield selectionRef.get()
-         console.log((`${snapshot} sagas selections`))
         collectionsMap = yield call(transformCollectionSnapshotToMap, snapshot)
         yield put(fetchSelectionsSuccess(collectionsMap))    
         }

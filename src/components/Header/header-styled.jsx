@@ -2,11 +2,11 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import {green1, green2, green3, green51, green4, btnInvert} from './../variables'
+
 export const HeaderContainer = styled.div`
   height: 70px;
   width: 100%;
   display: flex;
-  
   justify-content: space-between;
   /* margin-bottom: 25px; */
 `;
@@ -49,3 +49,9 @@ font-size: 1.5rem;
 color:${green4};
 text-decoration:none;
 `;
+export const MainBar =styled.div`
+
+`
+export const SecondBar =styled.div`
+
+`

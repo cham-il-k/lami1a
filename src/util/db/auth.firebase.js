@@ -45,29 +45,5 @@ export const getCurrentProfil = () => {
 })
 } 
 
-export const createUserProfilDocument = async (userAuth) => {
-  if (!userAuth) return ;
- const { email, uid, login, products, collections,...otherProps } =  userAuth;
-  let userRef = firestore.doc(`/profils/${uid}`)
-  const profilSnapshot = await userRef.get();
-  if (!profilSnapshot.exists && !isEmpty(email)) {
-    try {
-        const createdAt = new Date();
-        await userRef.set({
-          uid,
-          email,
-          createdAt,
-          login:login || '',
-          products: products || [],
-          collections:collections || [],
-          ...otherProps
-       });
-      } catch (error) {
-        return {
-          message : error['code']
-        }
-      }
-  return userRef
- };
-}  
+
 // on envoie le nom de la collection  [selections] // et collectin 'coran / sagesse / objets ludiques / discount'

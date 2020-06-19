@@ -14,7 +14,9 @@ import {
   LogoContainer,
   OptionsContainer,
   OptionLink,
-  OptionLinkHide
+  MainBar,
+  OptionLinkHide,
+  SecondBar
 } from './header-styled';
 const Header = ({ currentProfil, hidden, logOutStart }) => {
     return (
@@ -41,6 +43,7 @@ const Header = ({ currentProfil, hidden, logOutStart }) => {
           <CartIcon />
         </OptionsContainer>
         {hidden ? null : <CartDropdown />}
+        
       </HeaderContainer>
     );
 

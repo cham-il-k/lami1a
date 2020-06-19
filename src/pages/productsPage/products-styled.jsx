@@ -6,7 +6,7 @@ export const ProductsPageContainer = styled.div`
 `;
 
 export const ProductsTitle = styled.h2`
-  font-size: 38px;
+  font-size: 2rem;
   margin: 0 auto 30px;
 `;
 

@@ -22,7 +22,7 @@ pids
 
 # miscelenus 
 cert/
-config/
+src/config/
 dist/
 node_modules/
 __*

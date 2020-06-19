@@ -4,7 +4,6 @@ import cartReducer from './cart'
 import selectionReducer from './selection'
 //import shopReducer from './shop'
 import { persistReducer } from 'redux-persist'
-import hardSet from 'redux-persist/lib/stateReconciler/hardSet'
 import storage from 'redux-persist/lib/storage'
 
 const persistConfig = {

@@ -9,7 +9,7 @@ import WithSpinner from './../With-Spinner/With-Spinner'
 import { CollectionsOverviewContainer } from './collections-overview.styled';
 
 const CollectionsOverview = ({ selections }) => {
-  
+ console.log(`collection Overview`) 
   return(
       <CollectionsOverviewContainer>
         { selections.map( (collection,index) => {

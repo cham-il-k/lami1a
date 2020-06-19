@@ -16,6 +16,11 @@ exports.makeAdmin = functions.https.onCall((data, context) => {
         return error
     })
 })
+exports.stripe = functions.https.onCall((req, res) => {
+
+    
+})
+
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
 //

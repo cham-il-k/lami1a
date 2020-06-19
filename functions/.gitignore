@@ -1,2 +1,4 @@
 node_modules/
 lami1a*
+.env
+node_modules

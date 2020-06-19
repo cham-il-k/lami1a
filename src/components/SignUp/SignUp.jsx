@@ -25,10 +25,13 @@ const  handleSubmit =  event => {
       history.push('/signup')
       return
     }
-    
-  signUpStart({email,password,login})
-    notify(`signup succeed ${email}`)
-    history.push('/')
+    try {
+      signUpStart({email,password,login})
+        notify(`signup succeed ${email}`)
+        history.push('/')
+    } catch (error) {
+      notify(error.message)
+    }
   }
 const handleChange = event => {
   const { name, value } = event.target;

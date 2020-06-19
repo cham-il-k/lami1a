@@ -10,7 +10,7 @@ import rootReducer from './reducers'
 import rootSaga from './rootSaga'
 //import thunk from 'redux-thunk'
 
-React.lazy(() => import('./selectors/shop'));
+//React.lazy(() => import('./selectors/s'));
 const sagaMiddleware = createSagaMiddleware()
 const middleware = [ sagaMiddleware ]
     

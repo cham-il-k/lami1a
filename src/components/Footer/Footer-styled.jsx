@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components'
 import {Link} from 'react-router-dom'
-import { maxWidth, blanc, blueFin, green2, green1, textBlack,} from './../../components/variables'
+import { maxWidth, blanc, green2, green4, textBlack, blue41,} from './../../components/variables'
 
 export const FooterContainer = styled.div`
     background-color: ${blanc};
@@ -13,7 +13,6 @@ export const FooterContainer = styled.div`
     height:3rem;
     justify-content:space-around;
     align-content:stretch;
-
 `
 
 export const NavigationContainer = styled.div`
@@ -23,40 +22,42 @@ export const NavigationContainer = styled.div`
     flex-direction:row;
     align-items: center;
     justify-content:space-around;
-    bottom:0px;
+    bottom:1rem;
     `
 
 export const CustomLinkContainer = styled(Link)`
-      color: ${green1};
+      color: ${green4};
       text-decoration:none;
       display:flex;
       letter-spacing: 0.5px;
-      padding: 0 5px 0 5px;
+      padding: 1rem 2rem 1rem;
       font-size: 1.5rem;
       font-weight:400;
       flex-shrink:0;
       text-transform: uppercase;
       cursor: pointer;
       &:hover {
-        background-color: ${green2};
+        background-color: ${blue41};
+        opacity:0.8;
         border: none;
         font-size: 1.5rem;
         color:${textBlack};
  }
  `
 export const CustomAContainer = styled.a `
-      color: ${green1};
+      color: ${green4};
       text-decoration:none;
       display:flex;
       letter-spacing: 0.5px;
-      padding: 0 5px 0 5px;
+      padding: 1rem 2rem 1rem;
       font-size: 1.5rem;
       font-weight:400;
       flex-shrink:0;
       text-transform: uppercase;
       cursor: pointer;
       &:hover {
-        background-color: ${green2};
+        background-color: ${blue41};
+        opacity:0.5;
         border: none;
         font-size: 1.5rem;
         color:${textBlack};
@@ -91,16 +92,3 @@ const invertedButtonStyles = css`
     border: none;
   }
 `;
-/* 
-const getButtonStyles = props => {
-  if (props.isGoogleSignIn) {
-    return 'rien';
-  }
-
-  return props.inverted ? invertedButtonStyles : buttonStyles;
-};
-
-  `;
-
-
-*/

@@ -18,13 +18,11 @@ import {apiRegister} from './../api'
 
 import firebase, { auth, firestore} from './../../util/db/db'
 
-export function* getSnapShotFromAuth(userAuth, additionalData) {
+export function* getSnapShotFromAuth({uid, email}) {
     try {
-        const userRef = yield call(createUserProfilDocument, userAuth, additionalData)
-        const userSnapShot = yield userRef.get()
         yield put(SigninSuccess({
-            id: userSnapShot.id,
-            ...userSnapShot.data()
+            id:uid,
+            email
         }))
     } catch (error) {
         yield put(SigninFail(error))
@@ -42,14 +40,19 @@ export function* googleSignIn() {
     }
 }
 //SignUP
-export function* signInAfterSignUP({payload: {user, additionalData} }) {
-    yield put(getSnapShotFromAuth(user, additionalData))
+export function* signInAfterSignUP({payload: {user} }) {
+    yield put(getSnapShotFromAuth(user))
 }
 
 export function* signUp({payload :{email, password, login}}) {
     try {
-        const {user, additionalData} = yield apiRegister({email, password})
-        yield put(getSnapShotFromAuth({user, additionalData:{login}}))
+        const userRef = yield apiRegister({email, password})
+        const userSnapShot = yield userRef.get()
+        yield put(signUpSuccess({
+            id: userSnapShot.id,
+            ...userSnapShot.data()
+        }))
+        
     } catch (error) {
         yield put(signUpFail(error))
     } 
@@ -57,7 +60,6 @@ export function* signUp({payload :{email, password, login}}) {
 //Email SignIn
 export function* emailSignIn({payload :{email,password}}) {
     try {
-        console.log(JSON.stringify({email,password}))
         const {
             user
         } = yield auth.signInWithEmailAndPassword(email, password);

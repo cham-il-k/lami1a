@@ -1,10 +1,6 @@
 import {
   createSelector
 } from 'reselect';
-import {
-  verifSelection,
-  getSelectionCollections
-} from './utilsSelectors'
 
 const selectedSelection = state => state.selection;
 
@@ -62,12 +58,13 @@ export const selectProducts = (collectionId) => createSelector(
   selections => {
     let products = []
     
-    const selection = selections.map(selection => {
+    let selection = selections.map(selection => {
         const colNames = Object.entries(selection['collections'])
       return colNames.filter(col => (col[0]=== collectionId))
      })
+     selection = selection.filter(elem => elem.length != 0)
      const masel = selection[0][0][1]
-    products = (selection[0][0][1]['items']).map(item => {
+      products = (selection[0][0][1]['items']).map(item => {
      const collection = masel['title']
      const selection = masel['selection']
      const prod = {
@@ -77,8 +74,6 @@ export const selectProducts = (collectionId) => createSelector(
       }
       return prod
     })
-    
-    console.log(products)
     return products  
   }
 )

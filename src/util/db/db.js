@@ -1,8 +1,5 @@
 import * as firebase from 'firebase/app'
 //import * as firebaseui from 'firebaseui'
-import {
-  INITIAL_COLLECTIONS
-} from './shopData'
 import 'firebase/auth'
 import 'firebase/firestore'
 import 'firebase/functions'
@@ -28,7 +25,7 @@ export const {
  * @param {string} selectionName 
  */
  export const addSelection = async (selectionName) => {
-   const objectToAdd = Object.entries(INITIAL_COLLECTIONS)
+   const objectToAdd = Object.entries([])
    let writeBatch = firestore.batch()
    try {
      // recup collection Ref 
