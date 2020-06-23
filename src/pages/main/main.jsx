@@ -5,21 +5,19 @@ import { createStructuredSelector} from 'reselect'
 import Selection from '../../components/Selection/Selection'
 import About from '../about/about'
 import CheckoutPage from '../checkout/checkout.jsx'
-import ShopPage from '../shop/shop.jsx'
+import shopPage from '../shop/shop.jsx'
 import productsPage from './../productsPage/productsPage';
-import ProfilPage from '../profil/profil.jsx'
+import composedProfilProducts from '../profil/profilProducts.jsx'
+//import composedProfilProducts from '../profil/ProfilCollection'
+
 import Contact from '../contact/contact'
 import {isEmpty} from './../../util/is-empty'
 import SignUp from './../../components/SignUp/SignUp'
 import SignIn from '../../components/SignIn/SignIn';
 import  { selectCurrentProfil} from './../../store/selectors/profil'
-import { MainContainer } from'./main-styled.jsx';
+import { MainContainer } from'./main.styled';
 
 const MainPage = ({ currentProfil}) => {
-
-useEffect(() => {
-
-})
 
 return (
     <Switch>
@@ -27,22 +25,23 @@ return (
             <Route exact path='/' component= { Selection} />
             <Route exact path='/contact' component= {Contact} />
             <Route exact path='/signup' render={() => {
-                return !isEmpty(currentProfil) ? (<Redirect to='/profil' />) : 
-                (<SignUp/>)
-                }
-            }/>
-            
+                console.log({currentProfil})  
+
+                return isEmpty(currentProfil) ? (<SignUp/>) : <Redirect to='/'/>
+            }
+        }
+        />    
             <Route exact path='/signin' render={ () => {
-                return !isEmpty(currentProfil) ? (<Redirect to='/profil'/>) :
-                (<SignIn />)
-                }
-            } />
-            <Route extact path='/shop' component={ShopPage} />
+                if(!isEmpty(currentProfil))  console.log(currentProfil.email)  
+                
+                return isEmpty(currentProfil) ?  (<SignIn />): <Redirect to='/'/>
+            }
+        } />
+            <Route exact path='/profil' component={composedProfilProducts} />
+            <Route extact path='/shop' component={shopPage} />
             <Route exact path='/about' component= {About} />
             <Route exact path='/checkout' component={CheckoutPage} />
-            <Route exact path='/profil' component={ProfilPage} />
-            
-            <Route exact path='/products/:collectionId' component={productsPage} />
+            <Route exact path='/products/:productSlug' component={productsPage} />
         </MainContainer>
     </Switch>
 )

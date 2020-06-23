@@ -1,5 +1,5 @@
 import { TOGGLE_CART_HIDDEN, ADD_ITEM, REMOVE_ITEM, CLEAR_CART, CLEAR_ITEM_FROM_CART } from './../actions/cart'
-import { addItemToCart, removeItemFromCart } from './cart.utils';
+import { addItemToCart, removeItemFromCart } from './cartUtils';
 
 const INITIAL_STATE = {
         hidden: true,
@@ -32,7 +32,7 @@ const cartReducer = (state = INITIAL_STATE, action) => {
     case CLEAR_CART:
       return {
           ...state, 
-          cartItem:[]
+          cartItems:[]
         
       };
     default:

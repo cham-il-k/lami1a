@@ -4,7 +4,7 @@ import FormInput from './../../components/FormInput/FormInput';
 import CustomButton from './../../components/CustomButton/CustomButton';
 import {createStructuredSelector} from 'reselect'
 import { selectCurrentProfil} from './../../store/selectors/profil'
-import { ContactContainer, ContactTitle, ButtonsBarContainer, Message } from './contact-styled';
+import { ContactContainer, ContactTitle, ButtonsBarContainer, Message } from './contact.styled';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 

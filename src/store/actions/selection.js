@@ -43,7 +43,8 @@ export const fetchSelectionsStart =  () => ({type: FETCH_SELECTIONS_START})
 
 
 export const fetchSelectionsSuccess =  (selections) => {
-        return {
+    console.log(selections)    
+    return {
                 type: FETCH_SELECTIONS_SUCCESS,
                 payload:selections,
                 errors: null
@@ -132,11 +133,18 @@ export const addCollectionFail = () => {
    }
 }
 
+//ADD PRODUCT 
 export const addProductSuccess = (product) => {
     return {
         type: ADD_PRODUCT_SUCCESS,
         payload: product
 
+    }
+}
+export const addProductStart =(product) => {
+    return {
+        type:ADD_PRODUCT_START,
+        payload:product
     }
 }
 export const addProductFail = () => {
@@ -145,6 +153,7 @@ export const addProductFail = () => {
         error: 'add product Fail'
    }
 }
+
 
 export const removeProductSuccess = (product) => {
     return {

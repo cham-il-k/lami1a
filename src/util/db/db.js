@@ -5,6 +5,7 @@ import 'firebase/firestore'
 import 'firebase/functions'
 import 'firebase/storage'
 import options from './../../config'
+const slug = require('slug')
 firebase.initializeApp(options.firebaseConfig) 
  
 /* firebaseApp.onLog((level='error')=> {
@@ -15,6 +16,7 @@ export default firebase
 export const auth = firebase.auth()
 export const firestore = firebase.firestore()
 export const storageRef = firebase.storage()
+export const functions =  firebase.functions()
 export const {
     Timestamp
   } = firebase.firestore
@@ -110,14 +112,38 @@ export const adminCheck =(userRef) => {
 /***
  * manage products collection
  */
-export const deletProduct = (doc) => {
+
+export const createProductsCollection = async () => {
+  const collectionSnapshot = await firestore.collection('collections').get()
+  const collectionMap = new Map()
+  collectionSnapshot.docs.forEach(async (docSnapShot) => {
+    const {title, selection, items } = await docSnapShot.data()
+    items.forEach(async (item ) => {
+      const product = {
+        ...item,
+        collection:title,
+        selection
+      }
+      dbCreateProduct(product)
+    } ) 
+  })
+
+}
+
+
+export const dbCreateProduct = async (doc) => {
+  const slugName = slug(doc.name)
+  await firestore.collection('products').doc(slugName).set({ ...doc})  
+}
+
+export const dbDeletProduct = (doc) => {
 
   firestore.collection('products').doc(doc).delete()  
 }
 
-export const updateProduct = (doc) => {
+export const dbUpdateProduct = ({id, doc}) => {
 
-  firestore.collection('products').doc(doc).delete()  
+  firestore.collection('products').doc(id).update({doc})  
 }
 /**
  * reate galery products/ and Selections

@@ -1,16 +1,24 @@
 import {  all , put , call, takeLatest } from 'redux-saga/effects'
 import { fetchCollectionsSuccess, fetchCollectionsFail,
      fetchSelectionsSuccess, fetchSelectionsFail,
-         fetchProductsFail, fetchProductsSuccess
+         fetchProductsFail, fetchProductsSuccess,
+         addProductSuccess, addProductFail
     } from '../actions/selection'
-import { FETCH_COLLECTIONS_START, FETCH_PRODUCTS_START, FETCH_SELECTIONS_START} from './../actions/selection'
+import { FETCH_COLLECTIONS_START, FETCH_PRODUCTS_START, FETCH_SELECTIONS_START, ADD_PRODUCT_START} from './../actions/selection'
 import {firestore} from './../../util/db/db'
 import {transformCollectionSnapshotToMap} from './../../util/db/db'
-
-//Selections
+import {isAuthenticated} from './profil'
+import slug from 'slug'
+import { clearCart } from '../actions/cart'
+import { GET_COLLECTIONS_TITLE } from '../actions/profil'
+//SELECTION 
 export function* fetchSelectionsAsync( ) {
     try {
         let collectionsMap = null
+        const userProfil= yield call(isAuthenticated)
+        if(!userProfil ) {
+            yield put(clearCart())
+        } 
         const selectionRef = yield firestore.collection('selections')
          const snapshot = yield selectionRef.get()
         collectionsMap = yield call(transformCollectionSnapshotToMap, snapshot)
@@ -24,14 +32,14 @@ export function* fetchSelectionsAsync( ) {
 export function* onfetchSelectionsStart() {
     yield takeLatest(FETCH_SELECTIONS_START, fetchSelectionsAsync)
 }
-//Colection managment
+//COLLECTION managment
 export function* fetchCollectionsAsync( ) {
     try {
         const collections = []
-        const collectionRef =  firestore.collection('collections').then(collectionRef => (collectionRef.get())).then(snapShot =>
+         firestore.collection('collections').then(collectionRef => (collectionRef.get())).then(snapShot =>
                 {
                     snapShot.map(collection => {
-                        collections.concat(collection.data())
+                      return  collections.concat(collection.data())
                     })
                 }
             )
@@ -44,7 +52,23 @@ export function* fetchCollectionsAsync( ) {
 export function* onfetchCollectionsStart() {
     yield takeLatest(FETCH_COLLECTIONS_START, fetchCollectionsAsync)
 }
-//products
+//FETCH products
+export function* createProduct({payload:{product}}){
+    const productsCollectionRef = yield firestore.collection('products')
+    console.log({product})
+    try {
+        const productRef = yield productsCollectionRef.doc(slug(product.title)).set(product)
+    }catch(error) {
+
+        yield console.log(error)
+
+    } 
+
+    //productSnapshot.add({})
+
+}
+
+
 export function* fetchProductsAsync() {
     try {
         const products = []
@@ -64,11 +88,27 @@ export function* onfetchProductsStart() {
     yield takeLatest(FETCH_PRODUCTS_START, fetchProductsAsync)
 
 } 
+export function* onAddProductStart() {
+    yield takeLatest(ADD_PRODUCT_START, createProduct)
+
+} 
+
+export function* getCollectionsTitleAsyn () {
+    
+}
+
+export function* onGetCollectionsTitle() {
+    yield takeLatest(GET_COLLECTIONS_TITLE, getCollectionsTitleAsyn)
+
+} 
+
 // Root ProfilsSagas
 
 export function* selectionSagas() {
      yield all([call(onfetchCollectionsStart),
             call(onfetchProductsStart),
-             call(onfetchSelectionsStart)
+             call(onfetchSelectionsStart),
+             call(onAddProductStart),
+             call(onGetCollectionsTitle)
             ])
  }

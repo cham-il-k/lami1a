@@ -14,6 +14,8 @@ import {
 const initialState = {
         selections:{},
         collections:{},
+        collectionsTitle:'',
+        productsTitle:'',
         isFetching:false,
         items:{},
         error: '',

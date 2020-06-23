@@ -4,7 +4,7 @@ import { Route } from 'react-router-dom';
 import CollectionsOverviewContain from '../../components/Collections-Overview/Collections-Overview';
 import CollectionPageContain from './../collectionPage/collectionPage';
 
-const ShopPage =({match, fetchProductsStart}) => {
+const shopPage =({match, fetchProductsStart}) => {
   
 return (
   <div className='shop-page'>
@@ -19,4 +19,4 @@ return (
 }
 
 
-export default ShopPage;
+export default shopPage;

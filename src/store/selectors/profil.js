@@ -11,3 +11,18 @@ export const selectProfilCollection = profilId => createSelector(
   [selectProfil],
   profil => profil.collection
 )
+
+export const authenticated = () => createSelector(
+  [selectProfil],
+  profil => profil.authenticated
+)
+
+export const selectCurrentCollection = createSelector(
+  [selectProfil],
+  profil => profil.collection
+);
+
+export const selectCurrentroducts = createSelector(
+  [selectProfil],
+  profil => profil.products
+);

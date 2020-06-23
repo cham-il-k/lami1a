@@ -35,7 +35,7 @@ return (
   
 
 const mapStateToProps =  (state, ownProps) => createStructuredSelector({
-    products : selectProducts(ownProps.match.params.collectionId)
+    products : selectProducts(ownProps.match.params.productSlug)
  }) 
 const ProductsPageContain = compose(
   connect(mapStateToProps),

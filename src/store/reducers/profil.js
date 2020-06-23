@@ -13,9 +13,11 @@ import {
     const initialState = {
         currentProfil: '',
         products: '',
+        collection:'',
         //status: user / org / fam
         status:'user',
         admin:false,
+        authenticated:false,
         loading: false,
         error:null
        }
@@ -23,15 +25,19 @@ import {
 const profilReducer = (state = initialState, action) => {
     switch (action.type) {
         case SET_CURRENT_PROFIL:
-            return {
+        //{ products, collection, admin, status} = action.payload    
+        return {
                 ...state,
                 loading: false,
                 currentProfil: action.payload,
-            };
+                authenticated:true,
+                loading: false,
+                };
         case EMAIL_SIGNIN_START:
             return {
                 ...state,
-                currentProfil: action.payload
+                currentProfil: action.payload,
+                
             }; 
         case SIGNUP_SUCCESS:
         case SIGNIN_SUCCESS:
@@ -39,7 +45,8 @@ const profilReducer = (state = initialState, action) => {
                 ...state,
                 loading: false,
                 error: null,
-                currentProfil: action.payload
+                authenticated:true,
+                ...action.payload
             };
         case SIGNUP_FAIL:
         case SIGNIN_FAIL:
@@ -47,11 +54,13 @@ const profilReducer = (state = initialState, action) => {
             return {
                 ...state,
                 loading: false,
-                error: action.payload
+                error: action.payload,
+                authenticated:false
             };
         case GET_COLLECTION:
             return {
                 ...state,
+                collections:action.payload
             };
         case GET_ALL_PROFILS:
             return {
@@ -73,7 +82,9 @@ const profilReducer = (state = initialState, action) => {
             return {
                 ...state,
                 currentProfil:'',
-                error: null
+                error: null,
+                authenticated:false,
+                id:'',
             };
         default:
             return state;

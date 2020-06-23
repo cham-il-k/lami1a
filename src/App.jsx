@@ -9,11 +9,13 @@ import {createStructuredSelector} from 'reselect'
 import { fetchSelectionsStart } from './../src/store/actions/selection'
 import {selectCurrentProfil}  from './../src/store/selectors/profil'
 import { isEmpty } from './util/is-empty';
+import { createProductsCollection } from './../src/util/db/db'
 const App = ({ fetchSelectionsStart, checkProfilSession, currentProfil }) => {
 
 useEffect(() => {
       checkProfilSession()
       fetchSelectionsStart()
+     // createProductsCollection()
   }, [checkProfilSession, fetchSelectionsStart] ) 
 
   return (

@@ -25,18 +25,20 @@ const Header = ({ currentProfil, hidden, logOutStart }) => {
           <LogoBox className='logo' />
         </LogoContainer>
         <OptionsContainer>
-          <OptionLink to='/shop'>SHOP</OptionLink>
-          <OptionLink to='/contact'>CONTACT</OptionLink>
-          { 
-          (currentProfil !== null ) && (!isEmpty(currentProfil) ) ? (
-            
+          { (!isEmpty(currentProfil)) ? (
            <>
            <OptionLink to='/profil'>Profil</OptionLink>
            <OptionLink to='/collection'>Collection</OptionLink>
+           </>): (<></>)
+          }<OptionLink to='/shop'>SHOP</OptionLink>
+          <OptionLink to='/contact'>CONTACT</OptionLink>
+          { 
+           !isEmpty(currentProfil)  ? (
+           
           <OptionLink to='/' onClick={logOutStart}>
               SIGN OUT
           </OptionLink>
-          </>
+          
           ): (
               <OptionLink to='/signup'>SIGN in/up </OptionLink>
             )}

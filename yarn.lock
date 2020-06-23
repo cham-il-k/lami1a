@@ -8099,7 +8099,7 @@ node-releases@^1.1.52:
   dependencies:
     semver "^6.3.0"
 
-node-sass@^4.14.1:
+node-sass@:
   version "4.14.1"
   resolved "https://registry.yarnpkg.com/node-sass/-/node-sass-4.14.1.tgz#99c87ec2efb7047ed638fb4c9db7f3a42e2217b5"
   integrity sha512-sjCuOlvGyCJS40R8BscF5vhVlQjNN069NtQ1gSxyK1u9iqvn6tf7O1R4GNowVZfiZUCRt5MmMs1xd+4V/7Yr0g==
@@ -10842,6 +10842,11 @@ slice-ansi@^2.1.0:
     ansi-styles "^3.2.0"
     astral-regex "^1.0.0"
     is-fullwidth-code-point "^2.0.0"
+
+slug@^3.3.0:
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/slug/-/slug-3.3.0.tgz#79841ac7e366d64ead9eb31276f5558d6d51b633"
+  integrity sha512-IbENbO0s6VFKWcjWmaNlb5HSvMSwqz0+IFg6G+dotpYptoY2n6+JcfP8dO2OxG8zyMlt9qTcCmMwBBdfsC1Kcw==
 
 snapdragon-node@^2.0.1:
   version "2.1.1"

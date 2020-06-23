@@ -16,7 +16,7 @@ import {
   HeaderBlockContainer,
   TotalContainer,
   WarningContainer
-} from './checkout.styles';
+} from './checkout.styled';
 
 const CheckoutPage = ({ cartItems, total }) => (
   <CheckoutPageContainer>

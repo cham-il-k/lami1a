@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { selectSelections} from './../../store/selectors/selection';
 import SelectionItem from '../SelectionItem/Selection-Item';
-import { SelectionMenuContainer } from './selection-styled';
+import { SelectionMenuContainer } from './selection.styled';
 import { fetchSelectionsStart } from './../../store/actions/selection'
 import {firestore, transformCollectionSnapshotToMap} from './../../util/db/db'
 

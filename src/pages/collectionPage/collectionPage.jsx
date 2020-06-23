@@ -11,7 +11,7 @@ import {
   CollectionPageContainer,
   CollectionTitle,
   CollectionItemsContainer
-} from './collection-styled';
+} from './collection.styled';
 
 const CollectionPage = ({ products ,match, history }) => {
 let collection = []  

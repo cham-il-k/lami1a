@@ -16,20 +16,21 @@ import {
   SignInContainer,
   SignInTitle,
   ButtonsBarContainer
-} from './SignIn-styled';
+} from './signIn.styled';
 
 const SignIn = ({googleSigninStart, emailSigninStart, history}) =>  {
-  const [credential, setCredential] = useState({ email:'', password:'' })
-  
-  
+const [credential, setCredential] = useState({})
+   
 const notify = (message) => toast(`${message}`);
 
 const handleSubmit = async event => {
   event.preventDefault();
     try {
-      emailSigninStart(credential)
+      console.log({credential})
+      
+      await emailSigninStart(credential)
       notify(`${credential} is connected`)
-      history.push(`/profil/`);
+      history.push(`/profil`);
   }catch(error) {
     notify(`${error}` )
 }
@@ -37,7 +38,8 @@ const handleSubmit = async event => {
 
 const handleChange = (event ) => {
   const {value, name} = event.target
-  setCredential({...credential, [name]:value})
+  const moncred = {[name]: value}
+  setCredential({...credential, ...moncred})
 }
 return (
       <SignInContainer>

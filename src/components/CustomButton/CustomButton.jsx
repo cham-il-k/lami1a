@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { CustomInputContainer, CustomButtonContainer, CustomLinkContainer } from './CustomButton-styled';
+import { CustomInputContainer, CustomButtonContainer, CustomLinkContainer } from './CustomButton.styled';
 
 const CustomButton = ({ children, ...props }) => {
   if(props.link) {

@@ -12,18 +12,35 @@ import {
     logOutFail,
     logOutSuccess,
     SIGNUP_SUCCESS,
+    setCurrentProfil,
 } from './../actions/profil'
-import {googleProvider,createUserProfilDocument, getCurrentProfil} from './../../util/db/auth.firebase'
-import {apiRegister} from './../api'
-
+import {googleProvider, getCurrentProfil} from './../../util/db/auth.firebase'
+import {apiRegister, apiCreateUserProfilDocument} from './../api/profils'
+import { isEmpty } from './../../util/is-empty'
 import firebase, { auth, firestore} from './../../util/db/db'
+import { selectCurrentCollection, selectCurrentProfil } from "../selectors/profil";
 
-export function* getSnapShotFromAuth({uid, email}) {
+export function* getSnapShotData(uid) {
     try {
+        let profilFull = {}
+        const profilRef = yield firestore.collection('profils').doc(uid)
+        console.log({profilRef })
+        yield profilRef.get().then(async doc => {
+            if (doc.exists) {
+                console.log(doc.data())
+                profilFull = doc.data()
+                return doc.data()
+            }
+            else 
+            {
+                console.log({doc})
+            }
+        })/* 
         yield put(SigninSuccess({
             id:uid,
-            email
-        }))
+            ...profilFull
+        })) */
+        
     } catch (error) {
         yield put(SigninFail(error))
     }
@@ -34,36 +51,64 @@ export function* googleSignIn() {
         const {
             user
         } = yield auth.signInWithPopup(googleProvider);
-        yield getSnapShotFromAuth(user)
-    } catch (error) {
-        yield put(SigninFail(error))
+        const { uid, email} = user
+        console.log({uid},{email})
+        console.log({user})
+        const profilSnapshot = yield call(apiCreateUserProfilDocument,[uid,email])
+        if(!isEmpty(profilSnapshot)) {
+            if(profilSnapshot.exists) {
+                console.log({profilSnapshot})
+                yield  put(selectCurrentProfil(profilSnapshot.data()))
+            } else {
+           return Promise.reject(
+               {error:{
+               message:"api create profil returns not exist"
+           } })
+        }
+        
+        }} catch (error) {
+        yield put(SigninFail({error: {
+            error,
+            errorMAssage:error.message
+        }}))
     }
 }
 //SignUP
 export function* signInAfterSignUP({payload: {user} }) {
-    yield put(getSnapShotFromAuth(user))
+    const profilData =  yield getSnapShotData(user.uid)
+    yield put(setCurrentProfil(profilData))
+    
+    yield put(SigninSuccess({
+        id: user.uid,
+        ...profilData
+    })) 
 }
+
+
 
 export function* signUp({payload :{email, password, login}}) {
     try {
-        const userRef = yield apiRegister({email, password})
-        const userSnapShot = yield userRef.get()
-        yield put(signUpSuccess({
-            id: userSnapShot.id,
-            ...userSnapShot.data()
-        }))
-        
+        const profilSnapsot = yield call(apiRegister,[email, password,login])
+     console.log(profilSnapsot.data())            
     } catch (error) {
         yield put(signUpFail(error))
     } 
 }
 //Email SignIn
-export function* emailSignIn({payload :{email,password}}) {
+export function* emailSignIn({payload}) {
     try {
+        const {email, password} = payload.email
         const {
             user
         } = yield auth.signInWithEmailAndPassword(email, password);
-         yield getSnapShotFromAuth(user)
+         
+        const profilData =  yield getSnapShotData(user.uid)
+        
+       yield put(setCurrentProfil(profilData))
+         yield put(SigninSuccess({
+            id: user.uid,
+            ...profilData
+        }))
         
     } catch (error) {
         yield put(SigninFail(error))
@@ -86,7 +131,8 @@ export function* isAuthenticated() {
     try {
         const userAuth = yield getCurrentProfil()
         if(!userAuth) return
-        yield getSnapShotFromAuth(userAuth)
+       const profilData =  yield getSnapShotData(userAuth.uid)
+       put(setCurrentProfil(profilData))
     } catch (error) {
         yield put(SigninFail(error))
     }

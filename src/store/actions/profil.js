@@ -22,8 +22,9 @@ export const CHECK_PROFIL_SESSION = 'CHECK_PROFIL_SESSION'
 export const SET_CURRENT_PROFIL = 'SET_CURRENT_PROFIL'
 export const SELECT_CURRENT_PROFIL = 'SELECT_CURRENT_PROFIL'
 
+export const GET_COLLECTIONS_TITLE = 'GET_COLLECTIONS_TITLE'
 export const GET_ALL_PROFILS = 'GET_ALL_PROFILS'
-
+export const DEL_CART_ON_START = 'DEL_CART_ON_START'
 export const ADD_TO_COLLECTION = 'ADD_TO_COLLECTION';
 export const GET_COLLECTION = 'GET_COLLECTION';
 export const REMOVE_FROM_COLLECTION = 'REMOVE_FROM_COLLECTION';
@@ -32,6 +33,14 @@ export const REMOVE_FROM_COLLECTION = 'REMOVE_FROM_COLLECTION';
 export const checkProfilSession = () => ({
     type: CHECK_PROFIL_SESSION
 })
+
+export const setCurrentProfil = (profil) => {
+   console.log({profil})
+    return { 
+       type:SET_CURRENT_PROFIL,
+        payload: profil
+    }
+} 
 export const signUpStart = (profilCredential) => {
     return {
         type:SIGNUP_START,
@@ -55,10 +64,15 @@ export const emailSigninStart = (emailAndPassword) => ({
     payload:emailAndPassword
 })
 
-export const SigninSuccess = (profil) => ({
+export const SigninSuccess = (profil) => {
+
+console.log({profil})
+
+    return     {
     type: SIGNIN_SUCCESS,
     payload:profil
-})
+}
+}
 
 export const SigninFail = (error) => ({
     type: SIGNIN_FAIL,
@@ -72,13 +86,6 @@ export const googleSigninStart = () => ({
 })
 
 
-export const setAuthToken = token => {
-    if (token) {
-        localStorage.setItem('jwtToken', `Bearer ${token}`)
-    } else {
-        localStorage.removeItem('jwtToken')
-    }
-}
 
 export const logOutStart = () => {
     return {
@@ -98,6 +105,12 @@ export const logOutFail = (error) => {
         payload:error
     }
 }
+
+export const getCollectionsTitle = async () => {
+        return {
+            type: GET_COLLECTIONS_TITLE,
+        }
+}
 export const getAllProfils = async () => {
     const profils = await apiGetAllProfils()
     console.log(profils) 
@@ -105,4 +118,9 @@ export const getAllProfils = async () => {
         type: GET_ALL_PROFILS,
         payload: profils
 }
+}
+export const delCartOnStart = () => {
+    return {
+        type:DEL_CART_ON_START
+    }
 }

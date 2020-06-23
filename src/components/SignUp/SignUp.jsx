@@ -5,7 +5,7 @@ import FormInput from './../FormInput/FormInput';
 import CustomButton from './../CustomButton/CustomButton';
 import {  createStructuredSelector } from 'reselect'
 import { selectCurrentProfil} from './../../store/selectors/profil'
-import { SignUpContainer, SignUpTitle, ButtonsBarContainer, Message } from './signUp-styled';
+import { SignUpContainer, SignUpTitle, ButtonsBarContainer, Message } from './signUp.styled';
 import { ToastContainer, toast } from 'react-toastify';
 import { signUpStart } from './../../store/actions/profil'
 import 'react-toastify/dist/ReactToastify.css';
@@ -30,7 +30,7 @@ const  handleSubmit =  event => {
         notify(`signup succeed ${email}`)
         history.push('/')
     } catch (error) {
-      notify(error.message)
+      notify(error)
     }
   }
 const handleChange = event => {
@@ -39,6 +39,8 @@ const handleChange = event => {
 }
 
     return (
+      <>
+      <ToastContainer/>
       <SignUpContainer>
         <SignUpTitle>Join us</SignUpTitle>
         <form  onSubmit={handleSubmit}>
@@ -84,6 +86,7 @@ const handleChange = event => {
           <ToastContainer />
         </form>
       </SignUpContainer>
+      </>
     );
 }
 

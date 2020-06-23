@@ -11,7 +11,7 @@ import {
   CartDropdownButton,
   EmptyMessageContainer,
   CartItemsContainer
-} from './cart-dropdown.styled';
+} from './cart.dropdown.styled';
 
 const CartDropdown = ({ cartItems, history, dispatch }) => (
   <CartDropdownContainer>

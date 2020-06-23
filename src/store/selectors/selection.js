@@ -21,6 +21,21 @@ export const selectIsSelectionsLoaded = createSelector(
   selection => !!selection.selections
 );
 
+export const selectCollectioTitle = createSelector(
+  [selectedSelection],
+  selection => selection.collectionsTitle
+);
+
+export const selectProductsTitle = createSelector(
+  [selectedSelection],
+  selection => selection.productsTitle
+);
+
+export const selectSelectionsTitle = createSelector(
+  [selectedSelection],
+  selection => selection.selectionsTitle
+);
+
 export const selectCollectionForOverview = selectionId => createSelector(
   [selectSelectedSelections],
   selections => {

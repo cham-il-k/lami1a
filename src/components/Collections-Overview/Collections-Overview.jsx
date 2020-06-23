@@ -6,7 +6,7 @@ import { compose } from 'redux'
 import CollectionPreview from '../Collection-Preview/Collection-Preview';
 import { selectSelections } from './../../store/selectors/selection';
 import WithSpinner from './../With-Spinner/With-Spinner'
-import { CollectionsOverviewContainer } from './collections-overview.styled';
+import { CollectionsOverviewContainer } from './collections.overview.styled';
 
 const CollectionsOverview = ({ selections }) => {
  console.log(`collection Overview`) 
