@@ -8,6 +8,7 @@ import CheckoutPage from '../checkout/checkout.jsx'
 import shopPage from '../shop/shop.jsx'
 import productsPage from './../productsPage/productsPage';
 import composedProfilProducts from '../profil/profilProducts.jsx'
+import composedProfilMessages from '../profil/profilMessages.jsx'
 //import composedProfilProducts from '../profil/ProfilCollection'
 
 import Contact from '../contact/contact'
@@ -38,6 +39,8 @@ return (
             }
         } />
             <Route exact path='/profil' component={composedProfilProducts} />
+            <Route exact path='/messages' component={composedProfilMessages} />
+            
             <Route extact path='/shop' component={shopPage} />
             <Route exact path='/about' component= {About} />
             <Route exact path='/checkout' component={CheckoutPage} />

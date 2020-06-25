@@ -6,17 +6,18 @@ import 'firebase/functions'
 import 'firebase/storage'
 import options from './../../config'
 const slug = require('slug')
-firebase.initializeApp(options.firebaseConfig) 
- 
+
 /* firebaseApp.onLog((level='error')=> {
   console.log(firebaseApp)
 })
- */
-export default firebase
+*/
+firebase.initializeApp(options.firebaseConfig) 
 export const auth = firebase.auth()
 export const firestore = firebase.firestore()
 export const storageRef = firebase.storage()
 export const functions =  firebase.functions()
+//auth.functions().useFunctionsEmulator('http://localhost:5001')
+export default firebase
 export const {
     Timestamp
   } = firebase.firestore

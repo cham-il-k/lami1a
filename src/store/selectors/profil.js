@@ -22,7 +22,16 @@ export const selectCurrentCollection = createSelector(
   profil => profil.collection
 );
 
-export const selectCurrentroducts = createSelector(
+export const selectCurrentProducts = createSelector(
   [selectProfil],
   profil => profil.products
+);
+export const selectCurrentMessages = createSelector(
+  [selectProfil],
+  profil => profil.messages
+);
+
+export const selectCurrentUsers = createSelector(
+  [selectProfil],
+  profil => profil.users
 );

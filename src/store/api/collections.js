@@ -2,7 +2,7 @@ import firebase, {
     firestore, auth
 } from '../../util/db/db'
 /**
- * Selections
+ * Selections queries
  */
 
 export const apifetchSelections = async () => {
@@ -77,10 +77,6 @@ export const apifetchCollections = async () => {
     })
     return collections
 }
-/**
- * product manageement
- * @param {string} productId 
- */
 export const apifetchProductById = async (productId) => {
      firestore.collection('products').doc(productId).get().then(snapshot => ({
          id: snapshot.id,
@@ -96,7 +92,12 @@ export const apifetchProducts = async (productId) => {
         return products
     })
 }
-//Version batch
+
+/**Batch CRUD
+ * product manageement 
+ * @param {string} productId 
+ */
+
 export const apiaddCollectionAndDocuments = async (collectionKey, collections) => {
     const collectionRef = firestore.collection(collectionKey)
      const batch = firestore.batch()
@@ -106,14 +107,71 @@ export const apiaddCollectionAndDocuments = async (collectionKey, collections) =
      })
      return await batch.commit()  
   }
-export const storeImage = async (file) => {
+
+export const apiCreateProduct =(async ({uid,product}) => {
+    const {  title, description,price,collection,file } = product
+    try {
+        const {fileName, fileId} = file
+        const url = await apiSelectionUploadsStorage(uid,file)
+        const  fileDb = await  apiStoreImageGalleryDb(uid,url, file)
+        firestore.collection('products').doc(title).set({ description, price, collection,fileName,fileId})
+        .then(async product => {
+            return Promise.resolve(product)
+        } )
+    } catch (error) {
+     Promise.reject(error)
+ }
+})
+
+
+  //MANAGEMENT image storage
+export const apiStoreImageGalleryDb = async (uid, url, file) => {
+ try {
+    firestore.collection('selectionImages').add({
+        imageUrl:`${url}`,
+        uploadedBy:`${uid}`,
+        fileName:`selectionUploads /${file.name}`
+        }).then((fileDb) => {
+           Promise.resolve(fileDb) 
+        })    
+ } catch (error) {
+    Promise.reject(error)
+}
+}
+export const apiDeleteImage = async(file) => {
+    try {
+        const storageRef = firebase.storage() 
+    auth.currentUser.getIdTokenResult().then(async idTokenResult => {
+        if(idTokenResult.claims.admin) {
+             firestore.collection('selectionImages').doc(file.id).delete().then(res => {
+                return Promise.resolve('file deleted from database')    
+            }).catc(error => {
+                return Promise.reject(`cant delet file from database  ${file.name}`)
+
+             })
+            storageRef.child(`selectionUploads/${file.id}`).delete().then(res => {
+                return Promise.resolve('file deleted from storage')    
+            }).catc(error => {
+                return Promise.reject(`cant delet file ${file.name}`)
+
+            })  
+        }
+    })   
+    } catch (error) {
+        return Promise.reject(`cant delet file ${file.name}`)
+    }
+
+
+}
+export const apiSelectionUploadsStorage = async (uid,file) => {
     const metadata = {'contentType': file.type}
     const storageRef = firebase.storage() 
-    storageRef.child(`selectionGallery/${file.name}`).put(file, metadata).then(snapshot => {
+    storageRef.child(`selectionUploads/${file.id}`).put(file, metadata).then(snapshot => {
       const messageByteTransfered = snapshot.byteTransfered
        const  uploaded =  snapshot.totalBytes
         const snapshhorDownload =  snapshot.ref.getDownloadURL().then(url => {
-        return url
+            apiStoreImageGalleryDb(uid, url, file)
+            return url 
         })
-})
-    }
+})}   
+  

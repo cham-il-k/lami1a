@@ -1,5 +1,5 @@
 import { apifetchSelections, apifetchCollections} from './../api'
-import { apiShopProducts } from '../api/collections'
+import { apiShopProducts } from '../api/selections'
 
 
 

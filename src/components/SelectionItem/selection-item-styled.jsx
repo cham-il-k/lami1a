@@ -1,30 +1,31 @@
 import styled from 'styled-components';
-import { green2, green4, blanc } from '../variables'
+import { green2, green4, blanc,maxWidth } from '../variables'
 
 export const SelectionItemContainer = styled.div`
-	height: ${(size) => (size ? '380px' : '240px')};
-	min-width: 30%;
+	height: 300px;
+	width:300px;
 	overflow: hidden;
 	flex: 1 1 auto;
 	display: flex;
 	align-items: center;
-	justify-content: center;
+	justify-content: space-evenly;
 	border: 1px solid ${green4};
-	margin: 0 7.5px 15px;
+	margin: 0 7.5px; 
 	overflow: hidden;
-  	border-radius:2px;
-	&:hover {
-	  cursor: pointer;
-	  & .background-image {
-	    transform: scale(1.1);
-	    transition: transform 6s cubic-bezier(0.25, 0.45, 0.45, 0.95);
-	  }
-	  & .content {
-	    opacity: 0.9;
-	  }
+	  border-radius:1rem;
+/* 	transform:rotate(45deg);		
+ */	&:hover {
+		cursor: pointer;
+		& .background-image {
+			transform: scale(1.1);
+			transition: transform 6s cubic-bezier(0.25, 0.45, 0.45, 0.95);
+		}
+		& .content {
+			opacity: 0.9;
+		}
 	}
 	&:first-child {
-	  margin-right: 7.5px;
+	  	margin-right: 7.5px;
 	}
 	&:last-child {
 	  margin-left: 7.5px;
@@ -41,6 +42,7 @@ export const BackgroundImageContainer = styled.div`
 
 export const ContentContainer = styled.div`
   height: 10rem;
+  width: 10rem;
   padding: 0 25px;
   display: flex;
   flex-direction: column;
@@ -51,6 +53,8 @@ export const ContentContainer = styled.div`
   background-color: ${blanc};
   opacity: 0.8;
   position: absolute;
+/* 	transform:rotate(-45deg);		
+ */
 `;
 
 export const ContentTitle = styled.span`

@@ -28,11 +28,11 @@ const profilReducer = (state = initialState, action) => {
         //{ products, collection, admin, status} = action.payload    
         return {
                 ...state,
-                loading: false,
                 currentProfil: action.payload,
                 authenticated:true,
                 loading: false,
-                };
+                error:null    
+            };
         case EMAIL_SIGNIN_START:
             return {
                 ...state,
@@ -46,7 +46,7 @@ const profilReducer = (state = initialState, action) => {
                 loading: false,
                 error: null,
                 authenticated:true,
-                ...action.payload
+                currentProfil:action.payload
             };
         case SIGNUP_FAIL:
         case SIGNIN_FAIL:

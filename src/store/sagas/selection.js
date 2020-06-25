@@ -1,16 +1,20 @@
 import {  all , put , call, takeLatest } from 'redux-saga/effects'
+import {isEmpty} from './../../util/is-empty'
 import { fetchCollectionsSuccess, fetchCollectionsFail,
      fetchSelectionsSuccess, fetchSelectionsFail,
          fetchProductsFail, fetchProductsSuccess,
          addProductSuccess, addProductFail
     } from '../actions/selection'
-import { FETCH_COLLECTIONS_START, FETCH_PRODUCTS_START, FETCH_SELECTIONS_START, ADD_PRODUCT_START} from './../actions/selection'
+import { FETCH_COLLECTIONS_START, FETCH_PRODUCTS_START, FETCH_SELECTIONS_START,
+     ADD_PRODUCT_START} from './../actions/selection'
 import {firestore} from './../../util/db/db'
 import {transformCollectionSnapshotToMap} from './../../util/db/db'
 import {isAuthenticated} from './profil'
+import {apiCreateProduct} from './../api/selections'
 import slug from 'slug'
 import { clearCart } from '../actions/cart'
 import { GET_COLLECTIONS_TITLE } from '../actions/profil'
+
 //SELECTION 
 export function* fetchSelectionsAsync( ) {
     try {
@@ -53,21 +57,19 @@ export function* onfetchCollectionsStart() {
     yield takeLatest(FETCH_COLLECTIONS_START, fetchCollectionsAsync)
 }
 //FETCH products
-export function* createProduct({payload:{product}}){
-    const productsCollectionRef = yield firestore.collection('products')
-    console.log({product})
-    try {
-        const productRef = yield productsCollectionRef.doc(slug(product.title)).set(product)
-    }catch(error) {
-
-        yield console.log(error)
-
+export function* createProduct({payload:{uid,product}}){
+try {
+    const {title, description,price,collection,file } = product 
+    const productRegistred = yield call(apiCreateProduct,[uid,product])
+    if(!isEmpty(productRegistred)) {
+        put(addProductSuccess(productRegistred))
+    }else {
+        put(addProductFail({error:'product cant be added'}))
+    }
+}catch(error) {
+    yield put(addProductFail(error))
     } 
-
-    //productSnapshot.add({})
-
 }
-
 
 export function* fetchProductsAsync() {
     try {
@@ -93,12 +95,12 @@ export function* onAddProductStart() {
 
 } 
 
-export function* getCollectionsTitleAsyn () {
+export function* getCollectionsTitleAsync () {
     
 }
 
 export function* onGetCollectionsTitle() {
-    yield takeLatest(GET_COLLECTIONS_TITLE, getCollectionsTitleAsyn)
+    yield takeLatest(GET_COLLECTIONS_TITLE, getCollectionsTitleAsync)
 
 } 
 

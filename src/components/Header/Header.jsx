@@ -29,7 +29,9 @@ const Header = ({ currentProfil, hidden, logOutStart }) => {
            <>
            <OptionLink to='/profil'>Profil</OptionLink>
            <OptionLink to='/collection'>Collection</OptionLink>
-           </>): (<></>)
+           <OptionLink to='/messages'>Messages</OptionLink>
+          
+        </>): (<></>)
           }<OptionLink to='/shop'>SHOP</OptionLink>
           <OptionLink to='/contact'>CONTACT</OptionLink>
           { 

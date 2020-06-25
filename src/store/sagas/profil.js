@@ -13,9 +13,14 @@ import {
     logOutSuccess,
     SIGNUP_SUCCESS,
     setCurrentProfil,
+    UPDATE_PROFIL_START,
+    updateProfilFail,updateProfilSuccess,
+    ADD_USER_START,addUserSuccess, addUserFail
 } from './../actions/profil'
 import {googleProvider, getCurrentProfil} from './../../util/db/auth.firebase'
-import {apiRegister, apiCreateUserProfilDocument} from './../api/profils'
+import {apiRegister, apiCreateUserProfilDocument,apiUpdateCredential} from './../api/profils'
+import {requestNotificationPermissions} from './../api/messages'
+
 import { isEmpty } from './../../util/is-empty'
 import firebase, { auth, firestore} from './../../util/db/db'
 import { selectCurrentCollection, selectCurrentProfil } from "../selectors/profil";
@@ -48,28 +53,23 @@ export function* getSnapShotData(uid) {
 //Google
 export function* googleSignIn() {
     try {
-        const {
-            user
-        } = yield auth.signInWithPopup(googleProvider);
+        const {user} = yield auth.signInWithPopup(googleProvider);
         const { uid, email} = user
-        console.log({uid},{email})
         console.log({user})
         const profilSnapshot = yield call(apiCreateUserProfilDocument,[uid,email])
+        console.log(profilSnapshot.data())
         if(!isEmpty(profilSnapshot)) {
-            if(profilSnapshot.exists) {
-                console.log({profilSnapshot})
-                yield  put(selectCurrentProfil(profilSnapshot.data()))
+              yield  put(setCurrentProfil(profilSnapshot.data()))
             } else {
            return Promise.reject(
                {error:{
                message:"api create profil returns not exist"
            } })
         }
-        
-        }} catch (error) {
-        yield put(SigninFail({error: {
+        }catch (error) {
+        yield put(signUpFail({error: {
             error,
-            errorMAssage:error.message
+            message:error.message
         }}))
     }
 }
@@ -88,8 +88,13 @@ export function* signInAfterSignUP({payload: {user} }) {
 
 export function* signUp({payload :{email, password, login}}) {
     try {
-        const profilSnapsot = yield call(apiRegister,[email, password,login])
-     console.log(profilSnapsot.data())            
+        const profilCredStr = yield call(apiRegister,[email, password,login])
+       yield console.log({profilCredStr})
+       const {uid, restData} = JSON.parse(profilCredStr)
+       const currentProfil = {uid,...restData}
+        yield put(signUpSuccess(currentProfil))
+        yield put(setCurrentProfil(currentProfil))
+        
     } catch (error) {
         yield put(signUpFail(error))
     } 
@@ -124,20 +129,32 @@ export function* logout(){
         yield put(logOutFail(error))
     }
 } 
-
+//update profil
+export function* updateProfilAsync(credUpdate) {
+    try {
+        const {login,email,address, city , country} = credUpdate
+        yield call(apiUpdateCredential,[login,email,address, city , country])
+    } catch (error) {
+        put(updateProfilFail(error))
+    }
+}
 
 //handlers saga start actions
 export function* isAuthenticated() {
     try {
-        const userAuth = yield getCurrentProfil()
+        const userAuth = yield call(getCurrentProfil)
         if(!userAuth) return
-       const profilData =  yield getSnapShotData(userAuth.uid)
-       put(setCurrentProfil(profilData))
+        //yield call(requestNotificationPermissions)
+        const profilData =  yield getSnapShotData(userAuth.uid)
+      yield put(setCurrentProfil(profilData))
     } catch (error) {
         yield put(SigninFail(error))
     }
 }
 
+export function* onUpdateStart() {
+    yield takeLatest(UPDATE_PROFIL_START, updateProfilAsync)
+}
 export function* onGoogleSignInStart() {
     yield takeLatest(GOOGLE_SIGNIN_START, googleSignIn)
 }
@@ -146,7 +163,7 @@ export function* onEmailSignInStart() {
     yield takeLatest(EMAIL_SIGNIN_START, emailSignIn)
 }
 
-export function* onsignUpSuccess() {
+export function* onSignUpSuccess() {
     yield takeLatest(SIGNUP_SUCCESS, signInAfterSignUP) 
 } 
 
@@ -168,6 +185,7 @@ export function* profilSagas() {
         call(onSignUpStart),
         call(onCheckProfilSession),
         call(onLogoutStart),
-        call(onsignUpSuccess)
+        call(onSignUpSuccess),
+        call(onUpdateStart)
     ])
 }

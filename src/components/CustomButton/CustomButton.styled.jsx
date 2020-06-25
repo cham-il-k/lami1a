@@ -59,9 +59,9 @@ export const CustomLinkContainer = styled(Link)`
   min-width: 165px;
   width: 165px;
   height: 50px;
+  text-decoration:none;
   color:${textBlack};
-
-  letter-spacing: 0.5px;
+   letter-spacing: 0.5px;
   line-height: 50px;
   padding: 0 5px 0 5px;
   font-size: 15px;

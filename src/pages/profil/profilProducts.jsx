@@ -5,11 +5,12 @@ import { compose } from 'redux'
 import {createStructuredSelector} from 'reselect'
 import { isEmpty} from './../../util/is-empty'
 import {selectCurrentProfil, 
-      selectCurrentCollection, selectCurrentroducts} from '../../store/selectors/profil'
+      selectCurrentCollection, selectCurrentProducts} from '../../store/selectors/profil'
 import { ProfilContainer ,Message, ButtonsBarContainer, ProfilTitle} from './profil.styled'
 import {FileContainer, CollectionTitle, ProductTitle, 
   AddProductContainer,SelectContainer,ProductContainer,} from './collection.styled'
-import {addProductStart} from './../../store/actions/selection'
+import {addProductStart,} from './../../store/actions/selection'
+import {updateProfilStart, addUserStart} from './../../store/actions/profil'
 import  FormInput from '../../components/FormInput/FormInput' 
 import CustomButton  from '../../components/CustomButton/CustomButton' 
 import { MainContainer, CollectionContainer } from './profil.styled';
@@ -23,14 +24,15 @@ const  ProfilProductsPage = ({profil, currentProfil, collection, products, histo
 
  const {title,description} = collection ? collection : {title:profil.login}
 const [credential, setCredential] = useState({profil})
-const [product, setProduct] = useState({collection:''})
-console.log({profil})
+const [product, setProduct] = useState({})
+console.log({profil:profil.uid})
 
 const notify = (message) => toast(`${{message}}`);
 
 const handleSubmitProfil = async event => {
   event.preventDefault();
     try {
+      updateProfilStart(credential)
       notify(`${credential} is connected`)
       history.push(`/profil`);
   }catch(error) {
@@ -74,11 +76,12 @@ const ProductsSelectionTag = () => {
 const handleFile = (event) => {
   event.stopPropagation()
   event.preventDefault() 
-  const myFile = event.target.files[0]
-  const {name, size} = myFile
+  const file = event.target.files[0]
+  const {name, size} = file
   setProduct({...product,...{ image: name}})
   console.log(name)
 }
+
 const handleChangeProfil = (event ) => {
   const {value, name} = event.target
   const moncred = {[name]: value}
@@ -211,7 +214,7 @@ return(
 const mapStateToProps = createStructuredSelector ({
   profil: selectCurrentProfil,
   collection:selectCurrentCollection || 'preso', 
-  products:selectCurrentroducts || []
+  products:selectCurrentProducts || []
 
 })
 

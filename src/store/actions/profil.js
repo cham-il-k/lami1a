@@ -22,6 +22,13 @@ export const CHECK_PROFIL_SESSION = 'CHECK_PROFIL_SESSION'
 export const SET_CURRENT_PROFIL = 'SET_CURRENT_PROFIL'
 export const SELECT_CURRENT_PROFIL = 'SELECT_CURRENT_PROFIL'
 
+export const UPDATE_PROFIL_START = 'UPDATE_PROFIL_START'
+export const UPDATE_PROFIL_SUCCESS = 'UPDATE_PROFIL_SUCCESS'
+export const UPDATE_PROFIL_FAIL = 'UPDATE_PROFIL_FAIL'
+export const ADD_USER_START = 'ADD_USER_START'
+export const ADD_USER_SUCCESS = 'ADD_USER_SUCCESS'
+export const ADD_USER_FAIL = 'ADD_USER_FAIL'
+
 export const GET_COLLECTIONS_TITLE = 'GET_COLLECTIONS_TITLE'
 export const GET_ALL_PROFILS = 'GET_ALL_PROFILS'
 export const DEL_CART_ON_START = 'DEL_CART_ON_START'
@@ -47,10 +54,11 @@ export const signUpStart = (profilCredential) => {
         payload: profilCredential 
     }
 }
-export const  signUpSuccess = async ({user,additionalData}) => {
-        return {
+export const  signUpSuccess = async (userCred) => {
+    console.log({userCred}) 
+    return {
             type: SIGNUP_SUCCESS,
-            payload:{user,additionalData}
+            payload:userCred
         }
 }  
 export const signUpFail = (error) => {
@@ -106,10 +114,38 @@ export const logOutFail = (error) => {
     }
 }
 
+export const updateProfilStart = (credUpdate) => ({
+    type: UPDATE_PROFIL_START,
+    payload:credUpdate
+})
+
+export const updateProfilSuccess = () => ({
+    type: UPDATE_PROFIL_SUCCESS,
+})
+
+export const updateProfilFail = (error) => ({
+    type: UPDATE_PROFIL_FAIL,
+    error:error
+})
+
+export const addUserStart = (credUser) => ({
+    type:ADD_USER_START,
+    payload:credUser
+})
+
+export const addUserSuccess = () => ({
+    type:ADD_USER_SUCCESS,
+    
+})
+
+export const addUserFail = () => ({
+    type:ADD_USER_FAIL,
+})
+
 export const getCollectionsTitle = async () => {
-        return {
-            type: GET_COLLECTIONS_TITLE,
-        }
+    return {
+        type: GET_COLLECTIONS_TITLE,
+    }
 }
 export const getAllProfils = async () => {
     const profils = await apiGetAllProfils()

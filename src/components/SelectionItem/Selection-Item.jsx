@@ -13,7 +13,6 @@ const SelectionItem = ({ title, imageUrl, size, history, routeName, linkUrl, mat
    
   const imageUrlrep = `./assets${imageUrl}`
   return <SelectionItemContainer
-            size={size}
             onClick={() => history.push(`shop/${routeName}`)
             }
              >
