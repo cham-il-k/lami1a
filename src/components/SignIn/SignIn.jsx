@@ -8,7 +8,8 @@ import FormInput from '../FormInput/FormInput';
 import CustomButton from '../CustomButton/CustomButton';
 import { googleSigninStart, emailSigninStart, setCurrentProfil} from '../../store/actions/profil';
 import { createStructuredSelector } from 'reselect'
-
+import { withRouter } from 'react-router-dom'
+import { compose } from 'redux'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -19,27 +20,25 @@ import {
 } from './signIn.styled';
 
 const SignIn = ({googleSigninStart, emailSigninStart, history}) =>  {
-const [credential, setCredential] = useState({})
+const [credential, setCredential] = useState({email:'', password:''})
    
 const notify = (message) => toast(`${message}`);
 
 const handleSubmit = async event => {
   event.preventDefault();
     try {
-      console.log({credential})
-      
       await emailSigninStart(credential)
-      notify(`${credential} is connected`)
-      history.push(`/profil`);
+      notify(`${credential.email} is connected`)
+      history.push(`/`);
   }catch(error) {
     notify(`${error}` )
 }
 }
 
-const handleChange = (event ) => {
+const handleChange = async event  => {
   const {value, name} = event.target
-  const moncred = {[name]: value}
-  setCredential({...credential, ...moncred})
+  const retCred = await setCredential({...credential, [name]:value})
+  console.log({})
 }
 return (
       <SignInContainer>
@@ -82,4 +81,9 @@ const mapDispatchToProps = (dispatch) => ({
   emailSigninStart : (email, password) => dispatch(emailSigninStart({email, password}))
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignIn)
+const SignInContain = compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  withRouter,
+)(SignIn)
+
+export default SignInContain 

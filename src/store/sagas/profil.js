@@ -3,8 +3,8 @@ import {
     GOOGLE_SIGNIN_START,
     EMAIL_SIGNIN_START,
     SIGNUP_START,
-    SigninSuccess,
-    SigninFail,
+    signInSuccess,
+    signInFail,
     signUpFail,
     signUpSuccess,
     CHECK_PROFIL_SESSION,
@@ -30,24 +30,20 @@ export function* getSnapShotData(uid) {
         let profilFull = {}
         const profilRef = yield firestore.collection('profils').doc(uid)
         console.log({profilRef })
-        yield profilRef.get().then(async doc => {
-            if (doc.exists) {
-                console.log(doc.data())
-                profilFull = doc.data()
-                return doc.data()
+        profilRef.get().then(async profilSnapshot => {
+            if (profilSnapshot.exists) {
+                console.log(profilSnapshot.data())
+                return profilSnapshot
+            }else{
+                return {
+                    error:{
+                        message:'document dont exist'
+                    }
+                }
             }
-            else 
-            {
-                console.log({doc})
-            }
-        })/* 
-        yield put(SigninSuccess({
-            id:uid,
-            ...profilFull
-        })) */
-        
+        })
     } catch (error) {
-        yield put(SigninFail(error))
+        yield put(signInFail(error))
     }
 }
 //Google
@@ -59,42 +55,38 @@ export function* googleSignIn() {
         const profilSnapshot = yield call(apiCreateUserProfilDocument,[uid,email])
         console.log(profilSnapshot.data())
         if(!isEmpty(profilSnapshot)) {
-              yield  put(setCurrentProfil(profilSnapshot.data()))
+              //yield  put(setCurrentProfil(uid,...profilSnapshot.data()))
+              yield  put(signInSuccess( {uid,...profilSnapshot.data()} ))
             } else {
-           return Promise.reject(
-               {error:{
-               message:"api create profil returns not exist"
-           } })
+           return put(signInFail({message:"can t create Profil "}))
         }
         }catch (error) {
-        yield put(signUpFail({error: {
-            error,
-            message:error.message
-        }}))
+        yield put(signInFail(error ))
     }
 }
 //SignUP
 export function* signInAfterSignUP({payload: {user} }) {
     const profilData =  yield getSnapShotData(user.uid)
-    yield put(setCurrentProfil(profilData))
+    console.log('signIn  After signUp', {user})
+    //yield put(setCurrentProfil({uid:user.uid,...profilData}))
     
-    yield put(SigninSuccess({
-        id: user.uid,
-        ...profilData
+    yield put(signInSuccess({
+        uid: user.uid,
+        ...user
     })) 
 }
 
-
-
 export function* signUp({payload :{email, password, login}}) {
     try {
-        const profilCredStr = yield call(apiRegister,[email, password,login])
-       yield console.log({profilCredStr})
-       const {uid, restData} = JSON.parse(profilCredStr)
-       const currentProfil = {uid,...restData}
-        yield put(signUpSuccess(currentProfil))
-        yield put(setCurrentProfil(currentProfil))
-        
+        const profilCred = yield call(apiRegister,[email, password,login])
+        if(!!profilCred.error) {
+            if (profilCred.error['code'] === 'auth/email-already-in-use')
+            yield put(signUpFail(profilCred.error))
+        }else {
+
+            yield put(signUpSuccess({...profilCred.data()}))
+        }
+        //yield put(setCurrentProfil({uid, profilData}))
     } catch (error) {
         yield put(signUpFail(error))
     } 
@@ -102,21 +94,21 @@ export function* signUp({payload :{email, password, login}}) {
 //Email SignIn
 export function* emailSignIn({payload}) {
     try {
-        const {email, password} = payload.email
-        const {
-            user
-        } = yield auth.signInWithEmailAndPassword(email, password);
-         
-        const profilData =  yield getSnapShotData(user.uid)
-        
-       yield put(setCurrentProfil(profilData))
-         yield put(SigninSuccess({
-            id: user.uid,
-            ...profilData
-        }))
-        
-    } catch (error) {
-        yield put(SigninFail(error))
+        console.log({payload})
+        const {email, password} = payload['email']
+        const {user} = yield auth.signInWithEmailAndPassword(email, password);
+        console.log({user})
+        const {uid} = user
+        const profilSnapshot = yield call(apiCreateUserProfilDocument,[uid,email])
+        console.log(profilSnapshot.data())
+        if(!isEmpty(profilSnapshot)) {
+              //yield  put(setCurrentProfil(uid,...profilSnapshot.data()))
+              yield  put(signInSuccess({uid,...profilSnapshot.data()}))
+            } else {
+           return put(signInFail({message:"can t create Profil "}))
+        }
+        }catch (error) {
+        yield put(signInFail(error ))
     }
 }
 // logout 
@@ -148,7 +140,7 @@ export function* isAuthenticated() {
         const profilData =  yield getSnapShotData(userAuth.uid)
       yield put(setCurrentProfil(profilData))
     } catch (error) {
-        yield put(SigninFail(error))
+        yield put(signInFail(error))
     }
 }
 
@@ -186,6 +178,7 @@ export function* profilSagas() {
         call(onCheckProfilSession),
         call(onLogoutStart),
         call(onSignUpSuccess),
-        call(onUpdateStart)
+        call(onUpdateStart),
+        
     ])
 }

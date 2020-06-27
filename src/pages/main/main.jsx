@@ -13,29 +13,33 @@ import composedProfilMessages from '../profil/profilMessages.jsx'
 
 import Contact from '../contact/contact'
 import {isEmpty} from './../../util/is-empty'
-import SignUp from './../../components/SignUp/SignUp'
-import SignIn from '../../components/SignIn/SignIn';
+import SignUpContain from './../../components/SignUp/SignUp'
+import SignInContain from '../../components/SignIn/SignIn';
 import  { selectCurrentProfil} from './../../store/selectors/profil'
 import { MainContainer } from'./main.styled';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const MainPage = ({ currentProfil}) => {
+    const notify = (message) => toast(`${message}`);
 
 return (
     <Switch>
+        
         <MainContainer>
+          <ToastContainer/>
             <Route exact path='/' component= { Selection} />
             <Route exact path='/contact' component= {Contact} />
             <Route exact path='/signup' render={() => {
                 console.log({currentProfil})  
 
-                return isEmpty(currentProfil) ? (<SignUp/>) : <Redirect to='/'/>
+                return isEmpty(currentProfil) ? (<SignUpContain/>) : <Redirect to='/'/>
             }
         }
         />    
             <Route exact path='/signin' render={ () => {
                 if(!isEmpty(currentProfil))  console.log(currentProfil.email)  
-                
-                return isEmpty(currentProfil) ?  (<SignIn />): <Redirect to='/'/>
+                return isEmpty(currentProfil) ?  (<SignInContain />): <Redirect to='/'/>
             }
         } />
             <Route exact path='/profil' component={composedProfilProducts} />

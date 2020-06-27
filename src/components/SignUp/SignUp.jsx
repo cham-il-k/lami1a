@@ -1,5 +1,6 @@
 import React, { useState} from 'react';
 import { connect } from 'react-redux'
+import {compose} from 'redux'
 import {withRouter} from 'react-router-dom'
 import FormInput from './../FormInput/FormInput';
 import CustomButton from './../CustomButton/CustomButton';
@@ -99,4 +100,10 @@ const mapDispatchToProps = ( dispatch) => ({
   signUpStart: (userCredential) => dispatch(signUpStart(userCredential))
 })
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SignUp))
+
+const SignUpContain = compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  withRouter,
+)(SignUp)
+
+export default SignUpContain

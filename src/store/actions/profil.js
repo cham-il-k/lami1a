@@ -67,22 +67,20 @@ export const signUpFail = (error) => {
         error:error
     }
 }
-export const emailSigninStart = (emailAndPassword) => ({
+export const emailSigninStart = ({...emailAndPassword}) => ({
     type: EMAIL_SIGNIN_START,
     payload:emailAndPassword
 })
 
-export const SigninSuccess = (profil) => {
-
+export const signInSuccess = (profil) => {
 console.log({profil})
-
     return     {
     type: SIGNIN_SUCCESS,
     payload:profil
 }
 }
 
-export const SigninFail = (error) => ({
+export const signInFail = (error) => ({
     type: SIGNIN_FAIL,
     payload: error
     

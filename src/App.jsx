@@ -24,7 +24,7 @@ useEffect(() => {
       <Main />
              v2 Bismi ALLAH        
       <Footer/> 
-d      </AppContainer>
+      </AppContainer>
      );
   }
 

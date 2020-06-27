@@ -15,30 +15,16 @@ export const apiRegister = async (cred) => {
             password
           ).then(async ({userRef:{user}})  => {
               const userProfil = {uid: user.uid, email, login,products:[], collections:[]}
-              const profilCred = await apiCreateUserProfilDocument(user.uid,email)
-              console.log({profilCred})
-              return profilCred 
+               return  apiCreateUserProfilDocument([user.uid,email])
+              
             }).catch(async error => {
-                console.log({error},{emplacement: 'catch car existe deja emplacement then'})
-                if(error['code'] === "auth/email-already-in-use"){
-                 
-                   const getUidFromEmail= await functions.httpsCallable('getUidFromEmail')
-                   getUidFromEmail({email}).then(async data => {
-                    const userUid = data['data'] 
-                console.log({error},{emplacement: 'then from functions '})
-                        const profilCred = await apiCreateUserProfilDocument(userUid, email)
-                        console.log(profilCred)
-                        return Promise.resolve(profilCred)
-                    }).catch(error => {
-                console.log({error},{emplacement: 'catch apres apprl functions '})
+                console.log({error},{emplacement: 'Profil Exists in db you can login '})
+                return new Promise((resolv, reject) => {
+
+                }
                     
-                    return Promise.reject(error) 
-                    }) 
-                }else {
-                console.log({error},{emplacement: 'else n existe pas mais y aprblm'})
-                } 
-                })
-        } 
+            )     
+        })} 
          catch (error) {return Promise.reject(error)
 }}
 
@@ -47,17 +33,11 @@ export const apiCreateUserProfilDocument = async (profil) => {
         try {
         const uid = profil[0]
         const email = profil[1]
-            var getOptions = {
+        const getOptions = {
            source: 'server'
         };
        const createdAt = new Date();
            const userProfil = { email, login:'',products:[], collections:[],createdAt}
-           /* const profilsCollectionRef = await firestore.collection('profils')
-           const profilsCollectionRefSnapshot = await firestore.collection('profils').get()
-           profilsCollectionRefSnapshot.docs.map(async profil => {
-               await console.log({profil})
-           })
-            */
            const profilRef = await firestore.doc(`/profils/${uid}`)
             if(profilRef.get().exists) {
                console.log({uid},{profilSnap:profilRef.get().data()})
@@ -99,7 +79,19 @@ export const apiUpdateCredential = async (updateCred) => {
         return Promise.reject({error})
     }
 }
-
+ 
+const getUidFromEmail = async (email) => {
+        const getUidFromEmail= await functions.httpsCallable('getUidFromEmail')
+          getUidFromEmail({email}).then(async data => {
+           const userUid = data['data'] 
+        const profilCred = await apiCreateUserProfilDocument([userUid, email])
+               console.log(profilCred)
+               return Promise.resolve(profilCred)
+           }).catch(error => {
+       console.log({error},{emplacement: 'catch apres apprl functions '})
+           
+    })
+} 
 const apiGetUserProfil = (uid) => {
     firestore.collection('profils').doc(uid)
     .get().then(snapshot => ({uid, ...snapshot.data()}))

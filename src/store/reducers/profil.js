@@ -25,7 +25,6 @@ import {
 const profilReducer = (state = initialState, action) => {
     switch (action.type) {
         case SET_CURRENT_PROFIL:
-        //{ products, collection, admin, status} = action.payload    
         return {
                 ...state,
                 currentProfil: action.payload,
@@ -33,12 +32,7 @@ const profilReducer = (state = initialState, action) => {
                 loading: false,
                 error:null    
             };
-        case EMAIL_SIGNIN_START:
-            return {
-                ...state,
-                currentProfil: action.payload,
-                
-            }; 
+       
         case SIGNUP_SUCCESS:
         case SIGNIN_SUCCESS:
             return {
