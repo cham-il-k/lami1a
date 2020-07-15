@@ -43,7 +43,6 @@ export const fetchSelectionsStart =  () => ({type: FETCH_SELECTIONS_START})
 
 
 export const fetchSelectionsSuccess =  (selections) => {
-    console.log(selections)    
     return {
                 type: FETCH_SELECTIONS_SUCCESS,
                 payload:selections,
@@ -56,7 +55,6 @@ export const fetchSelectionsFail =  () => {
         errors: 'fetch selection FAil'
     }
 }
-
 export const fetchCollectionsSuccess = async () => {
         try {
             const collections = await apifetchCollections()
@@ -141,10 +139,11 @@ export const addProductSuccess = (product) => {
 
     }
 }
-export const addProductStart =(product) => {
+export const addProductStart =({uid,product}) => {
+    console.log({productToAdd:product})
     return {
         type:ADD_PRODUCT_START,
-        payload:product
+        payload:{uid,product}
     }
 }
 export const addProductFail = () => {

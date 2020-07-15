@@ -1,16 +1,18 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {withRouter} from 'react-router-dom'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
 import {createStructuredSelector} from 'reselect'
 import { isEmpty} from './../../util/is-empty'
+import Select from 'react-select';
+ 
 import {selectCurrentProfil, 
       selectCurrentCollection, selectCurrentProducts} from '../../store/selectors/profil'
 import { ProfilContainer ,Message, ButtonsBarContainer, ProfilTitle} from './profil.styled'
 import {FileContainer, CollectionTitle, ProductTitle, 
   AddProductContainer,SelectContainer,ProductContainer,} from './collection.styled'
 import {addProductStart,} from './../../store/actions/selection'
-import {updateProfilStart, addUserStart} from './../../store/actions/profil'
+import {updateProfilStart, getProfilDocument } from './../../store/actions/profil'
 import  FormInput from '../../components/FormInput/FormInput' 
 import CustomButton  from '../../components/CustomButton/CustomButton' 
 import { MainContainer, CollectionContainer } from './profil.styled';
@@ -18,40 +20,65 @@ import withAuthorization from '../../components/WithAuthorization/withAuthorizat
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import WithSpinner from '../../components/With-Spinner/With-Spinner';
+import {auth} from './../../util/db/db'
 
-
-const  ProfilProductsPage = ({profil, currentProfil, collection, products, history, createProduct}) =>  {
-
- const {title,description} = collection ? collection : {title:profil.login}
-const [credential, setCredential] = useState({profil})
+const  ProfilProductsPage = ({profil,collection, history, getProfilDocument, createProduct, updateProfil}) =>  {
+  const initialSelec = [{ value: 'books', label: 'Books' },{ value: 'products', label: 'Products' }];
+  const initialCollec = [{ value: 'sagesse', label: 'Sagesse' },{ value: 'dogme', label: 'Dogme' },
+  { value: 'society', label: 'Society' }];
+  
+  const {email, collections, favourites, login, products } = profil
+  const {title, description} = collection ? collection : {title:profil.login}
+  const [credential, setCredential] = useState({email, collections, favourites, login, products })
+  const [selec, setSelec] = useState()
+  const [collec, setCollec] = useState();
 const [product, setProduct] = useState({})
-console.log({profil:profil.uid})
+  //console.log({profilUID:profil.uid})
+  
+  const notify = (message) => toast(`${message}`);
+  useEffect(() => {
+    console.log({currentUser:auth.currentUser})
+  setCredential({...profil})
+  return () => {
+    }
+}, [profil])
 
-const notify = (message) => toast(`${{message}}`);
-
-const handleSubmitProfil = async event => {
+const handleUpdateProfil = async event => {
   event.preventDefault();
     try {
-      updateProfilStart(credential)
-      notify(`${credential} is connected`)
-      history.push(`/profil`);
+      console.log({credential})
+      updateProfil(credential)
+      notify(`${credential.login} is connected`)
+    history.push(`/profil`);
   }catch(error) {
     notify(`${error}` )
-}
+  }
 }
 
 const handleSubmitProduct = async event => {
   event.preventDefault();
     try {
-      console.log({product})
-      createProduct({product})
-      notify(`${{product}} is registred`)
       
+      //console.log({prodFin})
+       createProduct({uid:profil.uid,product})
+      notify(`${product.title} is registred`)
       history.push(`/profil`);
   }catch(error) {
     notify(`${error}` )
 }
 }
+const handleChangeSelec = (selecOption) => {
+  setSelec(selecOption)
+ // console.log({selecOption},{product})
+  setProduct({...product,selection:selecOption['value']})
+  
+} 
+
+const handleChangeCollec = (collecOption) => {
+  //console.log({collecOption},{product})
+  setCollec(collecOption)
+  setProduct({...product,collection:collecOption['value']})
+} 
 const ProductsSelectionTag = () => {
  if(!isEmpty(products)){
    return (
@@ -63,10 +90,11 @@ const ProductsSelectionTag = () => {
       </select>
     </SelectContainer>)
  }else {
-   return (<FormInput
+   return (
+   <FormInput
     type='text'
     name='collection'
-    value={profil.collection}
+    value={credential.collection}
     onChange={handleChangeProduct}
     label='Collection'
     required
@@ -78,31 +106,29 @@ const handleFile = (event) => {
   event.preventDefault() 
   const file = event.target.files[0]
   const {name, size} = file
-  setProduct({...product,...{ image: name}})
-  console.log(name)
+  setProduct({...product,image: file})
+
 }
 
 const handleChangeProfil = (event ) => {
   const {value, name} = event.target
-  const moncred = {[name]: value}
-  setCredential({...credential, ...moncred})
+  setCredential({...credential, [name]: value })
 }
-
 const handleChangeProduct = (event ) => {
   const {value, name} = event.target
-  const monprod = {[name]: value}
-  setProduct({...product, ...monprod})
+  setProduct({...product, [name]: value})
 }
 return(
   <MainContainer>
- <ProfilContainer>
+ <ProfilContainer id="ProfilContainer">
    <ToastContainer />
   <ProfilTitle>Profil</ProfilTitle>
-  <form  onSubmit={handleSubmitProfil}>
+  <form  onSubmit={handleUpdateProfil}>
     <FormInput
       type='text'
       name='login'
       value={credential.login}
+      placeholder={credential.login}
       onChange={handleChangeProfil}
       label='Login'
       required
@@ -111,6 +137,7 @@ return(
       type='email'
       name='email'
       value={credential.email}
+      placeholder={credential.email}
       onChange={handleChangeProfil}
       label='Email'
       required
@@ -119,15 +146,16 @@ return(
       type='text'
       name='address'
       value={credential.address}
+      placeholder={credential.address}
       onChange={handleChangeProfil}
       label='address'
       required
     />
-    
     <FormInput
       type='text'
       name='city'
       value={credential.city}
+      placeholder={credential.city}
       onChange={handleChangeProfil}
       label='city'
       required
@@ -136,27 +164,35 @@ return(
       type='text'
       name='country'
       value={credential.country}
+      placeholder={credential.country}
       onChange={handleChangeProfil}
       label='country'
       required
     />
-    </form>
     < ButtonsBarContainer>
-      <CustomButton type='submit'>update</CustomButton>
+      <CustomButton type="submit" onClick={(e) => handleUpdateProfil(e)}>update</CustomButton>
       <Message>
         
       </Message>
-        <CustomButton link='link' to='/signin' > Create product</CustomButton>
+        
       </ButtonsBarContainer>
+    </form>
     </ProfilContainer>
-{ /**PRODUCT MANAGEMENT*/}
-  <CollectionContainer>
-    <CollectionTitle>{title}</CollectionTitle>
+{/*  /**PRODUCT MANAGEMENT*/}  
+  <CollectionContainer id="CollectionContainer">
       <AddProductContainer>
-      <ProductContainer>
+      <ProductContainer id="ProductContainer">
         <ProductTitle>Add Product</ProductTitle>
         <form  onSubmit={ handleSubmitProduct}>
-            {ProductsSelectionTag()}
+          <SelectContainer>
+        <Select
+        value={selec}
+        placeholder='select selection'
+        onChange={handleChangeSelec}
+        options={initialSelec}
+      /> 
+             </SelectContainer>
+
           <FormInput
             type='text'
             name='title'
@@ -179,17 +215,20 @@ return(
             name='price'
             value={product.price}
             onChange={handleChangeProduct}
+            min="0"
             label='Price'
+            
             required
           />
         <SelectContainer>
-          <select name='collection' defaultValue={product.collection} label='collection'>
-            <option value="dogm">dogme</option>
-            <option value="wise" >sagesse</option>
-            <option value="socio">sociologie</option>
-          </select>
+        <Select
+          value={collec}
+          placeholder='select collection'
+          onChange={handleChangeCollec}
+          options={initialCollec}
+        /> 
         </SelectContainer>
-          <SelectContainer>
+          
             <Message>
               Add image?
             </Message>
@@ -197,9 +236,9 @@ return(
 
             <input type="file" onChange={handleFile}  accept="image/*" required />
             </FileContainer>
-          </SelectContainer>
           <ButtonsBarContainer>
-            <CustomButton type="button" type='submit'>Add</CustomButton>
+          <CustomButton type="button" type='submit' > Create product</CustomButton>
+            
             <CustomButton type="button" onClick={() => {}} > Update</CustomButton>
           </ButtonsBarContainer>
         </form>
@@ -213,17 +252,16 @@ return(
 
 const mapStateToProps = createStructuredSelector ({
   profil: selectCurrentProfil,
-  collection:selectCurrentCollection || 'preso', 
+  collection:selectCurrentCollection || 'hectic', 
   products:selectCurrentProducts || []
 
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  createProduct:(product) => dispatch(addProductStart(product))
-
+  createProduct:(product) => dispatch(addProductStart(product)),
+  getProfilDocument:(uid) => dispatch(getProfilDocument(uid)),
+  updateProfil:(credential) => dispatch(updateProfilStart(credential))
 })
-
-
 const composedProfilProducts = compose(
 connect(mapStateToProps, mapDispatchToProps),
 withAuthorization,

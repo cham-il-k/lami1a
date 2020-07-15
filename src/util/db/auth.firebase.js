@@ -36,14 +36,6 @@ export const verifPassword = (password, hash) => {
   })
 }
 
-export const getCurrentProfil = () => {
-  return new Promise((resolve, reject) => {
-    const unsubscribe =  auth.onAuthStateChanged(userAuth => {
-      unsubscribe()
-      resolve(userAuth)
-    }, reject)
-})
-} 
 
 
 // on envoie le nom de la collection  [selections] // et collectin 'coran / sagesse / objets ludiques / discount'

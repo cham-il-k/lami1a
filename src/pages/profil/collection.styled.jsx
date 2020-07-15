@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { textBleu, blue2, blue3 } from '../../components/variables';
+import { green3,textBlue, blue2, blue3 } from '../../components/variables';
 
 export const CollectionPageContainer = styled.div`
   display: flex;
@@ -7,8 +7,9 @@ export const CollectionPageContainer = styled.div`
 `;
 
 export const CollectionTitle = styled.h2`
-  font-size: 38px;
+  font-size: 1.5rem;
   margin: 0 auto 30px;
+  color: ${green3};
 `;
 
 export const CollectionItemsContainer = styled.div`
@@ -59,7 +60,7 @@ export const AddProductContainer= styled.div`
 export const SelectContainer = styled.div`
   background: none;
   background-color: white;
-  color: ${textBleu};
+  color: ${textBlue};
   font-size: 18px;
   padding: 10px 10px 10px 5px;
   display: block;

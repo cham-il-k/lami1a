@@ -4,9 +4,9 @@ import { createStructuredSelector } from 'reselect';
 import { withRouter} from 'react-router-dom'
 import CollectionPreview from '../Collection-Preview/Collection-Preview';
 
-import { selectProducts, selectCollections } from './../../store/selectors/selection';
+import { selectProducts, selectCollections } from '../../store/selectors/selection';
 
-import { CollectionsOverviewContainer } from './collections-overview.styled';
+import { CollectionsOverviewContainer } from './profils-overview.styled';
 
 const CollectionsOverview = ({ collections }) => { 
   return(

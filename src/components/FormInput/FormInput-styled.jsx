@@ -1,14 +1,14 @@
 import styled, { css } from 'styled-components';
-import {blue1,blue2, blue3, blue4, textBlack, } from './../variables'
+import {green2, green1, textBlue,blue1, green4 } from './../variables'
 
 const shrinkLabelStyles = css`
   top: -14px;
   font-size: 12px;
-  color: ${blue1};
+  color: ${textBlue};
 `;
 export const GroupContainer = styled.div`
   position: relative;
-  margin: 45px 0;
+  margin: 5px 0;
   outline:none;
   input[type='password'] {
     letter-spacing: 0.3em;
@@ -18,35 +18,37 @@ export const GroupContainer = styled.div`
 export const FormInputContainer = styled.input`
   background: none;
   background-color: white;
-  color: ${textBlack};
+  color: ${textBlue};
   font-size: 18px;
-  padding: 10px 10px 10px 5px;
   display: block;
   width: 100%;
   border: none;
-  border-radius: 0;
-  border-bottom: 1px solid ${blue1};
-  margin: 25px 0;
-  &:focus {
+  line-height: 2px;
+  margin: .3rem 0;
+  padding:1rem 0;
+  border: none;
+  border-bottom: 1px solid ${green2};
+  transition: all .3s;
+    &:focus {
     outline: none;
   }
   &:focus + label {
     ${shrinkLabelStyles};
-    
+  
+  }
   }
 `;
 export const FormTextAreaContainer = styled.textarea`
   background: none;
   background-color: white;
-  color: ${textBlack};
+  color: ${textBlue};
   font-size: 18px;
-  padding: 10px 10px 10px 5px;
   display: block;
   width: 100%;
+  margin: 1rem 0;
   border: none;
-  border-radius: 0;
-  border-bottom: 1px solid ${blue1};
-  margin: 25px 0;
+  border-bottom: 1px solid ${green2};
+ transition: all .3s;
   &:focus {
     outline: none;
   }
@@ -54,10 +56,10 @@ export const FormTextAreaContainer = styled.textarea`
     ${shrinkLabelStyles}
 
   }
-`;
+  `;
 export const FormInputLabel = styled.label`
-  color: ${blue4};
-  font-size: 16px;
+  color: ${textBlue};
+  font-size: 1rem;
   font-weight: normal;
   position: absolute;
   pointer-events: none;

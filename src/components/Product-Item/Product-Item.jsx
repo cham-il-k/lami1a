@@ -13,8 +13,9 @@ import {
   PriceContainer
 } from './product-item.styled';
 
-const ProductItem = ({product , addProduct, match,location }) => {
-  const { name, price, imageUrl } = product;
+const ProductItem = ({ addProduct, selection, collection, nameSlug, desc, price, id, imageUrl, name, edition,
+             match,location }) => {
+  
   console.log(match)
   return (
     <ProductItemContainer>
@@ -22,8 +23,13 @@ const ProductItem = ({product , addProduct, match,location }) => {
        <ProductFooterContainer>
         <NameContainer>{name}</NameContainer>
         <PriceContainer>{price}</PriceContainer>
+      <div>description</div>
+      <div>nameSlug</div>
+      <div>selection</div>
+      <div>collection</div>
+
       </ProductFooterContainer>
-      <AddButton onClick={() => addProduct(product)} inverted>
+      <AddButton onClick={() => addProduct(nameSlug)} inverted>
         Add to cart
       </AddButton>
     </ProductItemContainer>

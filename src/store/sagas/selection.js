@@ -7,8 +7,7 @@ import { fetchCollectionsSuccess, fetchCollectionsFail,
     } from '../actions/selection'
 import { FETCH_COLLECTIONS_START, FETCH_PRODUCTS_START, FETCH_SELECTIONS_START,
      ADD_PRODUCT_START} from './../actions/selection'
-import {firestore} from './../../util/db/db'
-import {transformCollectionSnapshotToMap} from './../../util/db/db'
+import {firestore, storageRef, productImageRef, transformCollectionSnapshotToMap} from './../../util/db/db'
 import {isAuthenticated} from './profil'
 import {apiCreateProduct} from './../api/selections'
 import slug from 'slug'
@@ -56,11 +55,16 @@ export function* fetchCollectionsAsync( ) {
 export function* onfetchCollectionsStart() {
     yield takeLatest(FETCH_COLLECTIONS_START, fetchCollectionsAsync)
 }
-//FETCH products
+//Add products 
 export function* createProduct({payload:{uid,product}}){
 try {
-    const {title, description,price,collection,file } = product 
-    const productRegistred = yield call(apiCreateProduct,[uid,product])
+
+    console.log({payload: {uid, product}})
+    const { image } = product
+    const fileStorage = yield storageRef.child(`${productImageRef}/${uid}/${image.name}`).put(image)
+    const item  = {...product,image:fileStorage.ref.location.path}
+    console.log({fileStorage:fileStorage.ref.location.path},{product}) 
+    const productRegistred = yield call(apiCreateProduct,[uid,item])
     if(!isEmpty(productRegistred)) {
         put(addProductSuccess(productRegistred))
     }else {

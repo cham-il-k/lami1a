@@ -12,30 +12,31 @@ import {
 } from './products-styled';
 
 const ProductsPage = ({ products ,match, history }) => {
-let col, sel =''
-  let productsCollection =  products.map(prod => {
-  
-  const {selection, collection, product} = prod
-  col= collection
-  sel= selection
-  const {id} = product
-  return (<ProductItemCompose key={id} product={product} />)
+  let productCollection = []
+    let productCo  =  products.map(prod => {
+      prod.map((col) => {
+         col.map(prod => {
+          productCollection.push(prod)
+          return prod
+        })
+    })
   })
+   const productsAffichable = productCollection.map(prod => {
+     const {selection, collection, nameSlug, desc, price, id, imageUrl, name, edition} = prod
+     return (
+        <ProductItemCompose key={id} product={prod} />)
+    })
+  
 return (
-  <ProductsPageContainer>
-  <ProductsTitle>{`${col}/${sel}` }</ProductsTitle>
-  <ProductsItemsContainer>
-             
-    {productsCollection}
+  <ProductsPageContainer id="ProductsPageContainer">
+    <ProductsItemsContainer id="ProductsItemsContainer">
+       {productsAffichable}
     </ProductsItemsContainer>
-  
-  </ProductsPageContainer>
-);
-};
-  
+     </ProductsPageContainer>);
+}
 
-const mapStateToProps =  (state, ownProps) => createStructuredSelector({
-    products : selectProducts(ownProps.match.params.productSlug)
+const mapStateToProps =  createStructuredSelector({
+    products : selectProducts
  }) 
 const ProductsPageContain = compose(
   connect(mapStateToProps),

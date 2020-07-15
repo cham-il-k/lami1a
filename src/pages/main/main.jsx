@@ -6,7 +6,7 @@ import Selection from '../../components/Selection/Selection'
 import About from '../about/about'
 import CheckoutPage from '../checkout/checkout.jsx'
 import shopPage from '../shop/shop.jsx'
-import productsPage from './../productsPage/productsPage';
+import ProductRoute from './../productsPage/productsRoute';
 import composedProfilProducts from '../profil/profilProducts.jsx'
 import composedProfilMessages from '../profil/profilMessages.jsx'
 //import composedProfilProducts from '../profil/ProfilCollection'
@@ -17,15 +17,25 @@ import SignUpContain from './../../components/SignUp/SignUp'
 import SignInContain from '../../components/SignIn/SignIn';
 import  { selectCurrentProfil} from './../../store/selectors/profil'
 import { MainContainer } from'./main.styled';
+import {auth} from './../../util/db/db'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const MainPage = ({ currentProfil}) => {
     const notify = (message) => toast(`${message}`);
+    useEffect(() => {
+        const getUser  = auth.currentUser
+        if(!!getUser) {
+            console.log({getUser})
+        }
+        return () => {
+          
+            return
+        }
+    }, [])
 
 return (
     <Switch>
-        
         <MainContainer>
           <ToastContainer/>
             <Route exact path='/' component= { Selection} />
@@ -48,7 +58,7 @@ return (
             <Route extact path='/shop' component={shopPage} />
             <Route exact path='/about' component= {About} />
             <Route exact path='/checkout' component={CheckoutPage} />
-            <Route exact path='/products/:productSlug' component={productsPage} />
+            <Route exact path='/products' component={ProductRoute} />
         </MainContainer>
     </Switch>
 )

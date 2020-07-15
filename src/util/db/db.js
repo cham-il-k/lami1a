@@ -14,13 +14,13 @@ const slug = require('slug')
 firebase.initializeApp(options.firebaseConfig) 
 export const auth = firebase.auth()
 export const firestore = firebase.firestore()
-export const storageRef = firebase.storage()
+ const storage = firebase.storage()
+export const storageRef = storage.ref()
+export const productImageRef = storageRef.child('/productImages')
 export const functions =  firebase.functions()
 //auth.functions().useFunctionsEmulator('http://localhost:5001')
 export default firebase
-export const {
-    Timestamp
-  } = firebase.firestore
+export const firebaseTimestamp = firebase.firestore.FieldValue.serverTimestamp
 
 
 /**

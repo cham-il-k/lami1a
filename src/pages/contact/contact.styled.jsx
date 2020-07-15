@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import {textBleu} from '../../components/variables'
+import {textBlue} from '../../components/variables'
 export const ContactContainer = styled.div`
   display: flex;
   margin: 0 auto;
@@ -16,5 +16,5 @@ export const ButtonsBarContainer = styled.div`
 `;
 export const Message = styled.h2`
 margin: 10px;
-color:${textBleu}
+color:${textBlue}
 `;

@@ -5,6 +5,7 @@ import {
      LOGOUT_SUCCESS,LOGOUT_FAIL, 
     SET_CURRENT_PROFIL,
     ADD_TO_COLLECTION,
+    UPDATE_PROFIL_SUCCESS,
     GET_COLLECTION,
     REMOVE_FROM_COLLECTION,
     GET_ALL_PROFILS} from '../actions/profil'
@@ -35,6 +36,14 @@ const profilReducer = (state = initialState, action) => {
        
         case SIGNUP_SUCCESS:
         case SIGNIN_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                error: null,
+                authenticated:true,
+                currentProfil:action.payload
+            };
+        case  UPDATE_PROFIL_SUCCESS:    
             return {
                 ...state,
                 loading: false,

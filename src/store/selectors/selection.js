@@ -1,41 +1,14 @@
 import {
   createSelector
 } from 'reselect';
+import slug from 'slug'
 
 const selectedSelection = state => state.selection;
 
-//const mapSelection =  new Map(selectSelection)
 export const selectSelectedSelections = createSelector(
   [selectedSelection],
   selection => selection.selections
 )
-
-
-export const selectIsSelectionFetching = createSelector(
-  [selectedSelection],
-  selection => selection.isFetching
-);
-
-export const selectIsSelectionsLoaded = createSelector(
-  [selectedSelection],
-  selection => !!selection.selections
-);
-
-export const selectCollectioTitle = createSelector(
-  [selectedSelection],
-  selection => selection.collectionsTitle
-);
-
-export const selectProductsTitle = createSelector(
-  [selectedSelection],
-  selection => selection.productsTitle
-);
-
-export const selectSelectionsTitle = createSelector(
-  [selectedSelection],
-  selection => selection.selectionsTitle
-);
-
 export const selectCollectionForOverview = selectionId => createSelector(
   [selectSelectedSelections],
   selections => {
@@ -53,46 +26,55 @@ export const selectSelections = createSelector(
 export const selectProductsCollection = (selectionId) => createSelector(
   [selectSelections],
   selections => {
-    let products = []
+    let result = {}
+    let collections = []
     const selection = selections.filter(selection => {
        return selection['title'] === selectionId
-     })
-    products = Object.entries(selection[0]['collections']).map(collection => {
-      const product = {
-        collection:collection[1]['title'],
-        selection:collection[1]['selection'],
-        items:collection[1]['items']
-      }
-      return product
-    })
-    return products  
-  }
-)
-export const selectProducts = (collectionId) => createSelector(
+      })    
+      result = selection.reduce((accumulator, currentValue, index, selection) => {
+        return {...currentValue}
+    },{})
+    console.log(result)  
+     if(!!result && (typeof result ) === 'object'){
+     
+      collections =  Object.entries(result['collections']).map(([col, prod]) => {
+        const collection  = {collection:col,selection:result['title'],  items:prod['items']}
+
+      return collection
+     } )
+     return collections
+    }
+    else {
+      return collections
+    } 
+})
+
+export const selectProducts =  createSelector(
   [selectSelections],
   selections => {
     let products = []
-    
-    let selection = selections.map(selection => {
-        const colNames = Object.entries(selection['collections'])
-      return colNames.filter(col => (col[0]=== collectionId))
-     })
-     selection = selection.filter(elem => elem.length != 0)
-     const masel = selection[0][0][1]
-      products = (selection[0][0][1]['items']).map(item => {
-     const collection = masel['title']
-     const selection = masel['selection']
-     const prod = {
-        selection,
-        collection,
-        product:item
-      }
-      return prod
-    })
+    products = Object.entries(selections).map(([selection, value]) => {
+      const root = {selection: value['title'],idSelection:value['id']}
+      return Object.entries(value['collections']).map(([col, val]) => {
+      const subRoot = {collection:val['title'],idCollection:val['id']}
+      return Object.entries(val['items']).map( ([itemKey, itemValues]) => {
+        return {...root,...subRoot,nameSlug:slug(itemValues['name']), ...itemValues}  
+         } )
+      })
+     })    
     return products  
   }
 )
 
+export const selectProduct = (term) => createSelector(
+  [selectProducts],
+  products => {
+    const product = products.filter((prod) => {
+        return prod['nameSlug'] === term
+      })
+      return product
+})    
+    
 export const selectSelectionsForShopPreview = collectionId => createSelector(
   [selectSelections],
   selections => {
@@ -106,115 +88,3 @@ export const selectSelectionsForShopPreview = collectionId => createSelector(
     return productDeCollection
   }
 )
-        /* 
-        export const selectSelectionForShopCollection = selectionId => createSelector(
-  [selectedSelections],
-  selections => {
-    const _sel = new Set()
-     Object.keys(selections).forEach(selection => {
-        if(selection === selectionId) {
-          _sel.add( {
-            title: selections[selection]['title'],
-            id: selections[selection]['id'],
-            imageUrl: selections[selection]['imageUrl'],
-            linkUrl: selections[selection]['linkUrl'],
-            collections: selections[selection]['collections'],
-          })
-        }}
-        )
-        return _sel
-  }
-)
-export const selectProductsForPreview = collectionId => createSelector(
-  [selectedSelections],
-    collections => {
-    console.log(collections)
-    const cols =  collections[collectionId]
-    const colKeys = Object.keys(cols)
-    return colKeys.map(collection => {
-      return collections[collectionId][collection]
-    })
-  }
-)
-
-export const getItemsCollection = selectionId => collectionId => createSelector(
-  [selectedSelections],
-  collections =>  {
-    const selection = collections[selectionId]
-
-  })
-
-export const selectCollections = createSelector(
-  [selectedSelections, getItemsCollection],
-  (collections, selections) => {
-    const newCollections = []
-   // console.log(`Collections ${collections}`)
-    //console.log(selections)
-    return Object.values(collections)
-
-  })
-
- */
-
-
-  /* {
-    const mapSelection = new Map()
-    const sels = Object.keys(selection.selectons)
-    for (let sel of sels ){
-       mapSelection.set(sel, selection[sel])
-       /* 
-      for (let kkey of Object.keys(value)) {
-          console.log(`--> ${JSON.stringify(kkey, null, 4)}`)
-            for (let kkkey of Object.keys(kkey)) {
-              console.log(`---> ${kkkey}`)
-            }
-    
-        } 
-  }
-      console.log(`collections books ->${JSON.stringify(mapSelection.get('books'), null ,2)}`)
-      console.log(`all Collections ->${JSON.stringify(mapSelection, null ,2)}`)
-
-    return mapSelection
-  }
-) *export const selectCollections = createSelector(
-  [selectedSelection],
-  selection => {
-    console.log(`collections de selectCollection-> ${selection.collections} `)
-    return selection.collections
-  }
-) */
-/* export const selectCollections = createSelector(
-  [selectSelectedSelection],
-  selection => {
-    const sel = Object.keys(selection)
-    console.log(`Dans Mon Sel ${sel}`)
-    const  AllColl = sel.map(col => Object.keys(selection[col]))
-    return AllColl.map(coll => Object.values(selection[coll]))
-  }
-)
- */
-/* 
-export const selectCollections = createSelector(
-  [selectSelectedSelection],
-  selection => {
-    const sel = Object.keys(selection)
-    const AllColl = sel.map(col => Object.keys(selection[sel]))
-     return AllColl.map(coll => coll)
-  }
-  )
- *//* 
-export const selectProductsFromSelection = selection => {
-  return createSelector(
-    selectSelection,
-    selections => Object.values(selections[selection])
-  )
-}
-
-export const selectProducts = collectionParam => createSelector(
-  [selectCollections],
-  (collections) => {
-    collections.filter(coll =>
-      coll[0] === collectionParam
-    )
-  }
-); */

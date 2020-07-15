@@ -9,7 +9,7 @@ const shopPage =({match, fetchProductsStart}) => {
 return (
   <div className='shop-page'>
     <Route exact path={`${match.url}`} render={(props) => 
-    <CollectionsOverviewContain  {...props} />
+    <CollectionsOverviewContain   {...props} />
     }/>
     <Route exact path={`${match.path}/:selectionId`} render={(props) => 
     <CollectionPageContain  {...props} />

@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter} from 'react-router-dom'
+import { compose } from 'redux'
 import CartIcon from '../Cart-Icon/Cart-Icon';
 import CartDropdown from '../Cart-Dropdown/Cart-Dropdown';
 import { createStructuredSelector } from 'reselect'
@@ -59,5 +60,9 @@ const Header = ({ currentProfil, hidden, logOutStart }) => {
 const mapDispatchToProps = (dispatch) => ({
   logOutStart : () => dispatch(logOutStart())
 })
+const HeaderContain = compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  withRouter
+)(Header)
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Header))
+export default HeaderContain

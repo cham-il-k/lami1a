@@ -2,9 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { addItem } from '../../store/actions/cart';
 import  { withRouter} from 'react-router-dom'
-import { faStar} from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-
 import {
   CollectionItemContainer,
   CollectionFooterContainer,
@@ -15,17 +12,14 @@ import {
   PriceContainer
 } from './collection-item.styled';
 
-const CollectionItem = ({ product, match, history,urlName}) => {
-  const { id, name ,edition,stars, imageUrl, price ,desc ,tags } = product;
-  //console.log(match)
-  
-  //console.log({match, history, collection})
+const CollectionItem = ({ collection, match, history,...otherProps}) => {
+  const { id, name ,edition, imageUrl, price ,desc ,tags } = collection;
+ console.log({match, history, collection})
   return (
-    <CollectionItemContainer id="CollectionItemContainer" onClick={() => history.push(`/products/${urlName}`)}>
-      <LinkProduct to={`/products/${urlName}`}>
-      <FontAwesomeIcon icon={faStar} />
+    <CollectionItemContainer onClick={() => history.push(`${match['url']}/${name}`)}>
+      <LinkProduct to={`/products/${name}`}>
         <BackgroundImage className='image' imageUrl={`/assets${imageUrl}`} />
-        <CollectionFooterContainer id="CollectionFooterContainer">
+        <CollectionFooterContainer>
           <NameContainer>{name}</NameContainer>
           <PriceContainer>{price}</PriceContainer>
         </CollectionFooterContainer>

@@ -12,12 +12,12 @@ export function* onSignOutSuccess() {
     yield takeLatest( LOGOUT_SUCCESS, clearCartOnSignOutSuccess)
 }
 
-export function* ondelCartOnStart() {
+export function* onDelCartOnStart() {
     yield takeLatest( DEL_CART_ON_START, clearCartOnStart)
 }
 
 
 export  function* cartSagas()  {
-    yield all([
-        call(onSignOutSuccess)])
+    yield all([call(onSignOutSuccess),
+                call(onDelCartOnStart)])
 }

@@ -10,18 +10,12 @@ import {
 } from './selection-item-styled';
 
 const SelectionItem = ({ title, imageUrl, size, history, routeName, linkUrl, match }) => {
-   
+
   const imageUrlrep = `./assets${imageUrl}`
-  return <SelectionItemContainer
-            onClick={() => history.push(`shop/${routeName}`)
-            }
-             >
-            <BackgroundImageContainer
-              className='background-image'
-              imageUrl={imageUrlrep}
-            />
-            <ContentContainer className='content'>
-              <ContentTitle>{title.toUpperCase()}</ContentTitle>
+  return <SelectionItemContainer id="SelectionItemContainer" onClick={() => history.push(`shop/${routeName}`)}>
+            <BackgroundImageContainer imageUrl={imageUrlrep} className="background-image" />
+            <ContentContainer >
+              <ContentTitle className="content">{title.toUpperCase()}</ContentTitle>
               <ContentSubtitle > DISCOVER </ContentSubtitle>
             </ContentContainer>
           </SelectionItemContainer>

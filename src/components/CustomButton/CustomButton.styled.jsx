@@ -1,12 +1,12 @@
 import styled, { css } from 'styled-components';
-import { blue4, green3,btnGgl, btnV, btnB, btnInvert, textBleu, textBlack } from './../variables'
+import { blue1, green1, blue4, green3,btnGgl, btnV, btnB, btnInvert, textBlue, textBlack, blanc } from './../variables'
 import {Link} from 'react-router-dom'
 
 const buttonStyles = css`
   &:hover {
-    background-color: ${btnInvert};
-    color: ${blue4};
-    border: 1px solid black;
+    background-color: ${blue4};
+    color: ${blanc};
+    
   }
 `;
 
@@ -36,43 +36,34 @@ const getButtonStyles = props => {
   return props.inverted ? invertedButtonStyles : buttonStyles;
 };
 
-export const CustomButtonContainer = styled.button`
-  min-width: 165px;
-  background-color: ${btnV};
-   width: auto;
-  height: 50px;
-  letter-spacing: 0.5px;
-  line-height: 50px;
-  padding: 0 35px 0 35px;
-  color:${textBlack};
-  font-size: 15px;
-  text-transform: uppercase;
-  font-family: 'Open Sans Condensed';
-  font-weight: bolder;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-
-  ${getButtonStyles}
-`;
-export const CustomLinkContainer = styled(Link)`
-  min-width: 165px;
+const buttonCommon = css`
+min-width: 165px;
   width: 165px;
   height: 50px;
   text-decoration:none;
-  color:${textBlack};
-   letter-spacing: 0.5px;
+  color:${textBlue};
+  letter-spacing: 0.5px;
   line-height: 50px;
   padding: 0 5px 0 5px;
   font-size: 15px;
   text-transform: uppercase;
-  font-family: 'Open Sans Condensed';
   font-weight: bolder;
   cursor: pointer;
   display: flex;
-  background-color:${btnB};
+  border-radius:3px;
   justify-content: center;
-
+`
+export const CustomButtonContainer = styled.button`
+  ${buttonCommon}
+  background-color: ${green1};
+  
+  ${getButtonStyles}
+`;
+export const CustomLinkContainer = styled(Link)`
+  
+  ${buttonCommon}
+  background-color:${blue1};
+  
   ${getButtonStyles}
 `;
 

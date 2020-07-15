@@ -1,33 +1,34 @@
-/**
- * 23bmgPxAML4e
- */
 import React, { useState} from 'react';
 import { connect } from 'react-redux'
-import {selectCurrentProfil } from './../../store/selectors/profil'
+import {selectCurrentProfil} from './../../store/selectors/profil'
+import { compose } from 'redux'
 import FormInput from '../FormInput/FormInput';
 import CustomButton from '../CustomButton/CustomButton';
 import { googleSigninStart, emailSigninStart, setCurrentProfil} from '../../store/actions/profil';
 import { createStructuredSelector } from 'reselect'
 import { withRouter } from 'react-router-dom'
-import { compose } from 'redux'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
 
 import {
   SignInContainer,
   SignInTitle,
-  ButtonsBarContainer
+  ButtonsBarContainer,
+  ShowPasswordInput,
+  ShowPasswordContainer
 } from './signIn.styled';
 
 const SignIn = ({googleSigninStart, emailSigninStart, history}) =>  {
 const [credential, setCredential] = useState({email:'', password:''})
-   
+const [showPassword, setShowPassword] = useState(false)
+const {  email, password} = credential;  
 const notify = (message) => toast(`${message}`);
-
 const handleSubmit = async event => {
   event.preventDefault();
     try {
       await emailSigninStart(credential)
+      setCredential({email:'', password:''})
       notify(`${credential.email} is connected`)
       history.push(`/`);
   }catch(error) {
@@ -37,8 +38,8 @@ const handleSubmit = async event => {
 
 const handleChange = async event  => {
   const {value, name} = event.target
-  const retCred = await setCredential({...credential, [name]:value})
-  console.log({})
+   setCredential({...credential, [name]:value})
+  
 }
 return (
       <SignInContainer>
@@ -48,18 +49,24 @@ return (
             name='email'
             type='email'
             handleChange={handleChange }
-            value={credential['email']}
+            value={email}
             label='email'
             required
           />
           <FormInput
             name='password'
-            type='password'
-            value={credential['password']}
+            type= {showPassword ? 'text' : 'password'}
+            value={password}
             handleChange={handleChange}
             label='password'
             required
           />
+          <ShowPasswordContainer>
+            <ShowPasswordInput type="checkbox" onChange={()=> setShowPassword(!showPassword)}
+              defaultChecked={showPassword}/>
+              show Password
+          </ShowPasswordContainer>
+      
           <ButtonsBarContainer>
             <CustomButton type='submit'> Sign in </CustomButton>
             <CustomButton type='button' onClick={googleSigninStart} isGoogleSignIn>

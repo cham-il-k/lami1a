@@ -4,28 +4,28 @@ import {
 import { isEmpty } from '../../util/is-empty'
 import {setCurrentProfil} from './../actions/profil'
 
-export const apiRegister = async (cred) => {
+
+export const apiGetCurrentProfil = () => {
+    return new Promise((resolve, reject) => {
+      const unsubscribe =  auth.onAuthStateChanged(userAuth => {
+        unsubscribe()
+        
+        resolve(userAuth)
+      }, reject)
+  })
+  } 
+  
+  export const apiRegister = async (cred) => {
     try {
     console.log({cred})
     const email  = cred[0]
     const password = cred[1]
     const login = cred[2]
-     auth.createUserWithEmailAndPassword(
-            email,
-            password
-          ).then(async ({userRef:{user}})  => {
-              const userProfil = {uid: user.uid, email, login,products:[], collections:[]}
-               return  apiCreateUserProfilDocument([user.uid,email])
-              
-            }).catch(async error => {
-                console.log({error},{emplacement: 'Profil Exists in db you can login '})
-                return new Promise((resolv, reject) => {
-
-                }
-                    
-            )     
-        })} 
-         catch (error) {return Promise.reject(error)
+    const {user }  = await auth.createUserWithEmailAndPassword(email,password)
+    const userProfil = {uid: user.uid, email, login,products:[], collections:[]}
+    return apiCreateUserProfilDocument([user.uid,email])
+    }
+    catch (error) {return Promise.reject(error)
 }}
 
 export const apiCreateUserProfilDocument = async (profil) => {
@@ -33,19 +33,25 @@ export const apiCreateUserProfilDocument = async (profil) => {
         try {
         const uid = profil[0]
         const email = profil[1]
+        const login = profil[2] || ''
         const getOptions = {
            source: 'server'
         };
        const createdAt = new Date();
-           const userProfil = { email, login:'',products:[], collections:[],createdAt}
-           const profilRef = await firestore.doc(`/profils/${uid}`)
-            if(profilRef.get().exists) {
-               console.log({uid},{profilSnap:profilRef.get().data()})
-               return  profilRef.get()
-            }else {
-                await profilRef.set(userProfil)
-                 console.log({userProfil}) 
-                return  profilRef.get()               }
+       const userProfil = { email, login,products:[], collections:[],createdAt}
+       const profilRef = await firestore.doc(`/profils/${uid}`)
+       console.log({profilRef}) 
+       if(profilRef.get().exists) {
+           /* console.log({uid},{profilSnap:profilRef.get().data()})
+           return  ({uid:uid,profilCred:profilRef.get()}) */
+           console.log(({uid:uid,profilCred:profilRef.get()}))
+           return new Promise((resolve, reject) => {
+                resolve({error:{code:'auth/email-already-registred'}})
+           })
+        }else {
+            console.log({userProfil}) 
+            return profilRef.set(userProfil).get()
+        }
         } catch (error) {
            return Promise.reject(error.message)
        };
@@ -62,19 +68,17 @@ export const apiGetAllProfils = async () => {
     }
 } 
 export const apiUpdateCredential = async (updateCred) => {
-    const {uid, login,email, address,city,country} = updateCred
-    try {
-        auth.currentUser.updateProfile({
-            address,city,country,login
-        }).then(res => {
-            return Promise.resolve(`Profile updated ${email}`)
-        })
-       firestore.collection('profils').doc(uid).update({
-            address,city,country,login
-        }).then(res => {
-            return Promise.resolve(`Profile updated ${email}`)
-        })        
 
+    const uid = updateCred[0] 
+    const login = updateCred[1]
+    const email = updateCred[2]
+    const  address = updateCred[3]
+    const city = updateCred[4]
+    const country = updateCred[5]
+    try {
+      const updateUser = await auth.currentUser.updateProfile({displayName:login, email})
+        const updateDbProfil = await firestore.collection('profils').doc(uid).update({address,city,country,login})
+      //  console.log({updateUser}, {updateDbProfil})
     } catch (error) {
         return Promise.reject({error})
     }

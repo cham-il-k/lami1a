@@ -1,20 +1,20 @@
 import styled from 'styled-components';
 import CustomButton from '../CustomButton/CustomButton';
 import {Link} from 'react-router-dom'
+import {blue4} from './../variables'
 export const CollectionItemContainer = styled.div`
   width: 22vw;
   display: flex;
   flex-direction: column;
-  height: 350px;
+  height: 250px;
+  
   align-items: center;
   position: relative;
-
   &:hover {
     .image {
-      opacity: 0.8;
+      opacity: 0.9;
     }
-
-    button {
+   button {
       opacity: 0.85;
       display: flex;
     }
@@ -31,33 +31,41 @@ export const AddButton = styled(CustomButton)`
 
 export const BackgroundImage = styled.div`
   width: 100%;
-  height: 95%;
+  height: 271px;
+  border-radius:1rem;
   background-size: cover;
   background-position: center;
-  margin-bottom: 5px;
+  margin-bottom: 2rem;
   background-image: ${({ imageUrl }) => `url(${imageUrl})`};
 `;
 
 export const CollectionFooterContainer = styled.div`
   width: 100%;
-  height: 5%;
+  height: 10%;
   display: flex;
-  justify-content: space-between;
-  font-size: 18px;
+  justify-content: space-evenly;
+  align-items:center;
+  font-size: 1.2rem;
+  color:${blue4};
+  margin-bottom:2rem;
 `;
 
-export const NameContainer = styled.span`
-  width: 90%;
+export const NameContainer = styled.div`
+  display:inline-block;
   margin-bottom: 15px;
+  
 `;
 
 export const PriceContainer = styled.span`
-  width: 10%;
+  
   text-align: right;
+  margin-bottom: 15px;
+  text-decoration: none
 `;
 export const LinkProduct = styled(Link)`
   width:100%;
   height:100%;
-  opacity:0.6;
-
+  opacity:0.8;
+  text-decoration: none;
+  margin-bottom:2rem;
 `

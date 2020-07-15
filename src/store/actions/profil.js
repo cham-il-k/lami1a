@@ -19,9 +19,10 @@ export const LOGOUT_FAIL = 'LOGOUT_FAIL'
 
 export const CHECK_PROFIL_SESSION = 'CHECK_PROFIL_SESSION'
 
+export const GET_PROFIL_DOCUMENT = 'GET_PROFIL_DOCUMENT'
+
 export const SET_CURRENT_PROFIL = 'SET_CURRENT_PROFIL'
 export const SELECT_CURRENT_PROFIL = 'SELECT_CURRENT_PROFIL'
-
 export const UPDATE_PROFIL_START = 'UPDATE_PROFIL_START'
 export const UPDATE_PROFIL_SUCCESS = 'UPDATE_PROFIL_SUCCESS'
 export const UPDATE_PROFIL_FAIL = 'UPDATE_PROFIL_FAIL'
@@ -41,8 +42,15 @@ export const checkProfilSession = () => ({
     type: CHECK_PROFIL_SESSION
 })
 
+
+export const getProfilDocument = (uid) => ({
+    type: GET_PROFIL_DOCUMENT,
+    payload:uid
+})
+
+
 export const setCurrentProfil = (profil) => {
-   console.log({profil})
+  // console.log({profil})
     return { 
        type:SET_CURRENT_PROFIL,
         payload: profil
@@ -64,7 +72,7 @@ export const  signUpSuccess = async (userCred) => {
 export const signUpFail = (error) => {
     return {
         type:SIGNUP_FAIL,
-        error:error
+        error,
     }
 }
 export const emailSigninStart = ({...emailAndPassword}) => ({
@@ -73,7 +81,7 @@ export const emailSigninStart = ({...emailAndPassword}) => ({
 })
 
 export const signInSuccess = (profil) => {
-console.log({profil})
+//console.log({profil})
     return     {
     type: SIGNIN_SUCCESS,
     payload:profil
@@ -90,9 +98,6 @@ export const googleSigninStart = () => ({
     type: GOOGLE_SIGNIN_START,
     
 })
-
-
-
 export const logOutStart = () => {
     return {
         type: LOGOUT_START,
@@ -112,13 +117,18 @@ export const logOutFail = (error) => {
     }
 }
 
-export const updateProfilStart = (credUpdate) => ({
-    type: UPDATE_PROFIL_START,
-    payload:credUpdate
-})
+export const updateProfilStart = (credential) => {
+    console.log({credential})
+    return{
+      type: UPDATE_PROFIL_START,
+        payload:credential
+    }
+}
 
-export const updateProfilSuccess = () => ({
+
+export const updateProfilSuccess = (profil) => ({
     type: UPDATE_PROFIL_SUCCESS,
+    payload:profil
 })
 
 export const updateProfilFail = (error) => ({

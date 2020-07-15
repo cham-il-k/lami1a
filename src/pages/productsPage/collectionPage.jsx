@@ -15,23 +15,21 @@ import {
 import slug from 'slug'
 const CollectionPage = ({ products ,match, history }) => {
 let collection = []  
-console.log(products)
 const items = (collection) => {
   return collection['items'].map(item => {
-    console.log(item)
-        return <CollectionItem key={item['id']} urlName={slug(item["name"])} product={item} />
+        return <CollectionItem key={item['id']} urlName={slug(item["name"])} collection={item} />
   })
 }
-products.forEach(col => {
+products.forEach((col, index) => {
  collection.push(<>
-        <CollectionTitle>{` ${col['selection']} / ${col['collection']}` }</CollectionTitle>
-                <CollectionItemsContainer id="CollectionItemsContainer">
+        <CollectionTitle key={index}>{` ${col['selection']} / ${col['collection']}` }</CollectionTitle>
+                <CollectionItemsContainer>
                   {items(col)}
                 </CollectionItemsContainer>
           </>)
   })
 return (
-  <CollectionPageContainer id="CollectionPageContainer">
+  <CollectionPageContainer>
     {collection}
   </CollectionPageContainer>
 );

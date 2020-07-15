@@ -1,14 +1,15 @@
 import styled from 'styled-components';
-import {textBlanc, blue4} from './../variables'
+import {textBlanc, blue4, blanc} from './../variables'
 export const CollectionPreviewContainer = styled.div`
   display: flex;
   flex-direction: column;
-  margin-bottom: 1rem;
+  
+  margin-top: 1rem;
 `;
 
 export const TitleContainer = styled.h1`
   font-size: 2rem;
-  margin-bottom: 16px;
+  
   color:${blue4};
   cursor: pointer;
   &:hover {
@@ -19,21 +20,32 @@ export const TitleContainer = styled.h1`
 export const PreviewCollections = styled.div`
   display: flex;
   flex-direction:row;
-  font-size: 18px;
+  font-size: 1.2rem;
   justify-content: space-between;
   align-items:center;
-  padding:0;
+  padding:1rem;
   cursor: pointer;
-  margin:3rem 2rem 1rem;
+  margin:0 2rem 1rem;
 `;
 
 export const PreviewCollection = styled.div`
   display: flex;
   flex-direction:column;
   justify-content: center;
-  margin:-3rem 1rem 1rem;
+  align-items:center;
+  margin:O 1rem;
   background-image:${({ imageUrl }) => `url(${imageUrl})`};
-  width:100%;
-  height:300px;
-  color:${textBlanc}
+  width: 100%;
+  height: 18rem;
+  border-radius:1rem;
+  margin: 0 1rem;
+  background-size: cover;
+  color:${blue4};
+  font-weight:bold;
+  & > h2 {
+    padding:2rem 2rem;
+    background-color:${blanc};
+    opacity:.8;
+    border-radius:2rem;
+  }
 `;

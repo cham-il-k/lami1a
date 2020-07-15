@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { withRouter} from 'react-router-dom'
@@ -9,25 +9,25 @@ import WithSpinner from './../With-Spinner/With-Spinner'
 import { CollectionsOverviewContainer } from './collections.overview.styled';
 
 const CollectionsOverview = ({ selections }) => {
- console.log(`collection Overview`) 
+  useEffect(() => {
+
+  })
   return(
       <CollectionsOverviewContainer>
-        { selections.map( (collection,index) => {
+        { selections.map((collection,index) => {
           const  {id, ...otherCollectionProps} = collection;
-           return <CollectionPreview  key={index} id={id} isLoading={true}  {...otherCollectionProps}  />
+           return <CollectionPreview  key={index} id={id} isLoading  {...otherCollectionProps}  />
           }
         )} 
       </CollectionsOverviewContainer>
   );
 }
 const mapStateToProps = createStructuredSelector({
-  selections: selectSelections
-})
-
+  selections: selectSelections,
+ })
 const CollectionsOverviewContain = compose(
   connect(mapStateToProps),
   withRouter,
-  WithSpinner
 )(CollectionsOverview)
 
-export default (CollectionsOverviewContain);
+export default CollectionsOverviewContain;

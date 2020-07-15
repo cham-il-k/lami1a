@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 export const CollectionPageContainer = styled.div`
+  margin-top:2rem;
   display: flex;
   flex-direction: column;
 `;
@@ -14,8 +15,6 @@ export const CollectionItemsContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-gap: 10px;
-
-  & > div {
-    margin-bottom: 30px;
-  }
+  margin-bottom:6rem;
+ 
 `;
