@@ -3,7 +3,7 @@ import {withRouter} from 'react-router-dom'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
 import {createStructuredSelector} from 'reselect'
-import { isEmpty} from './../../util/is-empty'
+import { isEmpty} from '../../util/validators'
 import Select from 'react-select';
  
 import {selectCurrentProfil, 
@@ -11,7 +11,7 @@ import {selectCurrentProfil,
 import { ProfilContainer ,Message, ButtonsBarContainer, ProfilTitle} from './profil.styled'
 import {FileContainer, CollectionTitle, ProductTitle, 
   AddProductContainer,SelectContainer,ProductContainer,} from './collection.styled'
-import {addProductStart,} from './../../store/actions/selection'
+import {addProductStart,updateProductStart} from './../../store/actions/selection'
 import {updateProfilStart, getProfilDocument } from './../../store/actions/profil'
 import  FormInput from '../../components/FormInput/FormInput' 
 import CustomButton  from '../../components/CustomButton/CustomButton' 
@@ -22,7 +22,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import WithSpinner from '../../components/With-Spinner/With-Spinner';
 import {auth} from './../../util/db/db'
 
-const  ProfilProductsPage = ({profil,collection, history, getProfilDocument, createProduct, updateProfil}) =>  {
+const  ProductEdit = ({profil,collection, history, getProfilDocument, createProduct, updateProfil}) =>  {
   const initialSelec = [{ value: 'books', label: 'Books' },{ value: 'products', label: 'Products' }];
   const initialCollec = [{ value: 'sagesse', label: 'Sagesse' },{ value: 'dogme', label: 'Dogme' },
   { value: 'society', label: 'Society' }];
@@ -37,24 +37,11 @@ const [product, setProduct] = useState({})
   
   const notify = (message) => toast(`${message}`);
   useEffect(() => {
-    console.log({currentUser:auth.currentUser})
+//    console.log({currentUser:auth.currentUser})
   setCredential({...profil})
   return () => {
     }
 }, [profil])
-
-const handleUpdateProfil = async event => {
-  event.preventDefault();
-    try {
-      console.log({credential})
-      updateProfil(credential)
-      notify(`${credential.login} is connected`)
-    history.push(`/profil`);
-  }catch(error) {
-    notify(`${error}` )
-  }
-}
-
 const handleSubmitProduct = async event => {
   event.preventDefault();
     try {
@@ -110,76 +97,11 @@ const handleFile = (event) => {
 
 }
 
-const handleChangeProfil = (event ) => {
-  const {value, name} = event.target
-  setCredential({...credential, [name]: value })
-}
 const handleChangeProduct = (event ) => {
   const {value, name} = event.target
   setProduct({...product, [name]: value})
 }
 return(
-  <MainContainer>
- <ProfilContainer id="ProfilContainer">
-   <ToastContainer />
-  <ProfilTitle>Profil</ProfilTitle>
-  <form  onSubmit={handleUpdateProfil}>
-    <FormInput
-      type='text'
-      name='login'
-      value={credential.login}
-      placeholder={credential.login}
-      onChange={handleChangeProfil}
-      label='Login'
-      required
-    />
-    <FormInput
-      type='email'
-      name='email'
-      value={credential.email}
-      placeholder={credential.email}
-      onChange={handleChangeProfil}
-      label='Email'
-      required
-    />
-    <FormInput
-      type='text'
-      name='address'
-      value={credential.address}
-      placeholder={credential.address}
-      onChange={handleChangeProfil}
-      label='address'
-      required
-    />
-    <FormInput
-      type='text'
-      name='city'
-      value={credential.city}
-      placeholder={credential.city}
-      onChange={handleChangeProfil}
-      label='city'
-      required
-    />
-    <FormInput
-      type='text'
-      name='country'
-      value={credential.country}
-      placeholder={credential.country}
-      onChange={handleChangeProfil}
-      label='country'
-      required
-    />
-    < ButtonsBarContainer>
-      <CustomButton type="submit" onClick={(e) => handleUpdateProfil(e)}>update</CustomButton>
-      <Message>
-        
-      </Message>
-        
-      </ButtonsBarContainer>
-    </form>
-    </ProfilContainer>
-{/*  /**PRODUCT MANAGEMENT*/}  
-  <CollectionContainer id="CollectionContainer">
       <AddProductContainer>
       <ProductContainer id="ProductContainer">
         <ProductTitle>Add Product</ProductTitle>
@@ -244,10 +166,7 @@ return(
         </form>
       </ProductContainer>
     </AddProductContainer>
-    </CollectionContainer>
-  </MainContainer>
-  
-  )
+ )
 }
 
 const mapStateToProps = createStructuredSelector ({
@@ -259,13 +178,14 @@ const mapStateToProps = createStructuredSelector ({
 
 const mapDispatchToProps = (dispatch) => ({
   createProduct:(product) => dispatch(addProductStart(product)),
+  updateProduct:(product) => dispatch(updateProductStart(product)),
   getProfilDocument:(uid) => dispatch(getProfilDocument(uid)),
   updateProfil:(credential) => dispatch(updateProfilStart(credential))
 })
-const composedProfilProducts = compose(
+const composedProductEdit = compose(
 connect(mapStateToProps, mapDispatchToProps),
 withAuthorization,
 WithSpinner
-)(ProfilProductsPage)
+)(ProductEdit)
 
-export default composedProfilProducts;
+export default composedProductEdit;

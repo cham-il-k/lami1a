@@ -1,7 +1,7 @@
 
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import {green1, green2, green3, green51, green4, btnInvert} from './../variables'
+import {green1, green2, blanc, green51, green4, btnInvert} from './../variables'
 
 export const HeaderContainer = styled.div`
   height: 70px;
@@ -31,15 +31,17 @@ export const OptionLink = styled(Link)`
   font-weight: lighter;
   font-size: 1.5rem;
   color:${green4};
+  border:1px solid ${green2};
   text-decoration:none;
+  margin-left: 1rem;
   transform: scale(1.1);
 	transition: transform 6s cubic-bezier(0.25, 0.45, 0.45, 0.95);
   &:hover {
 	  cursor: pointer;
+    box-shadow:0px 0px 2px ${green1};
     opacity: 0.9;
-	  }
-
-`;
+    background-color:${blanc};
+	  }`;
 export const OptionLinkHide = styled(Link)`
 padding: 10px 15px;
 cursor: pointer;

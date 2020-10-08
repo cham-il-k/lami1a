@@ -1,18 +1,22 @@
 import styled from 'styled-components';
-import { textBlack } from './../variables'
-export const SignInContainer = styled.div`
+import { textBlack, green2, textBlue } from './../variables'
+export const SignInContainer = styled.fieldset`
   display: flex;
+  margin: 2rem auto;
+  border:3px solid ${green2};
+  border-radius: 3%;
+  padding:2rem;
   flex-direction: column;
-  margin:0 auto;
   width: 400px;
-  @media (max-width: 800px) {
-    background-color:black;
-  }
-  `;
+  justify-content: flex-start;
+  align-items:flex-start;
+`;
 
 export const SignInTitle = styled.h2`
   margin: 10px 0;
   font-size:2rem;
+  text-align: center;
+  color:${textBlue};
 `;
 
 export const ButtonsBarContainer = styled.div`

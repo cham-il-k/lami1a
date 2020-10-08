@@ -42,12 +42,10 @@ export const checkProfilSession = () => ({
     type: CHECK_PROFIL_SESSION
 })
 
-
 export const getProfilDocument = (uid) => ({
     type: GET_PROFIL_DOCUMENT,
     payload:uid
 })
-
 
 export const setCurrentProfil = (profil) => {
   // console.log({profil})
@@ -56,23 +54,25 @@ export const setCurrentProfil = (profil) => {
         payload: profil
     }
 } 
-export const signUpStart = (profilCredential) => {
+export const signUpStart = ({...cred}) => {
+    
     return {
         type:SIGNUP_START,
-        payload: profilCredential 
+        payload: cred 
     }
 }
 export const  signUpSuccess = async (userCred) => {
     console.log({userCred}) 
     return {
             type: SIGNUP_SUCCESS,
-            payload:userCred
+            payload:{...userCred}
         }
 }  
 export const signUpFail = (error) => {
+    console.warn({error})
     return {
         type:SIGNUP_FAIL,
-        error,
+        error:{...error},
     }
 }
 export const emailSigninStart = ({...emailAndPassword}) => ({

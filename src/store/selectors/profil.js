@@ -6,6 +6,11 @@ export const selectCurrentProfil = createSelector(
   [selectProfil],
   profil => profil.currentProfil
 );
+export const selectErrorProfil = createSelector(
+  [selectProfil],
+  profil => profil.error
+);
+
 
 export const selectProfilCollection = profilId => createSelector(
   [selectProfil],

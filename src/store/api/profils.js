@@ -1,7 +1,7 @@
 import {
     firestore, auth, functions
 } from '../../util/db/db'
-import { isEmpty } from '../../util/is-empty'
+import { isEmpty } from '../../util/validators'
 import {setCurrentProfil} from './../actions/profil'
 
 

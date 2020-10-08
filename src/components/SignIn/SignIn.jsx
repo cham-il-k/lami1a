@@ -43,12 +43,12 @@ const handleChange = async event  => {
 }
 return (
       <SignInContainer>
-       <SignInTitle>Sign in </SignInTitle>
+   
         <form onSubmit={handleSubmit}>
           <FormInput
             name='email'
             type='email'
-            handleChange={handleChange }
+            onChange={handleChange }
             value={email}
             label='email'
             required
@@ -57,7 +57,7 @@ return (
             name='password'
             type= {showPassword ? 'text' : 'password'}
             value={password}
-            handleChange={handleChange}
+            onChange={handleChange}
             label='password'
             required
           />
@@ -73,7 +73,6 @@ return (
               Google SignIn 
             </CustomButton>
           </ButtonsBarContainer>
-          <ToastContainer />
         </form>
 
       </SignInContainer>

@@ -24,6 +24,12 @@ export const ProfilContainer = styled.div`
 `; 
 export const ProfilTitle = styled.h2`
   margin: 10px 0;
+  font-size:2rem;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color:${textBlue};
 `;
 export const ButtonsBarContainer = styled.div`
   display: flex;

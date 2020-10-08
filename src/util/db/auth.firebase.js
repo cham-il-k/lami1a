@@ -1,5 +1,5 @@
 import options from './../../config'
-import {isEmpty } from '../is-empty'
+import {isEmpty } from '../validators'
 import firebase, { auth, firestore} from './../db/db'
 import bcrypt from 'bcryptjs'
 

@@ -23,11 +23,9 @@ const initialState = {
         selections:{},
         collections:{},
         collectionsTitle:'',
-        productsTitle:'',
-        isFetching:false,
-        products:{},
+        items:{},
         error: '',
-        isLoading: false
+        loading: false
     };
     
 const selectionReducer = ( state = initialState , action) => {
@@ -37,27 +35,28 @@ const selectionReducer = ( state = initialState , action) => {
             return {
                 ...state,
                 selections: action.payload,
-                isLoading:true
+                loading:true
             };
             
         case FETCH_COLLECTIONS_SUCCESS:
             return {
                 ...state,
                 collections: action.payload,
-                isLoading:true
+                loading:true
 
             };
             
         case FETCH_PRODUCTS_SUCCESS:
-            return {
+        console.log({items:  action.payload})   
+        return {
                 ...state,
-                items: action.payload,
-                isLoading:true
+                items:  action.payload,
+                loading:false
             };
         
 
         case ADD_COLLECTION_SUCCESS:
-            const collection =  action.patyload
+            
             return {
                 ...state,
                  collections: {...state.collections, action}
@@ -67,7 +66,7 @@ const selectionReducer = ( state = initialState , action) => {
             const product = action.payload
         return {
                 ...state,
-                products: {...state.products, product }
+                items: {...state.items, product }
             };
         
         case ADD_PRODUCT_FAIL:

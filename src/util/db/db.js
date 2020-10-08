@@ -78,8 +78,6 @@ export const createContatctDocument = (country, email, message) => {
     })
   }  
   const collectionRef = firestore.collection('contact')
-
-
 }
 
 /**

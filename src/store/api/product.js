@@ -1,5 +1,5 @@
 import firebase, {
-    firestore, auth
+    firestore, auth, firebaseTimestamp
 } from '../../util/db/db'
 import slug from 'slug'
 /**
@@ -20,19 +20,29 @@ export const apiProductsCollection = async ({collectionKey, products}) => {
         throw error
     }    
 }
-export const apiShopProducts = async () => {
+// create object Collection by id
+export const snapShotLooper = snapshot => {
+    let data = {}
+    snapshot.forEach(doc => {
+        const id = doc.id
+        data[id] = doc.data()
+    })
+    return data
+}
+
+ export const apiFetchAllProducts =  () => {
     try {
-        const productsRef = await firestore.collection('products')
-        const productsSnapshot = productsRef.get()
-        productsSnapshot.docs.map((colDoc) => {
-                const items = colDoc.data()
-                return items.reduce((acc, item) => {
-                    acc[item.id] = item
-                    return acc
-                }, {})
-            })
+        const products = {}
+          firestore.collection('products').get().then(async snapshot => {
+                snapshot.forEach( async (product, index) => {
+                   const id = product.id
+                    products[id]=  product.data()
+                })
+        console.log({products})
+        return new Promise((resolve, reject) => resolve(products))
+         })
          } catch (error) {
-        throw error
+        return Promise.reject(error)
     }
 }
 
@@ -42,34 +52,48 @@ export const apifetchProductById = async (productId) => {
          ...snapshot.data()
      }))
 }
-export const apifetchProducts = async (productId) => {
-    firestore.collection('products').get().then(async snapshot => {
-        const products = await snapshot.docs.map(product => ({
-            id: product.id,
-            ...product.data()
-        }))
-        return products
-    })
-}
 
 // create Product
-export const apiCreateProduct =(async (reference) => {
-    const uid = reference[0]
-    const product = reference[1]
-    const { title, description,price,collection, selection } = product
+export const apiCreateProduct =(async (item) => {
+    const [uid, product] = item
+    console.log({item}) 
+    let { title, description,price,collection,selection,image } = product
     try {
-        console.log({product})
-        firestore.collection('products').doc(title).set({ description, price, collection,selection})
-        .then(async product => {
-            return Promise.resolve(product)
-        } )
+        //console.log({product})
+        //const {fileName, fileId} = file
+        title = slug(title)
+        price = parseInt(price) 
+        const createdAt = firebaseTimestamp
+        const newProduct = {uid,description, price, collection,image,selection, createdAt}
+        addProductToSelection(newProduct)
+        return firestore.collection('products').doc(title).set(newProduct)
+                
     } catch (error) {
      Promise.reject(error)
  }
 })
 
 
-  //MANAGEMENT image storage
+const addProductToSelection = async product => {
+    try {
+        console.log({product})
+
+        const selection = product['selection'] || 'products'
+        const collection = !!product['collection'] ? product['collection'] : 'market'
+        const selectionSnaps = await firestore.collection(`/selections/${selection}/${collection}`).get()
+        console.log({selectionSnaps})
+        if(!selectionSnaps.exists) {
+            selectionSnaps.doc(product['id']).set(product)
+            console.log({docs:selectionSnaps.docs})
+            console.log({data:selectionSnaps.data()})
+        
+        }
+         
+    }catch(error) {
+        Promise.reject(error)
+    }
+} 
+ //MANAGEMENT image storage
 export const apiStoreImageGalleryDb = async (uid, url, file) => {
  try {
     firestore.collection('selectionImages').add({

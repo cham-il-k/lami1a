@@ -57,7 +57,7 @@ const profilReducer = (state = initialState, action) => {
             return {
                 ...state,
                 loading: false,
-                error: action.payload,
+                error: action.error,
                 authenticated:false
             };
         case GET_COLLECTION:

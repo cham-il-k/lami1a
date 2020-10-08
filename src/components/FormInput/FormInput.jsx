@@ -1,5 +1,5 @@
 import React from 'react';
-
+import {useForm} from 'react-hook-form'
 import {
   GroupContainer,
   FormInputContainer,
@@ -7,20 +7,24 @@ import {
   FormInputLabel
 } from './FormInput-styled';
 
-const FormInput = ({ handleChange, label, textarea, value, ...props }) => (
+const FormInput =({label, textarea, name, ...props }) => {
+  //const {getValues} = useForm()
+ 
+  debugger
+  return (
   <GroupContainer>
     {
     textarea ? (
-      <FormTextAreaContainer onChange={handleChange} {...props} /> 
+      <FormTextAreaContainer  name={name} {...props} /> 
     ):
-    (<FormInputContainer onChange={handleChange} {...props} />)
+    (<FormInputContainer  name={name} {...props} />)
     }
     {label ? (
-      <FormInputLabel className={(value && value.length) ? 'shrink' : ''}>
+      <FormInputLabel  {...props} className={props.value && props.value.length ? 'shrink' : ''}>
         {label}
       </FormInputLabel>
     ) : null}
   </GroupContainer>
-);
+)};
 
 export default FormInput;

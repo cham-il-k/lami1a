@@ -1,8 +1,11 @@
 import styled from 'styled-components';
-import {textBlue, textBlack} from '../variables'
-export const SignUpContainer = styled.div`
+import {textBlue, textBlack, green2} from '../variables'
+export const SignUpContainer = styled.fieldset`
   display: flex;
-  margin: 0 auto;
+  margin: 2rem auto;
+  border:3px solid ${green2};
+  border-radius: 3%;
+  padding:2rem;
   flex-direction: column;
   width: 400px;
   justify-content: flex-start;
@@ -13,6 +16,9 @@ export const SignUpTitle = styled.h2`
   margin: 10px 0;
   font-size:2rem;
   text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   color:${textBlue};
 `;
 export const ButtonsBarContainer = styled.div`
@@ -37,5 +43,7 @@ padding-left: 2rem;
 padding-bottom: 2rem;
 color: ${textBlack};
 text-align:left;
-
+`
+export const SpanError = styled.div`
+  color: red;
 `

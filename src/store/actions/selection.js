@@ -23,6 +23,11 @@ export const REMOVE_PRODUCT_START = 'REMOVE_PRODUCT_START'
 export const REMOVE_PRODUCT_SUCCESS = 'REMOVE_PRODUCT_SUCCESS'
 export const REMOVE_PRODUCT_FAIL = 'REMOVE_PRODUCT_FAIL'
 
+
+export const UPDATE_PRODUCT_START = 'UPDATE_PRODUCT_START'
+export const UPDATE_PRODUCT_SUCCESS = 'UPDATE_PRODUCT_SUCCESS'
+export const UPDATE_PRODUCT_FAIL = 'UPDATE_PRODUCT_FAIL'
+
 export const REMOVE_SELECTION_START = 'REMOVE_SELECTION_START'
 export const REMOVE_SELECTION_SUCCESS = 'REMOVE_SELECTION_SUCCESS'
 export const REMOVE_SELECTION_FAIL = 'REMOVE_SELECTION_FAIL'
@@ -73,25 +78,20 @@ export const fetchCollectionsSuccess = async () => {
 
     }
 
-export const fetchCollectionsFail = async () => {
+export const fetchCollectionsFail =  () => {
         return {
             type: FETCH_COLLECTIONS_FAIL,
             errors: 'Fetch FAil'
         }
     }
-export const fetchProductsSuccess = async (products) => {
-    try {
-        return {
+export const fetchProductsSuccess = (products) => {
+       
+    return {
             type: FETCH_PRODUCTS_SUCCESS,
             payload: products,
             errors: null
-        }
-    } catch (err) {
-        return {
-            type: FETCH_PRODUCTS_FAIL,
-            errors: err
-        }
-    }
+        
+}
 }
 export const fetchProductsStart = () => {
         return {
@@ -104,6 +104,27 @@ export const fetchProductsFail = () => {
         errors: 'fetc products fail'
     }
 }
+export const updateProductSuccess = async (products) => {
+    console.log({products})   
+    return {
+            type: UPDATE_PRODUCT_SUCCESS,
+            payload: {products},
+            errors: null
+        
+}
+}
+export const updateProductStart = () => {
+        return {
+            type:UPDATE_PRODUCT_START
+        }
+}
+export const updateProductFail = () => {
+    return {
+        type: UPDATE_PRODUCT_FAIL,
+        errors: 'fetc products fail'
+    }
+}
+
 export const addSelectionSuccess = (selection) => {
     return {
         type: ADD_SELECTION_SUCCESS,

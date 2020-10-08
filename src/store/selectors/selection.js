@@ -49,23 +49,54 @@ export const selectProductsCollection = (selectionId) => createSelector(
     } 
 })
 
+export const selectBooks =  createSelector(
+  [selectSelections],
+  selections => {
+    if(!selections || selections.length < 1) return []
+    else{
+
+      const [books, _] = selections
+      const bookValues  = Object.values(books) 
+        const collectionBooks = bookValues[4]
+        //console.log({collectionBooks}) 
+        const  BookKeys = Object.keys(collectionBooks)
+             const collections = BookKeys.map((key, val) => {
+                return {key,items:collectionBooks[key]}
+              })  
+            let booksArray = []
+           const prod =  collections.map((elm, i) => {
+             return elm['items']['items']      }
+        )
+        prod.forEach(elm => {
+          booksArray= [...booksArray,...elm]
+        }) 
+        return booksArray
+    }
+})
+   
 export const selectProducts =  createSelector(
   [selectSelections],
   selections => {
-    let products = []
-    products = Object.entries(selections).map(([selection, value]) => {
-      const root = {selection: value['title'],idSelection:value['id']}
-      return Object.entries(value['collections']).map(([col, val]) => {
-      const subRoot = {collection:val['title'],idCollection:val['id']}
-      return Object.entries(val['items']).map( ([itemKey, itemValues]) => {
-        return {...root,...subRoot,nameSlug:slug(itemValues['name']), ...itemValues}  
-         } )
-      })
-     })    
-    return products  
-  }
-)
-
+    if(!selections || selections.length < 1) return []
+    else {
+      const [, products] = selections
+      //console.log({products})
+      const productValues  = Object.values(products) 
+        const collectionproducts = productValues[4]
+            const  BookKeys = Object.keys(collectionproducts)
+             const collections = BookKeys.map((key, val) => {
+                return {key,items:collectionproducts[key]}
+              })  
+            let productsArray = []
+           const prod =  collections.map((elm, i) => {
+             return elm['items']['items']      }
+        )
+        prod.forEach(elm => {
+          productsArray= [...productsArray,...elm]
+        }) 
+        return productsArray
+    }
+})  
 export const selectProduct = (term) => createSelector(
   [selectProducts],
   products => {

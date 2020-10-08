@@ -1,5 +1,5 @@
 import {  all , put , call, takeLatest } from 'redux-saga/effects'
-import {isEmpty} from './../../util/is-empty'
+import {isEmpty} from './../../util/validators'
 import { fetchCollectionsSuccess, fetchCollectionsFail,
      fetchSelectionsSuccess, fetchSelectionsFail,
          fetchProductsFail, fetchProductsSuccess,
@@ -9,7 +9,9 @@ import { FETCH_COLLECTIONS_START, FETCH_PRODUCTS_START, FETCH_SELECTIONS_START,
      ADD_PRODUCT_START} from './../actions/selection'
 import {firestore, storageRef, productImageRef, transformCollectionSnapshotToMap} from './../../util/db/db'
 import {isAuthenticated} from './profil'
-import {apiCreateProduct} from './../api/selections'
+//import {apiCreateProduct} from './../api/selections'
+import {apiFetchAllProducts, apiCreateProduct} from './../api/product'
+
 import slug from 'slug'
 import { clearCart } from '../actions/cart'
 import { GET_COLLECTIONS_TITLE } from '../actions/profil'
@@ -66,6 +68,7 @@ try {
     console.log({fileStorage:fileStorage.ref.location.path},{product}) 
     const productRegistred = yield call(apiCreateProduct,[uid,item])
     if(!isEmpty(productRegistred)) {
+        const productRegistredSelection = yield call(apiCreateProduct,[uid,item])
         put(addProductSuccess(productRegistred))
     }else {
         put(addProductFail({error:'product cant be added'}))
@@ -76,17 +79,21 @@ try {
 }
 
 export function* fetchProductsAsync() {
+    let  products ={}
     try {
-        const products = []
-        const collectionsSnapshot =  firestore.collection('products').get()
-        collectionsSnapshot.docs.map(colSnapshot => {
-            console.log(colSnapshot.data())
-            return products.push(colSnapshot)
-        })
+          firestore
+         .collection('products').get().then(snapshot => {
+             snapshot.forEach( async (product, index) => {
+                const id = product.id
+                 products[id]=  product.data()
+            })
+       }) 
+        //products = yield call(apiFetchAllProducts)
+        console.log({products})
         yield put(fetchProductsSuccess(products))    
     }
     catch (error) {
-      yield put(fetchProductsFail(error.message))  
+      yield put(fetchProductsFail(error))  
      }
 }
 

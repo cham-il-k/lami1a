@@ -1,16 +1,12 @@
 import React from 'react'
-import {TeteLogo, LogoContainer, CorLogo,YadLogo, NameSite,Point} from './logo.styled'
+import {TeteLogo,Contain, Hexagone, CorLogo,YadLogo, NameSite,Point} from './logo.styled'
 
 // google, inverted, handleClick
 export default function LogoBox({ children, ...props}) {
     return (
-        <LogoContainer {...props}>
-            <NameSite to="/"> lami1a</NameSite>
-                 
-            <TeteLogo />
-            <CorLogo />
-            <YadLogo/> 
-            <Point/>
-        </LogoContainer>
+        <Contain>
+                <NameSite to="/"> lami1a</NameSite>
+        
+        </Contain>
     )
 }

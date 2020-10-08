@@ -8,7 +8,7 @@ import { createStructuredSelector } from 'reselect'
 import LogoBox from './../Logo/Logo'
 import { selectCurrentProfil } from '../../store/selectors/profil';
 import { selectCartHidden } from '../../store/selectors/cart';
-import {isEmpty} from './../../util/is-empty'
+import {isEmpty} from '../../util/validators'
 import { logOutStart } from './../../store/actions/profil'
 import {
   HeaderContainer,

@@ -1,10 +1,28 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin')
 const config = require('./lami1a-b8cc1c7ae5ec.json')
+const stripe = require('stripe')(process.env.SECRET_KEY)
 //const getUidFromEmail = require('./profilMangmt')
 admin.initializeApp(config)
 const cors = require('cors')({origin: true});
+
+if (process.env.NODE_ENV !== 'production') require('dotenv').config()
 exports.stripe = functions.https.onCall((req, res) => {
+    const body = {
+        source:req.body.token.id,
+        amount:req.body.amount,
+        currency:'eur'
+    }
+    
+        stripe.charges.create(body, (stripeErr, stripeRes ) => {
+            if(stripeErr) {
+                res.status(500).send({error,  stripeErr})    
+            }else {
+                res.status(200).send({success: stripeRes})
+            }
+
+        })
+
 })
 
 

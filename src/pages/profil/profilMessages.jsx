@@ -3,7 +3,7 @@ import {withRouter} from 'react-router-dom'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
 import {createStructuredSelector} from 'reselect'
-import { isEmpty} from '../../util/is-empty'
+import { isEmpty} from '../../util/validators'
 import {selectCurrentMessages, 
       selectCurrentUsers } from '../../store/selectors/profil'
 import { ProfilContainer ,Message, ButtonsBarContainer, ProfilTitle} from './profil.styled'

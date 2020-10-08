@@ -7,12 +7,12 @@ import About from '../about/about'
 import CheckoutPage from '../checkout/checkout.jsx'
 import shopPage from '../shop/shop.jsx'
 import ProductRoute from './../productsPage/productsRoute';
-import composedProfilProducts from '../profil/profilProducts.jsx'
+import ProfilProductsPage from '../profil/profil.jsx'
 import composedProfilMessages from '../profil/profilMessages.jsx'
 //import composedProfilProducts from '../profil/ProfilCollection'
 
 import Contact from '../contact/contact'
-import {isEmpty} from './../../util/is-empty'
+import {isEmpty} from '../../util/validators'
 import SignUpContain from './../../components/SignUp/SignUp'
 import SignInContain from '../../components/SignIn/SignIn';
 import  { selectCurrentProfil} from './../../store/selectors/profil'
@@ -29,7 +29,6 @@ const MainPage = ({ currentProfil}) => {
             console.log({getUser})
         }
         return () => {
-          
             return
         }
     }, [])
@@ -52,7 +51,7 @@ return (
                 return isEmpty(currentProfil) ?  (<SignInContain />): <Redirect to='/'/>
             }
         } />
-            <Route exact path='/profil' component={composedProfilProducts} />
+            <Route exact path='/profil' component={ProfilProductsPage} />
             <Route exact path='/messages' component={composedProfilMessages} />
             
             <Route extact path='/shop' component={shopPage} />

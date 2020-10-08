@@ -31,11 +31,12 @@ export const FormInputContainer = styled.input`
   transition: all .3s;
     &:focus {
     outline: none;
-  }
+    border-left: 1px solid ${green2};
+    border-right: 1px solid ${green2};
+    }
   &:focus + label {
     ${shrinkLabelStyles};
   
-  }
   }
 `;
 export const FormTextAreaContainer = styled.textarea`
@@ -64,7 +65,7 @@ export const FormInputLabel = styled.label`
   position: absolute;
   pointer-events: none;
   left: 5px;
-  top: 10px;
+  top: 15px;
   transition: 300ms ease all;
   &.shrink {
     ${shrinkLabelStyles}

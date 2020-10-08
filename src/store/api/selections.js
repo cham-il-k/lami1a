@@ -1,5 +1,5 @@
 import firebase, {
-    firestore, auth, storageRef
+    firestore, auth, storageRef, firebaseTimestamp
 } from '../../util/db/db'
 import slug from 'slug'
 /**
@@ -99,31 +99,17 @@ export const apifetchProducts = async (productId) => {
  * @param {string} productId 
  */
 
-export const apiaddCollectionAndDocuments = async (collectionKey, collections) => {
-    const collectionRef = firestore.collection(collectionKey)
+export const apiaddCollectionAndDocuments = async (selectionKey, collection, items) => {
+    const collectionRef = firestore.collection(selectionKey)
      const batch = firestore.batch()
-     collections.forEach(object => {
+     /* //collections.forEach(object => {
        const newCollRef = collectionRef.doc(object.title)
        batch.set(newCollRef,object)  
      })
+      */
      return await batch.commit()  
   }
 // create Product
-export const apiCreateProduct =(async (item) => {
-    const [uid, product] = item
-    console.log({item}) 
-    let { title, description,price,collection,selection,image } = product
-    try {
-        console.log({product})
-        //const {fileName, fileId} = file
-         title = slug(title)
-       
-        return firestore.collection('products').doc(title).set({uid,description, price, collection,image})
-        
-    } catch (error) {
-     Promise.reject(error)
- }
-})
 
 
   //MANAGEMENT image storage

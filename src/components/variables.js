@@ -2,8 +2,8 @@
  * fond bouton 
 export  */
 export const blue1 = 'rgb(128, 223, 255)';
-export const blue2 = 'rgb(26, 198, 255)';
-export const blue3 = 'rgb(153, 214, 255)';
+export const blue2 = 'rgb(153, 214, 255)';
+export const blue3 = 'rgb(26, 198, 255)';
 export const blue4 =  'rgb(0, 153, 255)';
 export const blue41 =  'rgb(0, 15, 26)';
 
