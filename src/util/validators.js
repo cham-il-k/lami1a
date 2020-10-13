@@ -11,7 +11,7 @@ export const isEmpty = (value) => {
         if(typeof value !== 'string' ) return false
         const img = ['jpg', 'jpeg', 'png', 'svg']
         const ext = value.split('.').pop()
-        return (img.includes('ext')) 
+        return (img.includes(ext)) 
  }
 
  export const isSameAs = (getValues, field) => value => {

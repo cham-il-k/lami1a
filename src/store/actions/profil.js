@@ -1,8 +1,5 @@
-import { auth } from "../../util/db/db";
-import { apiRegister, apiGetAllProfils} from './../api'
-/**
- * ACTION TYPE
- */
+import {  apiGetAllProfils} from './../api'
+
 export const EMAIL_SIGNIN_START = 'EMAIL_SIGNIN_START';
 export const GOOGLE_SIGNIN_START = 'GOOGLE_SIGNIN_START';
 

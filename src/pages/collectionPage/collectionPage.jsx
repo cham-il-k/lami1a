@@ -5,26 +5,30 @@ import WithSpinner from './../../components/With-Spinner/With-Spinner'
 import {compose} from 'redux'
 import CollectionItem from '../../components/Collection-Item/Collection-Item';
 import moduleName from 'module'
-import { selectProductsCollection } from '../../store/selectors/selection';
+import { selectSelectionCollections,} from '../../store/selectors/selection';
 import { fetchProducts  } from './../../store/actions/selection'
 import {
+  TitleContainer,
   CollectionPageContainer,
   CollectionTitle,
   CollectionItemsContainer
 } from './collection.styled';
 import slug from 'slug'
-const CollectionPage = ({ products ,match, history }) => {
+const CollectionPage = ({ collections ,match, history }) => {
 let collection = []  
-console.log(products)
+
 const items = (collection) => {
   return collection['items'].map(item => {
-    console.log(item)
+//    console.log(item)
         return <CollectionItem key={item['id']} urlName={slug(item["name"])} product={item} />
   })
 }
-products.forEach(col => {
+collections.forEach(col => {
+//  console.log({collections, from:'collectionPage'})
  collection.push(<>
-        <CollectionTitle>{` ${col['selection']} / ${col['collection']}` }</CollectionTitle>
+                <TitleContainer onClick={() => history.push(`${col['selection']}/${col['title']}`)}>
+                  {`${col['selection']}/${col['title']}`.toUpperCase()}
+                </TitleContainer>
                 <CollectionItemsContainer id="CollectionItemsContainer">
                   {items(col)}
                 </CollectionItemsContainer>
@@ -39,8 +43,9 @@ return (
   
 
 const mapStateToProps =  (state, ownProps) => createStructuredSelector({
-    products : selectProductsCollection(ownProps.match.params.selectionId)
- })   
+    collections : selectSelectionCollections(ownProps.match.params.selectionId),
+//    products : selectCollectionItems(ownProps.match.params.collectionId)
+  })   
 const CollectionPageContain = compose(
   connect(mapStateToProps),
   )(CollectionPage)

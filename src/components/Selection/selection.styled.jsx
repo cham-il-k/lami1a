@@ -7,16 +7,16 @@ export const SelectionMenuContainer = styled.div`
   justify-content: space-between;
   flex:0;
   flex-flow:wrap;
-  margin-top:5rem;
+  margin-top:2rem;
   @media screen and (max-width:800px) {
         padding: 0 auto;
         margin:2rem auto ;
-		    width:40rem;
+	  width:40rem;
 	}
   @media screen and (max-width:600px) {
         padding: 0 auto;
-        margin:2rem auto ;
-		    width:20rem;
+        margin:1rem auto ;
+	  width:20rem;
         flex-direction:column
   	}
    

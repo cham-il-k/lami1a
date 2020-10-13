@@ -56,6 +56,7 @@ export const firebaseTimestamp = firebase.firestore.FieldValue.serverTimestamp
  }
  export const transformCollectionSnapshotToMap = (selectionsSnapshot) => {
   const transformedCollection = selectionsSnapshot.docs.map(selection => {
+    //console.log({selection})
     const { title, collections, id, imageUrl} = selection.data()
     return {
       routeName: encodeURI(title),

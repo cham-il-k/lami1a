@@ -5,13 +5,11 @@ import { authenticated } from '../../store/selectors/profil'
 import { createStructuredSelector} from 'reselect'
 export default function withAuthorization(ComposedComponent){
 
-    class Autenticated extends Component {
-        render() {
-          const   {authenticated, dispatch, ...rest} = this.props 
+const Autenticated =({authenticated, ...rest}) =>  {
             
             return authenticated ? <ComposedComponent {...rest} /> : <Redirect to='/signin' />
         }
-    }
+    
 const  mapStateToProps = createStructuredSelector({
 
         authenticated: authenticated 

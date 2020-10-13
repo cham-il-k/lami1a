@@ -14,7 +14,7 @@ pids
 .env
 # miscelenus 
 cert/
-config/
+srv/config
 dist/
 node_modules/
 __*

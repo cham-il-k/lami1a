@@ -8,15 +8,8 @@ import {
     
     REMOVE_PRODUCT_SUCCESS,
     REMOVE_PRODUCT_FAIL,
-    
-    FETCH_SELECTIONS_FAIL,
-    INIT_COLLECTION,
-    FETCH_COLLECTION,
     REMOVE_COLLECTION_SUCCESS,
-    REMOVE_SELECTION,
-    INIT_SELECTIONS,
     ADD_COLLECTION_SUCCESS,
-    FETCH_PRODUCTS_FAIL,
 
 } from './../actions/selection'
 const initialState = {
@@ -35,14 +28,14 @@ const selectionReducer = ( state = initialState , action) => {
             return {
                 ...state,
                 selections: action.payload,
-                loading:true
+                loading:false
             };
             
         case FETCH_COLLECTIONS_SUCCESS:
             return {
                 ...state,
                 collections: action.payload,
-                loading:true
+                loading:false
 
             };
             

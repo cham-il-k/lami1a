@@ -1,6 +1,6 @@
 import styled, {keyframes, css}  from 'styled-components'
 import {Link} from 'react-router-dom'
-import {textBlanc, tete, yad, point,cor, textBlack, bleuDense,green2} from '../variables'
+import {green4, textBlanc, tete, yad, point,cor, textBlack, bleuDense,green2} from '../variables'
 import { faTextWidth } from '@fortawesome/free-solid-svg-icons'
 
 const animate = keyframes`
@@ -21,14 +21,58 @@ export const Contain = styled.div `
   position:relative;
   display:flex;
   transform:rotate(45deg);
-  transition: 2s;
+
+  transition: 2s transform;
   flex-direction:column;
   justify-content:center;
   align-items:center;
+
   &:hover {
-      transition:0s;
-    
+      transform: translate(2%,2%)
+  }
+  &::after {
+    width:117px;
+  background:#aaa;
+  height:117px;
+ 
+      position: absolute;
+      left: 2px;
+      top: 2px;
+      background:#aaa;
+      opacity:.4;    
+      transform:rotate(75deg);
+      transition: 2s;
+      z-index:2
     }
+
+    &::before {
+      background:#aaa;
+      opacity:.2;
+      position: absolute;
+      left: 4px;
+      top: 4px;
+      transform:rotate(25deg);
+      transition: 2s;    
+      z-index:10
+    }
+  @media screen and (max-width: 800px){
+    margin-bottom: 20px;
+    width:90px;
+    background:#aaa;
+    height:90px;
+    margin:5px;
+    padding:0
+ 
+  } 
+
+  @media screen and (max-width: 600px){
+    margin-bottom: 20px;
+    width:50px;
+    background:#aaa;
+    height:50px;
+    margin:5px;
+    padding:0
+ } 
 `
 export const Cursor = styled.div`
 position: absolute;
@@ -69,37 +113,23 @@ export const NameSite = styled(Link)`
     margin-top:3rem;
     align-self:center;  
     font-size:3rem;
-
+    transform: rotate(-45deg);
     color: ${green2} !important;
-    transform:rotate(-45deg);
     &::first-letter {
-      color:${green2}
+      color:${green4}
     }
+  @media screen and (max-width: 800px){
+    margin-bottom: 20px;
+    width:90px;
+    background:#aaa;
+    height:90px;
+    margin:5px;
+    padding:0
+ 
+  } 
+    
 `
 
-export const TeteLogo = styled.div`
-position: absolute;
-top:2px;
-left: 47px;
-width:70px;
-height:70px;
-background:linear-gradient(${tete},${cor});
-color: ${textBlanc};
-margin:0 auto;
-transform: rotate(-45deg);
-border-radius: 5px;
-`
-export const YadLogo = styled.div`
-position: absolute;
-background: linear-gradient(${yad},${tete}) ;
-color: ${textBlanc};
-top:25px;
-left:80px;
-width:30px;
-height:130px;
-transform: rotate(45deg);
-border-radius: 5px;
-`
 const bat = keyframes`
   from {
     transform: scale(1.5) rotate(45deg);
@@ -109,30 +139,3 @@ const bat = keyframes`
     transform: scale(1) rotate(45deg);
 }
 `;
-
-// Here we create a component that will rotate everything we pass in over two seconds
-export const CorLogo = styled.div`
-position: absolute;
-background: linear-gradient(${cor},${point} );
-color: ${textBlack};
-top:60px;
-left:20px;
-width:50px;
-height:50px;
-z-index:1;
-animation: ${bat} 2s linear infinite;
-transition:transform 2s linear infinite;
-border-radius: 3px;
-
-`
-export const Point = styled.div`
-position: absolute;
-background-color: ${point};
-color: ${textBlack};
-top:125px;
-left:30px;
-width:30px;
-height:30px;
-transform: rotate(45deg);
-border-radius: 3px;
-`

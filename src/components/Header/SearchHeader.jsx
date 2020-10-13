@@ -28,12 +28,6 @@ const SearchHeader = ({ books, products, callback }) => {
   const [isLoading, setIsLoading] = useState(false)
   const [globalError, setError] = useState(null)
   const timeOut = useRef(null)
-useEffect(() => {
-   // fetchArticle(searchTerm)
-    //console.log({selections})
-},[])
-
-
 const submit = (e) => {
   e.preventDefault()
 
@@ -61,11 +55,11 @@ async function  fetchArticle(re){
    setResultProds({ resultProd})
 
   // search in books desc
-   const rsltBooks =  books.map(elm => {
+  const rsltBooks =  books.map(elm => {
+    console.log({elm})
     return elm['tags'].filter(tag => {
       return ( tag === searchTerm)
      })
-     console.log({elm})
      return elm
      })
    
@@ -93,8 +87,8 @@ return (
  );
 }
 const mapStateToProps =  createStructuredSelector({
-  books: selectBooks,
-  products: selectProducts 
+  //books: selectBooks,
+  //products: selectProducts 
 })
  
 const SearchHeaderContain = compose(

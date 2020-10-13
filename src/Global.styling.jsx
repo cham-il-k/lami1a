@@ -8,6 +8,12 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
   vertical-align: baseline;
   margin: 0;
   padding: 0; 
+  @media screen and (max-width: 800px) {
+    padding: 10px;
+  }
+  @media screen and (max-width: 600px) {
+    padding: 7px;
+  }
 }
 
 body {
@@ -16,6 +22,6 @@ body {
      font-weight:300;   
 }
 h1, h2 {
-    margin-bottom:2rem;
+    margin-bottom:1rem;
 }
 `

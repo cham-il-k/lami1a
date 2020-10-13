@@ -7,14 +7,14 @@ import { SelectionMenuContainer } from './selection.styled';
 import { fetchSelectionsStart } from './../../store/actions/selection'
 
 const Selection = ({ selections, fetchSelections }) => {
-
-  useEffect(() => {
-    fetchSelections()
-  },[fetchSelections])
-  const menus = selections.map(selection =>{
-          const {id , ...otherProps} = selection;
+   
+  console.log({selections})
+  const menus = selections.map((selection) => {
+    console.log({selection})
+    const {id , ...otherProps} = selection['collection'];
         return <SelectionItem key={id} {...otherProps}></SelectionItem>
     })
+    
   return (
       <SelectionMenuContainer>
         { menus }

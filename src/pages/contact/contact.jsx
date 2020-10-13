@@ -22,7 +22,6 @@ const handleSubmit = async event => {
     try{
       createMessage(country, email, message).then(
           messageRefdb =>  {
-            
             history.push('/')
           ('Saved Successfully', { appearance: 'success' })
           })

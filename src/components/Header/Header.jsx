@@ -15,9 +15,6 @@ import {
   LogoContainer,
   OptionsContainer,
   OptionLink,
-  MainBar,
-  OptionLinkHide,
-  SecondBar
 } from './header-styled';
 const Header = ({ currentProfil, hidden, logOutStart }) => {
     return (

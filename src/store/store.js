@@ -19,11 +19,11 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 export const store = createStore( rootReducer, composeWithDevTools(applyMiddleware(...middleware)))
-sagaMiddleware.run(rootSaga)
 
 export const persistor = persistStore(store, ()=> {
        console.log(store)
 })
+sagaMiddleware.run(rootSaga)
 
 /**@todo*/
 /* 

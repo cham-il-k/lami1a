@@ -8,7 +8,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   CollectionItemContainer,
   CollectionFooterContainer,
-  AddButton,
   LinkProduct,
   BackgroundImage,
   NameContainer,
@@ -16,7 +15,7 @@ import {
 } from './collection-item.styled';
 
 const CollectionItem = ({ product, match, history,urlName}) => {
-  const { id, name ,edition,stars, imageUrl, price ,desc ,tags } = product;
+  const {  name,   imageUrl, price } = product;
   //console.log(match)
   
   //console.log({match, history, collection})

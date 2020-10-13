@@ -42,7 +42,14 @@ flex-direction: column;
 width: 400px;
 `;
 export const ProductTitle = styled.h2`
-  margin: 10px 0;
+ margin: 10px 0;
+  font-size:2rem;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color:${textBlue};
+  
 `;
 
 export const ButtonsBarContainer = styled.div`
@@ -65,11 +72,9 @@ export const SelectContainer = styled.div`
   padding: 10px 10px 10px 5px;
   display: block;
   width: 100%;
-  
   border: none;
-  border-radius: 0;
   border-bottom: 1px solid ${blue2};
-  margin: 25px 0;
+  margin: 15px 0;
   & select {
   width: 100%;
    margin-left:0; 

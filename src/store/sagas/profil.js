@@ -155,6 +155,7 @@ export function* isAuthenticated() {
         const profilRef =  yield  firestore.doc(`/profils/${userAuth.uid}`)
         console.log({profilRef})
         const profilData =  yield profilRef.get()
+            console.log(profilData.data())  
         yield put(setCurrentProfil({uid:userAuth.uid, ...profilData.data()}))
     } catch (error) {
         yield 

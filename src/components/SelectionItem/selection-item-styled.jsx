@@ -4,7 +4,6 @@ import {textBlack, textBlue, green1, green2, green4, blanc,maxWidth } from '../v
 export const SelectionItemContainer = styled.div`
 	height: 25rem;
 	width:25rem;
-	overflow: hidden;
 	flex: 1 1 auto;
 	display: flex;
 	align-items: center;
@@ -22,19 +21,19 @@ export const SelectionItemContainer = styled.div`
 			opacity: 0.5;
 			color:${textBlack}
 		}
-	}
-	&:first-child {
-	  	margin-right: .5rem;
-	}
-	&:last-child {
-	  margin-left: .5rem;
-	}
-	@media screen and (max-width:850px) {
+		&:first-child {
+		}
+		  	margin-right: .5rem;
+		}
+		&:last-child {
+		  margin-left: .5rem;
+		}
+	@media screen and (max-width:800px) {
         padding: 0 auto;
         margin:2rem auto ;
-		width:40rem;
+		width:20rem;
 	}
-  	@media screen and (max-width:600px) {
+  	@media screen and (max-width:617px) {
         padding: 0 auto;
         margin:2rem auto ;
 		width:20rem;
@@ -50,8 +49,8 @@ export const BackgroundImageContainer = styled.div`
 `;
 
 export const ContentContainer = styled.div`
-  height: 18rem;
-  width: 18rem;
+  height: 20rem;
+  width: 20rem;
   padding: 0 auto;
   display: flex;
   flex-direction: column;
@@ -63,10 +62,9 @@ export const ContentContainer = styled.div`
   opacity: 0.8;
   position: absolute;
 	&:hover {
-		
 		color:${textBlue}
 	}
-	@media screen and (max-width:850px) {
+	@media screen and (max-width:800px) {
         padding: 0 auto;
         margin:2rem auto ;
 		    width:10rem;
@@ -76,7 +74,7 @@ export const ContentContainer = styled.div`
         padding: 0 auto;
         margin:2rem auto ;
 		width:7rem;
-		width:7rem;
+	
 	}/* 	transform:rotate(-45deg);		
 */
 `;
@@ -85,10 +83,28 @@ export const ContentTitle = styled.span`
   margin-bottom: 6px;
   font-size:2rem;
  color: #4a4a4a;
+ @media screen and (max-width:800px) {
+	font-weight: normal;
+  	margin-bottom: 6px;
+  	font-size:1.5rem;
+	}
+@media screen and (max-width:600px) {
+	font-weight: normal;
+  	font-size:1.2rem;
+ 
+  	}
 `;
 export const ContentSubtitle = styled.span`
   font-weight: lighter;
   font-size: 1.5rem;
   color:${green4};
+  @media screen and (max-width:800px) {
+	font-size: 1.3rem;
+ 
+	}
+  	@media screen and (max-width:600px) {
+		font-size: 1.1rem;
+ 
+  	}
 `
 

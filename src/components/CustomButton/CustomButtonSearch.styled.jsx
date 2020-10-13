@@ -25,13 +25,19 @@ const buttonStyles = css`
     color: ${blanc};
     
   }
+
+  @media screen and (max-width: 800px) {
+    min-width: 7rem;
+    padding: 0 5px 0 5px;
+    font-size:.7rem;
  
-@media screen and (max-width:750px) {
-  min-width: 7rem;
-  padding: 0 5px 0 5px;
-  font-size:.7rem;
-  
-}
+  }
+  @media screen and (max-width: 600px) {
+    min-width: 5rem;
+    padding: 0 5px 0 5px;
+    font-size:.7rem;
+ 
+    } 
 `;
 
 export const CustomButtonContainer = styled.button`

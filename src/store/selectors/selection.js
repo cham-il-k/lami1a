@@ -16,49 +16,48 @@ export const selectCollectionForOverview = selectionId => createSelector(
     return (selections ? selections[selectionId]: [])
   }
 )
-
 export const selectSelections = createSelector(
   [selectSelectedSelections],
-  selections =>  selections ?  Object.keys(selections).map(selection => {
-     return selections[selection]
-    }) : []
-  )
-export const selectProductsCollection = (selectionId) => createSelector(
+  selections =>  {
+   if(selections){
+  return Object.entries(selections).map(([key, value]) => {
+   return ({selection:key, collection:value})  
+  })
+  }
+  else return []
+  }
+)
+export const selectSelectionCollections = (selectionId) => createSelector(
   [selectSelections],
-  selections => {
-    let result = {}
-    let collections = []
+  selections => { 
     const selection = selections.filter(selection => {
-       return selection['title'] === selectionId
-      })    
-      result = selection.reduce((accumulator, currentValue, index, selection) => {
-        return {...currentValue}
-    },{})
-    console.log(result)  
-     if(!!result && (typeof result ) === 'object'){
-     
-      collections =  Object.entries(result['collections']).map(([col, prod]) => {
-        const collection  = {collection:col,selection:result['title'],  items:prod['items']}
-
-      return collection
-     } )
-     return collections
+      return selection['collection']['title'] === selectionId
+      
     }
-    else {
-      return collections
-    } 
-})
+    )
+  const collectionsObject =  selection[0]['collection']['collections']
+  return Object.keys(collectionsObject).map((key) => {
+    return collectionsObject[key]
+  } )
+}
+)
+export const selectIsLoading = createSelector(
+  [selectedSelection],
+  selection => {
+    return selection.loading
+  }
+)
+
 
 export const selectBooks =  createSelector(
-  [selectSelections],
+  [selectSelectedSelections],
   selections => {
     if(!selections || selections.length < 1) return []
     else{
-
-      const [books, _] = selections
-      const bookValues  = Object.values(books) 
-        const collectionBooks = bookValues[4]
-        //console.log({collectionBooks}) 
+     //console.log({selections})
+      const {books  } = selections
+       console.log({books})
+        const collectionBooks = books['collections']
         const  BookKeys = Object.keys(collectionBooks)
              const collections = BookKeys.map((key, val) => {
                 return {key,items:collectionBooks[key]}
@@ -73,16 +72,38 @@ export const selectBooks =  createSelector(
         return booksArray
     }
 })
-   
+
+export const selectBooksCollection =  createSelector(
+  [selectSelectedSelections],
+  selections => {
+    if(!selections || selections.length < 1) return []
+    else{
+     //console.log({selections})
+      const { books  } = selections
+      return books 
+    }
+  }
+)
+export const selectProductsCollection =  createSelector(
+  [selectSelectedSelections],
+  selections => {
+    if(!selections || selections.length < 1) return []
+    else{
+     //console.log({selections})
+      const { products  } = selections
+      return products 
+    }
+  }
+)  
 export const selectProducts =  createSelector(
-  [selectSelections],
+  [selectSelectedSelections], 
   selections => {
     if(!selections || selections.length < 1) return []
     else {
-      const [, products] = selections
+      const {products} = selections
       //console.log({products})
-      const productValues  = Object.values(products) 
-        const collectionproducts = productValues[4]
+    const collectionproducts = products['collections']
+            
             const  BookKeys = Object.keys(collectionproducts)
              const collections = BookKeys.map((key, val) => {
                 return {key,items:collectionproducts[key]}
@@ -97,6 +118,23 @@ export const selectProducts =  createSelector(
         return productsArray
     }
 })  
+
+  
+export const  selectCollectionCategory = (selectioId, collectionId) => createSelector(
+  [selectBooksCollection, selectProductsCollection],
+ (booksCollection, productsCollection) =>
+ {
+   const selectionId = 'books'
+   //const collectionId = 'dogme'
+   if(selectionId === 'books') {
+      
+     return booksCollection['collections'][`${collectionId}`]
+   }else {
+    return productsCollection['collections'][`${collectionId}`]
+   }
+ } 
+  
+)
 export const selectProduct = (term) => createSelector(
   [selectProducts],
   products => {

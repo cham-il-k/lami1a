@@ -8,9 +8,6 @@ import {
 } from './FormInput-styled';
 
 const FormInput =({label, textarea, name, ...props }) => {
-  //const {getValues} = useForm()
- 
-  debugger
   return (
   <GroupContainer>
     {

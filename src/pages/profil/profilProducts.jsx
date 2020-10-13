@@ -6,8 +6,9 @@ import {createStructuredSelector} from 'reselect'
 import { isEmpty} from '../../util/validators'
 import Select from 'react-select';
  
-import {selectCurrentProfil, 
-      selectCurrentCollection, selectCurrentProducts} from '../../store/selectors/profil'
+import {selectCurrentProfil, selectCurrentCollection, selectCurrentProducts} from '../../store/selectors/profil'
+import {selectSelections} from '../../store/selectors/selection'
+
 import { ProfilContainer ,Message, ButtonsBarContainer, ProfilTitle} from './profil.styled'
 import {FileContainer, CollectionTitle, ProductTitle, 
   AddProductContainer,SelectContainer,ProductContainer,} from './collection.styled'
@@ -22,8 +23,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import WithSpinner from '../../components/With-Spinner/With-Spinner';
 import {auth} from './../../util/db/db'
 
-const  ProductEdit = ({profil,collection, history, getProfilDocument, createProduct, updateProfil}) =>  {
-  const initialSelec = [{ value: 'books', label: 'Books' },{ value: 'products', label: 'Products' }];
+const  ProductEdit = ({profil,collection, history, initialSelections, getProfilDocument, createProduct, updateProfil}) =>  {
+
   const initialCollec = [{ value: 'sagesse', label: 'Sagesse' },{ value: 'dogme', label: 'Dogme' },
   { value: 'society', label: 'Society' }];
   
@@ -111,7 +112,7 @@ return(
         value={selec}
         placeholder='select selection'
         onChange={handleChangeSelec}
-        options={initialSelec}
+        options={initialSelections}
       /> 
              </SelectContainer>
 
@@ -125,7 +126,7 @@ return(
           />
           
           <FormInput textarea
-              rows="5" cols="33"
+              rows="3" cols="33"
               name='description'
               value={product.description}
               onChange={handleChangeProduct}
@@ -172,8 +173,8 @@ return(
 const mapStateToProps = createStructuredSelector ({
   profil: selectCurrentProfil,
   collection:selectCurrentCollection || 'hectic', 
-  products:selectCurrentProducts || []
-
+  products:selectCurrentProducts || [],
+  initialSelections: selectSelections
 })
 
 const mapDispatchToProps = (dispatch) => ({

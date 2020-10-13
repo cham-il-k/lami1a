@@ -1,4 +1,4 @@
-import React, { useState, useEffect }  from 'react';
+import React, { useEffect, lazy }  from 'react';
 import {connect} from 'react-redux'
 import { checkProfilSession} from './../src/store/actions/profil' 
 import Header from './components/Header/Header' 
@@ -7,43 +7,38 @@ import Main from './pages/main/main'
 import Footer from './components/Footer/Footer' 
 import {AppContainer} from './app-styled.jsx'
 import {createStructuredSelector} from 'reselect'
+import { selectBooks, selectProducts } from './store/selectors/selection'
 import { fetchSelectionsStart, fetchProductsStart } from './../src/store/actions/selection'
 import {selectCurrentProfil}  from './../src/store/selectors/profil'
 import SearchHeader from './components/Header/SearchHeader'
-import { isEmpty } from './util/validators';
-import { createProductsCollection } from './../src/util/db/db'
-
+import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary'
 
 const App = ({ fetchSelectionsStart, checkProfilSession, currentProfil, fetchProductsStart }) => {
 
-  const [globalError, setError] = useState(null)
-  const [searchTerm, setSearchTerm] = useState('')
-  const [getResult, setGetResult] = useState(false)
-  const [result, setResult] = useState('')
-  
-  const [isLoading, setIsLoading] = useState(false)
-  
+  useEffect(()=> {
+
+
+  },[selectBooks, selectProducts])
+
  useEffect(() => {
-  checkProfilSession()
- }, [checkProfilSession]) 
-useEffect(() => {
-      //fetchSelectionsStart()
+      fetchSelectionsStart()
      // createProductsCollection()
-     fetchProductsStart()
-},[fetchProductsStart]) 
+     //fetchProductsStart()
+},[fetchSelectionsStart]) 
 
 return (
   <AppContainer>
+    <ErrorBoundary>
     <Header />
     <SearchHeader />  
      <Main />
      <Footer/> 
+    </ErrorBoundary>
   </AppContainer>
     );
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  checkProfilSession: () => dispatch(checkProfilSession()),
   fetchSelectionsStart: () => dispatch(fetchSelectionsStart()),
   fetchProductsStart: () => dispatch(fetchProductsStart())
 })

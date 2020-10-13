@@ -9,7 +9,7 @@ export const FormSearch = styled.form`
     justify-content:center;
     margin-top:2rem;
     align-items:center;
-    @media screen and (max-width:750px) {
+    
         min-width: 7rem;
         padding: 0 5px 0 5px;
         font-size:.7rem;
@@ -27,7 +27,6 @@ export const SearchIcon = styled(FontAwesomeIcon)`
     outline: none;
 ` */
 export const FormInputSearch = styled.input`
-    background: none;
     background-color: ${blanc};
     color: ${textBlack};
     height:3rem;
@@ -39,6 +38,18 @@ export const FormInputSearch = styled.input`
     transition: all .3s;
     &:focus {
     outline: none;
+    }
 
-}
+  @media screen and (max-width: 800px) {
+    min-width: 7rem;
+    padding: 0 5px 0 5px;
+    font-size:.7rem;
+ 
+  }
+  @media screen and (max-width: 600px) {
+    min-width: 5rem;
+    padding: 0 5px 0 5px;
+    font-size:.7rem;
+ 
+    } 
 `

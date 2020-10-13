@@ -60,7 +60,7 @@ export const PriceContainer = styled.span`
   
   text-align: right;
   margin-bottom: 15px;
-  text-decoration: none
+  text-decoration: none;
 `;
 export const LinkProduct = styled(Link)`
   width:100%;

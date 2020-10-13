@@ -10,9 +10,7 @@ import { FETCH_COLLECTIONS_START, FETCH_PRODUCTS_START, FETCH_SELECTIONS_START,
 import {firestore, storageRef, productImageRef, transformCollectionSnapshotToMap} from './../../util/db/db'
 import {isAuthenticated} from './profil'
 //import {apiCreateProduct} from './../api/selections'
-import {apiFetchAllProducts, apiCreateProduct} from './../api/product'
-
-import slug from 'slug'
+import { apiCreateProduct} from './../api/product'
 import { clearCart } from '../actions/cart'
 import { GET_COLLECTIONS_TITLE } from '../actions/profil'
 
@@ -26,12 +24,11 @@ export function* fetchSelectionsAsync( ) {
         } 
         const selectionRef = yield firestore.collection('selections')
          const snapshot = yield selectionRef.get()
-        collectionsMap = yield call(transformCollectionSnapshotToMap, snapshot)
+         collectionsMap = yield call(transformCollectionSnapshotToMap, snapshot)
         yield put(fetchSelectionsSuccess(collectionsMap))    
         }
     catch (error) {
-        console.log(`${error} sagas selections`)
-      yield put(fetchSelectionsFail(error.message))  
+              yield put(fetchSelectionsFail(error.message))  
      }
 }
 export function* onfetchSelectionsStart() {
