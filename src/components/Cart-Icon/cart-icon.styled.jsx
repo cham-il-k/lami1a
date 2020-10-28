@@ -2,6 +2,7 @@ import styled, {css} from 'styled-components';
 import { blue1, green4, blue2 } from './../variables'
 
 export const CartContainer = styled.div`
+  margin-left:1rem;
   width: 5rem;
   height: 5rem;
   position: relative;
@@ -19,9 +20,9 @@ export const ShoppingIcon = styled.div`
 
 export const ItemCountContainer = styled.span`
   position: absolute;
-  font-size: 1.5rem;
-  top:1px;
-  font-weight: bold;
+  font-size: 1.33rem;
+  top:2px;
+  font-weight: 400;
   text-align:center;
   color:${blue2};
 `;

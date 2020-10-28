@@ -11,7 +11,7 @@ export const blanc = 'rgb(242, 242, 242)';
 
 export const green1 = 'rgb(173, 235, 173)';
 export const green2 = 'rgb(179, 255, 153)';
-export const green3 = 'rgb(128, 255, 170)';
+export const green3 = 'rgb(158, 240, 144);';
 export const green4 = 'rgb(0, 153, 0)';
 export const green51 = '#AA0'; 
 

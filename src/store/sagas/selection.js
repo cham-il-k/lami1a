@@ -60,9 +60,10 @@ try {
 
     console.log({payload: {uid, product}})
     const { image } = product
-    const fileStorage = yield storageRef.child(`${productImageRef}/${uid}/${image.name}`).put(image)
-    const item  = {...product,image:fileStorage.ref.location.path}
-    console.log({fileStorage:fileStorage.ref.location.path},{product}) 
+    const fileStorageRef = yield storageRef.child(productImageRef).child(uid).child(image.name).put(image)
+    console.log({fileStorageRef})
+    const item  = {...product,image:fileStorageRef.ref.getDownloadURL()}
+    console.log({fileStorage:fileStorageRef.ref},{product}) 
     const productRegistred = yield call(apiCreateProduct,[uid,item])
     if(!isEmpty(productRegistred)) {
         const productRegistredSelection = yield call(apiCreateProduct,[uid,item])

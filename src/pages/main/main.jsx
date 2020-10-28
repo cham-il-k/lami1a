@@ -1,4 +1,4 @@
-import React, { useEffect, lazy, Suspense } from 'react';
+import React, { useEffect, lazy, Suspense, Profiler } from 'react';
 import { Switch, Route, Redirect, withRouter} from 'react-router-dom';
 import { connect } from 'react-redux'
 import { createStructuredSelector} from 'reselect'
@@ -35,27 +35,20 @@ const MainPage = ({ currentProfil, checkProfilSession}) => {
        }, [checkProfilSession]) 
       
       
-    useEffect(() => {
-        const getUser  = auth.currentUser
-        if(!!getUser) {
-            console.log({main:getUser.email})
-        }
-        return () => {
-            return
-        }
-    }, [])
 
 return (
     <Switch>
         <MainContainer>
             <ErrorBoundary>
-
+                {/* <Profiler id="mainProfiler" onRender={(id, phase, actualDuration) => {
+                    console.log({id, phase, actualDuration})
+                } }>
+                 */}
             <Route exact path='/' component= { Selection} />
-
             
             <Route extact path='/shop' component={shopPage} />
             
-            <Suspense fallback={() => (<Spinner />)}>
+            <Suspense fallback={<Spinner />}>
             <Route exact path='/signup' render={() => {
                 console.log({currentProfil})  
                 return isEmpty(currentProfil) ? (<SignUpContain/>) : <Redirect to='/'/>
@@ -71,8 +64,9 @@ return (
             <Route exact path='/contact' component= {LazyContact} />
             <Route exact path='/about' component= {LazyAbout} />
             <Route exact path='/checkout' component={LazyCheckoutPage} />
-            <Route exact path='/products' component={ProductRoute} />
-            </Suspense>
+            {/* <Route exact path='/products' component={ProductRoute} />
+             */}
+             </Suspense>
             </ErrorBoundary>
         </MainContainer>
     </Switch>

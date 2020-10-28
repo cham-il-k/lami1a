@@ -37,8 +37,9 @@ export const CollectionContainer = styled.div`
 `;
 export const FileContainer = styled.div`
 display: flex;
-margin: 0 auto;
+margin: .5rem auto;
 flex-direction: column;
+padding:.5rem;
 width: 400px;
 `;
 export const ProductTitle = styled.h2`
@@ -63,24 +64,4 @@ color:${blue3};
 export const AddProductContainer= styled.div`
  display: flex;
 
-`
-export const SelectContainer = styled.div`
-  background: none;
-  background-color: white;
-  color: ${textBlue};
-  font-size: 18px;
-  padding: 10px 10px 10px 5px;
-  display: block;
-  width: 100%;
-  border: none;
-  border-bottom: 1px solid ${blue2};
-  margin: 15px 0;
-  & select {
-  width: 100%;
-   margin-left:0; 
-  }
-  &:focus {
-    outline: none;
-  
- }
 `

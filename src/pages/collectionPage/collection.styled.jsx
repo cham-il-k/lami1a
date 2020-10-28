@@ -15,16 +15,34 @@ export const CollectionTitle = styled(Link)`
 `;
 
 export const CollectionItemsContainer = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-gap: 10px;
-  margin-bottom:6rem;
- 
+   width: 100%;
+  display: flex;
+  position:relative;
+    flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  flex-wrap:wrap;
+  border-radius:5px;
+  &:hover {
+    .image {
+      opacity: 0.8;
+    }
+    }
+
+ @media screen and (min-width: 768px) {
+    flex-direction:row;
+    justify-content:space-evenly
+ }
+ @media screen and (min-width: 992px) {
+  flex-direction:row;
+  justify-content:space-evenly
+}
 `;
 
 export const TitleContainer = styled.h1`
   font-size: 2rem;
   color:${blue4};
+  text-align:center;
   cursor: pointer;
   &:hover {
     color: grey;

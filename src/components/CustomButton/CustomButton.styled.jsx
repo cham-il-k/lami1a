@@ -56,8 +56,7 @@ min-width: 165px;
 export const CustomButtonContainer = styled.button`
   ${buttonCommon}
   background-color: ${green1};
-  
-  ${getButtonStyles}
+   ${getButtonStyles}
 `;
 export const CustomLinkContainer = styled(Link)`
   

@@ -28,7 +28,7 @@ export const SelectionItemContainer = styled.div`
 		&:last-child {
 		  margin-left: .5rem;
 		}
-	@media screen and (max-width:800px) {
+	@media screen and (max-width:992px) {
         padding: 0 auto;
         margin:2rem auto ;
 		width:20rem;
@@ -64,13 +64,13 @@ export const ContentContainer = styled.div`
 	&:hover {
 		color:${textBlue}
 	}
-	@media screen and (max-width:800px) {
+	@media screen and (max-width:992px) {
         padding: 0 auto;
         margin:2rem auto ;
 		    width:10rem;
 		    height:10rem;
 	}
-  @media screen and (max-width:600px) {
+  @media screen and (max-width:768px) {
         padding: 0 auto;
         margin:2rem auto ;
 		width:7rem;
@@ -83,12 +83,12 @@ export const ContentTitle = styled.span`
   margin-bottom: 6px;
   font-size:2rem;
  color: #4a4a4a;
- @media screen and (max-width:800px) {
+ @media screen and (max-width:992px) {
 	font-weight: normal;
   	margin-bottom: 6px;
   	font-size:1.5rem;
 	}
-@media screen and (max-width:600px) {
+@media screen and (max-width:768px) {
 	font-weight: normal;
   	font-size:1.2rem;
  
@@ -98,11 +98,11 @@ export const ContentSubtitle = styled.span`
   font-weight: lighter;
   font-size: 1.5rem;
   color:${green4};
-  @media screen and (max-width:800px) {
+  @media screen and (max-width:992px) {
 	font-size: 1.3rem;
  
 	}
-  	@media screen and (max-width:600px) {
+  	@media screen and (max-width:768px) {
 		font-size: 1.1rem;
  
   	}

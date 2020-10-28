@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState} from 'react';
 import { connect } from 'react-redux';
 import { withRouter} from 'react-router-dom'
 import { compose } from 'redux'
@@ -15,10 +15,17 @@ import {
   LogoContainer,
   OptionsContainer,
   OptionLink,
+  ToggleButton
 } from './header-styled';
 const Header = ({ currentProfil, hidden, logOutStart }) => {
-    return (
+  const [toggle, setToggleMenu] =useState(false)  
+  return (
       <HeaderContainer>
+        {
+        toggle ? 
+          <ToggleButton onClick={() => setToggleMenu(false)}>&#9776;</ToggleButton>
+          :
+          <>
         <LogoContainer to='/'>
           <LogoBox className='logo' />
         </LogoContainer>
@@ -40,12 +47,14 @@ const Header = ({ currentProfil, hidden, logOutStart }) => {
           </OptionLink>
           
           ): (
-              <OptionLink to='/signup'>SIGN in/up </OptionLink>
+            <OptionLink to='/signup'>SIGN in/up </OptionLink>
+            
             )}
-          <CartIcon />
+              <CartIcon />
         </OptionsContainer>
         {hidden ? null : <CartDropdown />}
-        
+      </>
+      }  
       </HeaderContainer>
     );
 

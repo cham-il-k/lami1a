@@ -2,14 +2,15 @@ import styled from 'styled-components';
 import CustomButton from '../CustomButton/CustomButton';
 import {Link} from 'react-router-dom'
 import {blue4} from './../variables'
+
 export const CollectionItemContainer = styled.div`
-  width: 22vw;
+  //width: 15rem;
   display: flex;
   flex-direction: column;
   height: 250px;
-  
   align-items: center;
   position: relative;
+  margin-bottom:7rem;  
   &:hover {
     .image {
       opacity: 0.9;
@@ -19,6 +20,16 @@ export const CollectionItemContainer = styled.div`
       display: flex;
     }
   }
+  
+ @media screen and (min-width: 768px) {
+      flex:0 1 48% !important;
+      background-color:tomato ;
+  }
+ @media screen and (min-width: 992px) {
+        flex:0 1 30% !important ;  
+        background-color:greenyellow;
+}
+ 
 `;
 
 export const AddButton = styled(CustomButton)`

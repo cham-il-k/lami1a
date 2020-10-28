@@ -23,6 +23,7 @@ export const REMOVE_PRODUCT_START = 'REMOVE_PRODUCT_START'
 export const REMOVE_PRODUCT_SUCCESS = 'REMOVE_PRODUCT_SUCCESS'
 export const REMOVE_PRODUCT_FAIL = 'REMOVE_PRODUCT_FAIL'
 
+export const SET_COLLECTIONS_SELECTION = 'SET_COLLECTIONS_SELECTION'
 
 export const UPDATE_PRODUCT_START = 'UPDATE_PRODUCT_START'
 export const UPDATE_PRODUCT_SUCCESS = 'UPDATE_PRODUCT_SUCCESS'
@@ -84,6 +85,7 @@ export const fetchCollectionsFail =  () => {
             errors: 'Fetch FAil'
         }
     }
+
 export const fetchProductsSuccess = (products) => {
        
     return {
@@ -92,6 +94,13 @@ export const fetchProductsSuccess = (products) => {
             errors: null
         
 }
+}
+
+export const setSelectionCollections = (selection) => {
+    return {
+        type:SET_COLLECTIONS_SELECTION,
+        payload:selection
+    }
 }
 export const fetchProductsStart = () => {
         return {

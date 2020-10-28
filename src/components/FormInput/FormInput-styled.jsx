@@ -19,13 +19,13 @@ export const FormInputContainer = styled.input`
   background: none;
   background-color: white;
   color: ${textBlue};
-  font-size: 18px;
+  font-size: 1.3rem;
   display: block;
   width: 100%;
   border: none;
-  line-height: 2px;
+  line-height: 1.3rem;
   margin: .3rem 0;
-  padding:1rem 0;
+  padding:.5rem 0;
   border: none;
   border-bottom: 1px solid ${green2};
   transition: all .3s;

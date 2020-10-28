@@ -1,17 +1,19 @@
 import styled from 'styled-components';
 import CustomButton from '../CustomButton/CustomButton';
+import {green2} from './../variables'
 
 export const CartDropdownContainer = styled.div`
   position: absolute;
-  width: 240px;
+  width: 340px;
   height: 340px;
   display: flex;
   flex-direction: column;
-  padding: 20px;
-  border: 1px solid black;
+  padding: 5px;
+  border-radius:.5rem;
+  border: 1px solid ${green2};
   background-color: white;
   top: 90px;
-  right: 40px;
+  right: -10px;
   z-index: 5;
 `;
 
@@ -29,5 +31,5 @@ export const CartItemsContainer = styled.div`
   height: 240px;
   display: flex;
   flex-direction: column;
-  overflow-y: scroll;
+  overflow-wrap:break-word ;
 `;

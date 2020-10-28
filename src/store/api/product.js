@@ -59,15 +59,13 @@ export const apiCreateProduct =(async (item) => {
     console.log({item}) 
     let { title, description,price,collection,selection,image } = product
     try {
-        //console.log({product})
-        //const {fileName, fileId} = file
-        title = slug(title)
+        let titleSlug = slug(title)
         price = parseInt(price) 
-        const createdAt = firebaseTimestamp
-        const newProduct = {uid,description, price, collection,image,selection, createdAt}
+        const createdAt = firebaseTimestamp()
+        const newProduct = {uid,title,description, price, collection,image,selection, createdAt}
+            console.log({newProduct}) 
         addProductToSelection(newProduct)
-        return firestore.collection('products').doc(title).set(newProduct)
-                
+        return Promise.resolve(firestore.collection('products').doc(titleSlug).set(newProduct))
     } catch (error) {
      Promise.reject(error)
  }
@@ -77,10 +75,7 @@ export const apiCreateProduct =(async (item) => {
 const addProductToSelection = async product => {
     try {
         console.log({product})
-
-        const selection = product['selection'] || 'products'
-        const collection = !!product['collection'] ? product['collection'] : 'market'
-        const selectionSnaps = await firestore.collection(`/selections/${selection}/${collection}`).get()
+        const selectionSnaps = await firestore.collection(`/selections/${product['selection']}/${product['collection']}`).get()
         console.log({selectionSnaps})
         if(!selectionSnaps.exists) {
             selectionSnaps.doc(product['id']).set(product)
@@ -88,7 +83,6 @@ const addProductToSelection = async product => {
             console.log({data:selectionSnaps.data()})
         
         }
-         
     }catch(error) {
         Promise.reject(error)
     }
@@ -143,4 +137,32 @@ export const apiSelectionUploadsStorage = async (uid,file) => {
             return url 
         })
 })}   
+
+
+export const dbCreateProduct = async (doc) => {
+    const slugName = slug(doc.name)
+    await firestore.collection('products').doc(slugName).set({ ...doc})  
+  }
+  
+  export const dbDeletProduct = (doc) => {
+  
+    firestore.collection('products').doc(doc).delete()  
+  }
+  
+  export const dbUpdateProduct = ({id, doc}) => {
+  
+    firestore.collection('products').doc(id).update({doc})  
+  }
+  /**
+   * reate galery products/ and Selections
+   * @param {*} param0 
+   */
+  
+  const deletImage = (imageId) => {
+    auth.currentUser.getIdTokenResult().then(idTokenResult => {
+      if(idTokenResult.claims.admin){
+        firestore.collection('selectionGallery').doc(imageId).delete()
+      }
+    } )
+  }
   

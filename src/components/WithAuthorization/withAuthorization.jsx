@@ -11,9 +11,7 @@ const Autenticated =({authenticated, ...rest}) =>  {
         }
     
 const  mapStateToProps = createStructuredSelector({
-
         authenticated: authenticated 
-
 })
 return connect(mapStateToProps)(Autenticated)
 }

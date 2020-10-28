@@ -42,7 +42,8 @@ export function* googleSignIn() {
     try {
         const {user} = yield auth.signInWithPopup(googleProvider);
         const { uid, email} = user
-        console.log({user})
+        //console.log({user})
+        yield put(setCurrentProfil({uid,email}))
         const profilRef = yield firestore.doc(`/profils/${uid}`)
        console.log({profilRef}) 
        if(profilRef.get().exists) {
@@ -51,11 +52,11 @@ export function* googleSignIn() {
         else {
             const createdAt = new Date();
             const userProfil = { email,products:[], collections:[],createdAt, favoutites:[],comments:[]}
-                yield profilRef.set(userProfil, { merge: true })
+            yield profilRef.set(userProfil, { merge: true })
             const profilSnapshot = yield profilRef.get()
             console.log({profilSnapshot})  
             yield put(signInSuccess({uid,...profilSnapshot.data()} ))
-            yield put(setCurrentProfil({uid,...profilSnapshot.data()}))
+            /* yield put(setCurrentProfil({uid,...profilSnapshot.data()})) */
        
         }
         } catch (error) {
@@ -77,25 +78,32 @@ console.log({payload})
     try {
     let {email, password, login} = payload.payload
     const {user} = yield auth.createUserWithEmailAndPassword(email, password);
-    console.log({user})
-    user.sendEmailVerification()
+    //console.log({user})
+    const currentProfil= {uid:user.uid, email: user.email, login:login}
+    yield put(setCurrentProfil(currentProfil))
+    console.log( {emailVerif: user.sendEmailVerification()})
     const {uid} = user
     const createdAt = firebaseTimestamp()
     const profilRef = yield firestore.doc(`profils/${uid}`)
     const profilSnapshot = yield profilRef.get()
     console.log({data: profilSnapshot['data']}) 
     if(profilSnapshot.exists) {
-        console.log(profilSnapshot.data())
+        console.log({profilData: profilSnapshot.data()})
         yield put(signUpSuccess({uid,...profilSnapshot.data()}))
-        yield put(setCurrentProfil({uid,...profilSnapshot.data()}))
     
     }
     else {
-        const userProfil = { login, email,products:[], collections:[],createdAt, favourites:[],comments:[]}
-        console.log({snapshot:profilSnapshot.data()})
-        yield put(signUpSuccess({uid,...profilSnapshot.data()} ))
-        yield put(setCurrentProfil({uid,...profilSnapshot.data()}))
-        
+        const createdAt = new Date();
+       const userProfil = { login, email,products:[], collections:[],createdAt, favourites:[],comments:[], createdAt}
+       // profilSnapshot.set
+       try {
+           const profilSnap = yield  profilRef.set(userProfil)
+           const userDocument =  yield call(asyncGetProfilDocument(uid))
+           yield put(signUpSuccess({uid,...userDocument} ))
+           console.log({snapshot: profilSnap})
+        } catch (error) {
+            yield put(signUpFail({error, message : error.message}))
+        }
     }
     } catch (error) {
             yield put(signUpFail({error, message : error.message}))
@@ -107,7 +115,7 @@ export function* emailSignIn({payload}) {
         const {email, password} = payload['email']
         const {user} = yield auth.signInWithEmailAndPassword(email, password);
         const {uid} = user
-        yield put(setCurrentProfil({uid,...profilSnapshot.data()}))
+        yield put(setCurrentProfil({uid,email:user.email}))
         
         const profilRef = yield  firestore.doc(`/profils/${uid}`)
         const profilSnapshot = yield profilRef.get()
@@ -116,8 +124,9 @@ export function* emailSignIn({payload}) {
             const userProfil = { email,products:[], collections:[],createdAt, favoutites:[],comments:[]}
              yield profilRef.set(userProfil, { merge: true })
             const profilSnapshot = yield profilRef.get()
-            yield put(setCurrentProfil({uid,...profilSnapshot.data()}))
-            yield put(signInSuccess({uid,...profilSnapshot.data()} ))
+           /*  yield put(setCurrentProfil({uid,...profilSnapshot.data()}))
+            */ 
+           yield put(signInSuccess({uid,...profilSnapshot.data()} ))
         
         }
         yield put(signInSuccess({uid,...profilSnapshot.data()} ))
@@ -138,10 +147,10 @@ export function* logout(){
 //update profil
 export function* updateProfilAsync({payload}) {
     try {
-        console.log({payload})
-        const {uid,login,email,address, city , country} = payload
-        console.log({credential:{uid,login,email,address, city , country}})
-        yield call(apiUpdateCredential,[uid,login,email,address, city , country])
+         const {uid,login,email,address, city , country, role} = payload
+        console.log({credential:{uid,login,email,address, city , country, role}})
+        const profilRef = yield firestore.collection('profils').doc(uid).update({address,city,country,login, role})
+            console.log({profilRef})
         yield put(updateProfilSuccess(payload))
     } catch (error) {
         put(updateProfilFail(error))
@@ -151,14 +160,13 @@ export function* updateProfilAsync({payload}) {
 export function* isAuthenticated() {
     try {
         const userAuth = yield call(apiGetCurrentProfil)
-        if(!userAuth) return
+        if(!userAuth) return    
         const profilRef =  yield  firestore.doc(`/profils/${userAuth.uid}`)
-        console.log({profilRef})
         const profilData =  yield profilRef.get()
-            console.log(profilData.data())  
+           // console.log(profilData.data())  
         yield put(setCurrentProfil({uid:userAuth.uid, ...profilData.data()}))
     } catch (error) {
-        yield 
+        yield put(isAuthenticatedFail(error)) 
     }
 }
 

@@ -75,10 +75,13 @@ export const apiUpdateCredential = async (updateCred) => {
     const  address = updateCred[3]
     const city = updateCred[4]
     const country = updateCred[5]
+    const role = updateCred[6]
     try {
-      const updateUser = await auth.currentUser.updateProfile({displayName:login, email})
-        const updateDbProfil = await firestore.collection('profils').doc(uid).update({address,city,country,login})
-      //  console.log({updateUser}, {updateDbProfil})
+      //const updateUser = await auth.currentUser.updateProfile({displayName:login, email})
+        const updateDbProfil = await firestore.collection('profils').doc(uid).update({address,city,country,login, role})
+            console.log({updateDbProfil})
+        return Promise.resolve(updateDbProfil)
+        //  console.log({updateUser}, {updateDbProfil})
     } catch (error) {
         return Promise.reject({error})
     }

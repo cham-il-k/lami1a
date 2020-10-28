@@ -2,7 +2,7 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom';
 import ProductsPageContain from './productsCollectionPage';
-import ProductPageContain from './productPage';
+import ProductPageContain from '../../components/Product-Modal/ProductModal';
 
 const ProductRoute =({match, fetchProductsStart}) => {
   

@@ -15,9 +15,10 @@ export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS'
 export const LOGOUT_FAIL = 'LOGOUT_FAIL'
 
 export const CHECK_PROFIL_SESSION = 'CHECK_PROFIL_SESSION'
+export const IS_AUTHENTICATED_FAIL =  'IS_AUTHENTICATED_FAIL'
 
 export const GET_PROFIL_DOCUMENT = 'GET_PROFIL_DOCUMENT'
-
+export const SET_COLLECTION_SELECTION = 'SET_COLLECTION_SELECTION'
 export const SET_CURRENT_PROFIL = 'SET_CURRENT_PROFIL'
 export const SELECT_CURRENT_PROFIL = 'SELECT_CURRENT_PROFIL'
 export const UPDATE_PROFIL_START = 'UPDATE_PROFIL_START'
@@ -90,7 +91,10 @@ export const signInFail = (error) => ({
     payload: error
     
 })
-
+export const isAuthenticatedFail =(error) => ({
+    type:IS_AUTHENTICATED_FAIL,
+    payload: error
+})
 export const googleSigninStart = () => ({
     type: GOOGLE_SIGNIN_START,
     

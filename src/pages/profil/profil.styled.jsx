@@ -11,13 +11,13 @@ export const MainContainer = styled.div`
 
 export const ProfilContainer = styled.div`
   display: flex;
-  margin: 0 2rem;
+  margin: 0 .5rem;
   flex-direction: column;
   width: 100%;
 `;
  export const CollectionContainer = styled.div`
  display: flex;
- margin: 0 2rem;
+ margin: 0 .5rem;
  flex-direction: column;
  width: 100%;
 

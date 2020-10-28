@@ -124,50 +124,12 @@ export const createProductsCollection = async () => {
         collection:title,
         selection
       }
-      dbCreateProduct(product)
+      //dbCreateProduct(product)
     } ) 
   })
 
 }
 
-
-export const dbCreateProduct = async (doc) => {
-  const slugName = slug(doc.name)
-  await firestore.collection('products').doc(slugName).set({ ...doc})  
-}
-
-export const dbDeletProduct = (doc) => {
-
-  firestore.collection('products').doc(doc).delete()  
-}
-
-export const dbUpdateProduct = ({id, doc}) => {
-
-  firestore.collection('products').doc(id).update({doc})  
-}
-/**
- * reate galery products/ and Selections
- * @param {*} param0 
- */
-export const storeImageRef = (user, url, fileName) =>  {
-  
-  firestore.collection('selectionGallery').add({
-    imageUrl:`${url}`,
-    admin:`${user.uid}`,
-    fileName:`selectionGallery/${fileName}`
-  }).then(() => ({message:'image is stored'}))
-  .catch((err) => ({
-    err
-  }))
-}
-
-const deletImage = (imageId) => {
-  auth.currentUser.getIdTokenResult().then(idTokenResult => {
-    if(idTokenResult.claims.admin){
-      firestore.collection('selectionGallery').doc(imageId).delete()
-    }
-  } )
-}
 
 /**
  * Quries

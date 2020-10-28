@@ -15,64 +15,45 @@ const animate = keyframes`
 
 export const Contain = styled.div `
   width:117px;
-  background:#aaa;
   height:117px;
+  background:transparent;
   margin:5px;
-  position:relative;
   display:flex;
+  position:relative;
   transform:rotate(45deg);
-
-  transition: 2s transform;
+  //transition: 2s transform;
   flex-direction:column;
   justify-content:center;
   align-items:center;
-
-  &:hover {
-      transform: translate(2%,2%)
-  }
+  border:1px solid blueviolet;
   &::after {
+    content:"";
     width:117px;
-  background:#aaa;
-  height:117px;
- 
-      position: absolute;
-      left: 2px;
-      top: 2px;
-      background:#aaa;
-      opacity:.4;    
-      transform:rotate(75deg);
-      transition: 2s;
-      z-index:2
+    height:117px;
+    position: absolute;
+    left: 2px;
+    top: 2px;
+    background:greenyellow;
+    opacity:.4;    
+    transform:rotate(75deg);
     }
 
     &::before {
-      background:#aaa;
+      content:"";
+      width:117px;
+      height:117px;
+      background:tomato;
       opacity:.2;
       position: absolute;
       left: 4px;
       top: 4px;
       transform:rotate(25deg);
-      transition: 2s;    
-      z-index:10
+    
     }
-  @media screen and (max-width: 800px){
-    margin-bottom: 20px;
-    width:90px;
-    background:#aaa;
-    height:90px;
-    margin:5px;
-    padding:0
- 
-  } 
-
-  @media screen and (max-width: 600px){
-    margin-bottom: 20px;
-    width:50px;
-    background:#aaa;
-    height:50px;
-    margin:5px;
-    padding:0
- } 
+  &:hover {
+      transform: translate(2%,2%)
+  }
+   
 `
 export const Cursor = styled.div`
 position: absolute;
@@ -94,8 +75,8 @@ export const Hexagone= styled.div`
     width:100px;
     height:100px;
     z-index:10;
-     clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); 
-transform:rotate(-45deg);
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); 
+    transform:rotate(-45deg);
    
      /* clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%); */
      /* clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
@@ -110,14 +91,22 @@ export const NameSite = styled(Link)`
     text-decoration:none;
     text-transform: uppercase;
     cursor:pointer;
-    margin-top:3rem;
+    margin-top:2rem;
     align-self:center;  
-    font-size:3rem;
-    transform: rotate(-45deg);
+    font-size:1.3rem;
+    //transform: rotate(-45deg);
     color: ${green2} !important;
     &::first-letter {
       color:${green4}
     }
+    @media screen and (min-width: 768px) {
+    font-size:1.5rem;
+    display:none;
+  }
+  @media screen and (min-width: 992px) {
+      align-self:center;
+      font-size:1.7rem;
+  }
   @media screen and (max-width: 800px){
     margin-bottom: 20px;
     width:90px;
@@ -127,9 +116,8 @@ export const NameSite = styled(Link)`
     padding:0
  
   } 
-    
+   
 `
-
 const bat = keyframes`
   from {
     transform: scale(1.5) rotate(45deg);

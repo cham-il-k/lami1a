@@ -27,9 +27,21 @@ export const selectSelections = createSelector(
   else return []
   }
 )
+export const selectSelectionsLabel = createSelector(
+  [selectSelectedSelections],
+  selections =>  {
+   if(selections){
+  return Object.keys(selections)
+  }
+  else return []
+  }
+)
+
+
 export const selectSelectionCollections = (selectionId) => createSelector(
   [selectSelections],
   selections => { 
+    if(!selections) return []
     const selection = selections.filter(selection => {
       return selection['collection']['title'] === selectionId
       
@@ -120,14 +132,11 @@ export const selectProducts =  createSelector(
 })  
 
   
-export const  selectCollectionCategory = (selectioId, collectionId) => createSelector(
+export const  selectCollectionCategory = (selectionId, collectionId) => createSelector(
   [selectBooksCollection, selectProductsCollection],
  (booksCollection, productsCollection) =>
  {
-   const selectionId = 'books'
-   //const collectionId = 'dogme'
    if(selectionId === 'books') {
-      
      return booksCollection['collections'][`${collectionId}`]
    }else {
     return productsCollection['collections'][`${collectionId}`]

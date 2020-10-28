@@ -7,12 +7,9 @@ import { SelectionMenuContainer } from './selection.styled';
 import { fetchSelectionsStart } from './../../store/actions/selection'
 
 const Selection = ({ selections, fetchSelections }) => {
-   
-  console.log({selections})
-  const menus = selections.map((selection) => {
-    console.log({selection})
+  const menus = selections.map((selection, i) => {
     const {id , ...otherProps} = selection['collection'];
-        return <SelectionItem key={id} {...otherProps}></SelectionItem>
+        return <SelectionItem key={i} {...otherProps}></SelectionItem>
     })
     
   return (

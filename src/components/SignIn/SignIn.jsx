@@ -43,7 +43,7 @@ const handleChange = async event  => {
 }
 return (
       <SignInContainer>
-   
+        <SignInTitle>Register</SignInTitle>
         <form onSubmit={handleSubmit}>
           <FormInput
             name='email'

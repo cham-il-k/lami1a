@@ -12,7 +12,6 @@ export const MenuItemContainer = styled.div`
 	margin: 0 7.5px 15px;
 	overflow: hidden;
   border-radius:2px;
-
 	&:hover {
 		cursor: pointer;
 

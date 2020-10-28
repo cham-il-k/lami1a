@@ -5,7 +5,6 @@ import { compose } from 'redux'
 import {createStructuredSelector} from 'reselect'
 import { isEmpty} from '../../util/validators'
 import Select from 'react-select';
- 
 import {selectCurrentProfil, 
       selectCurrentCollection, selectCurrentProducts} from '../../store/selectors/profil'
 import { ProfilContainer ,Message, ButtonsBarContainer, ProfilTitle} from './profil.styled'
@@ -20,36 +19,35 @@ import withAuthorization from '../../components/WithAuthorization/withAuthorizat
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import WithSpinner from '../../components/With-Spinner/With-Spinner';
-import ProductEdit from './profilProducts'
+import ProductEdit from './ProductEdit'
+import ProductsList from './ProductsList'
+import RadioButton from './../../components/RadioButton/RadioButton'
 import {auth} from './../../util/db/db'
 
 const  ProfilProductsPage = ({currentProfil,collection, history, getProfilDocument, createProduct, updateProfil}) =>  {
-  const initialSelec = [{ value: 'books', label: 'Books' },{ value: 'products', label: 'Products' }];
-  const initialCollec = [{ value: 'sagesse', label: 'Sagesse' },{ value: 'dogme', label: 'Dogme' },
-  { value: 'society', label: 'Society' }];
-  const {email, collections, favourites, login, products } = currentProfil
-  const [credential, setCredential] = useState({email, collections, favourites, login, products })
+  
+  const {uid,email, collections, favourites, address, city,  country, login, products, role } = currentProfil
+  const [credential, setCredential] = useState({uid, email, collections, favourites, address, login, city, country, products, role})
   
   const notify = (message) => toast(`${message}`);
   
   useEffect(() => {
-  return () => {
-      console.log({currentProfil})
-  }
-  }, [credential])
+    console.log({credential})
+    console.log({status: currentProfil.role})
+   }, [credential])
 
 const handleUpdateProfil = async event => {
   event.preventDefault();
     try {
-      console.log({credential})
       updateProfil(credential)
-      notify(`${credential.login} is connected`)
-    history.push(`/profil`);
-  }catch(error) {
+      history.push(`/profil`);
+    }catch(error) {
     notify(`${error}` )
   }
 }
-
+const setRole = (role) => {
+  setCredential({...credential,role})
+}
 const handleChangeProfil = (event ) => {
   const {value, name} = event.target
   setCredential({...credential, [name]: value })
@@ -72,17 +70,16 @@ return(
     <FormInput
       type='email'
       name='email'
-      value={credential.email}
-      placeholder={credential.email}
-      onChange={handleChangeProfil}
+      value={email}
+      placeholder={email}
       label='Email'
-      required
+      disabled
     />
     <FormInput
       type='text'
       name='address'
       value={credential.address}
-      placeholder={credential.address}
+      placeholder={address}
       onChange={handleChangeProfil}
       label='address'
       required
@@ -91,7 +88,7 @@ return(
       type='text'
       name='city'
       value={credential.city}
-      placeholder={credential.city}
+      placeholder={city}
       onChange={handleChangeProfil}
       label='city'
       required
@@ -100,12 +97,13 @@ return(
       type='text'
       name='country'
       value={credential.country}
-      placeholder={credential.country}
+      placeholder={country}
       onChange={handleChangeProfil}
       label='country'
       required
     />
-    < ButtonsBarContainer>
+     <RadioButton handleChange={setRole} role={role}/>
+    <ButtonsBarContainer>
       <CustomButton type="submit" onClick={(e) => handleUpdateProfil(e)}>update</CustomButton>
       <Message>
         
@@ -116,7 +114,10 @@ return(
     </ProfilContainer>
 {/*  /**PRODUCT MANAGEMENT*/}  
   <CollectionContainer id="CollectionContainer">
-      <ProductEdit />
+      { (credential.role === 'org') ?
+      <ProductEdit /> : 
+      <ProductsList />
+      }
     </CollectionContainer>
   </MainContainer>
   
@@ -139,7 +140,6 @@ const mapDispatchToProps = (dispatch) => ({
 const composedProfilProductPage = compose(
 connect(mapStateToProps, mapDispatchToProps),
 withAuthorization,
-WithSpinner
 )(ProfilProductsPage)
 
 export default composedProfilProductPage;

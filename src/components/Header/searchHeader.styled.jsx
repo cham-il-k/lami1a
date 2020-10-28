@@ -7,13 +7,20 @@ export const FormSearch = styled.form`
     align-self: center;
     display:flex;
     justify-content:center;
-    margin-top:2rem;
+    margin-top:1rem;
     align-items:center;
-    
-        min-width: 7rem;
-        padding: 0 5px 0 5px;
-        font-size:.7rem;
-        flex-direction:column
+    min-width: 7rem;
+    padding: 0 5px 0 5px;
+    font-size:.7rem;
+    flex-direction:column;
+
+    @media screen and (min-width: 768px) {
+    flex-direction:row;
+    justify-content:space-evenly
+ }
+ @media screen and (min-width: 992px) {
+  flex-direction:row;
+  justify-content:space-evenly
 }
             
 `/* 

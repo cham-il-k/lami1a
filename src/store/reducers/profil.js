@@ -8,7 +8,10 @@ import {
     UPDATE_PROFIL_SUCCESS,
     GET_COLLECTION,
     REMOVE_FROM_COLLECTION,
-    GET_ALL_PROFILS} from '../actions/profil'
+    GET_ALL_PROFILS,
+    IS_AUTHENTICATED_FAIL
+
+} from '../actions/profil'
     import { removeProductsFromProfil } from './reducersUtils'
     
     const initialState = {
@@ -54,10 +57,11 @@ const profilReducer = (state = initialState, action) => {
         case SIGNUP_FAIL:
         case SIGNIN_FAIL:
         case LOGOUT_FAIL:
+        case IS_AUTHENTICATED_FAIL:    
             return {
                 ...state,
                 loading: false,
-                error: action.error,
+                error: action.payload,
                 authenticated:false
             };
         case GET_COLLECTION:

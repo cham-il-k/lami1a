@@ -1,36 +1,43 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { addItem } from '../../store/actions/cart';
 import {compose} from 'redux'
 import { withRouter} from 'react-router-dom'
 import slug from 'slug'
-import WithSpinner from './../With-Spinner/With-Spinner'
+import Spinner from './../Spinner/Spinner'
+import Modal from '../Product-Modal/ProductModal'
 import {
   ProductItemContainer,
   ProductFooterContainer,
   AddButton,
   BackgroundImage,
   NameContainer,
-  PriceContainer
+  PriceContainer,
 } from './product-item.styled';
+import ProductModal from '../Product-Modal/ProductModal';
 
 const ProductItem = ({ addProduct, product}) => {
   const {desc, price, id, imageUrl, name, edition} = product
-  console.log({desc, price, id, imageUrl, name, edition })     
+//  console.log({desc, price, id, imageUrl, name, edition })     
   const nameSlug = slug(name)
+  const [isOpen, setIsOpen] = useState(false)
+  useEffect(() => {
+    //console.log(isOpen)
+    
+  }, [isOpen])
   return (
-    <ProductItemContainer>
-      <BackgroundImage  imageUrl={`/assets${imageUrl}`} />
+    <ProductItemContainer >
+      <BackgroundImage  imageUrl={`/assets${imageUrl}`} onClick={() => setIsOpen(!isOpen)}>
+          {isOpen ? <ProductModal isOpen={isOpen} product={product} onCancel={() => setIsOpen(!isOpen)} />: ''}
+      </BackgroundImage>
        <ProductFooterContainer>
-        <NameContainer>{name}</NameContainer>
+        <NameContainer >{name}</NameContainer>
         <PriceContainer>{price}</PriceContainer>
-      <div>{desc}</div>
-
       </ProductFooterContainer>
       <AddButton onClick={() => addProduct(product)} inverted>
         Add to cart
       </AddButton>
-    </ProductItemContainer>
+          </ProductItemContainer>
   );
 };
 
