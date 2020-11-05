@@ -4,54 +4,59 @@ import { connect } from 'react-redux'
 import { compose } from 'redux'
 import {createStructuredSelector} from 'reselect'
 import { isEmpty} from '../../util/validators'
-import Select from 'react-select';
-import {selectCurrentProfil, 
-      selectCurrentCollection, selectCurrentProducts} from '../../store/selectors/profil'
+import {selectCurrentProfil, selectCurrentRole,
+      selectCurrentCollection, selectCurrentProducts, selectCurrentUser} from '../../store/selectors/profil'
 import { ProfilContainer ,Message, ButtonsBarContainer, ProfilTitle} from './profil.styled'
-import {FileContainer, CollectionTitle, ProductTitle, 
-  AddProductContainer,SelectContainer,ProductContainer,} from './collection.styled'
 import {addProductStart,updateProductStart} from './../../store/actions/selection'
-import {updateProfilStart, getProfilDocument } from './../../store/actions/profil'
+import {updateProfilStart, getProfilDocument, signProfilStart } from './../../store/actions/profil'
 import  FormInput from '../../components/FormInput/FormInput' 
 import CustomButton  from '../../components/CustomButton/CustomButton' 
 import { MainContainer, CollectionContainer } from './profil.styled';
 import withAuthorization from '../../components/WithAuthorization/withAuthorization.jsx';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import WithSpinner from '../../components/With-Spinner/With-Spinner';
 import ProductEdit from './ProductEdit'
 import ProductsList from './ProductsList'
 import RadioButton from './../../components/RadioButton/RadioButton'
-import {auth} from './../../util/db/db'
 
-const  ProfilProductsPage = ({currentProfil,collection, history, getProfilDocument, createProduct, updateProfil}) =>  {
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+const  ProfilProductsPage = ({currentUser,  history, signProfil, createProduct, updateProfil}) =>  {
   
-  const {uid,email, collections, favourites, address, city,  country, login, products, role } = currentProfil
-  const [credential, setCredential] = useState({uid, email, collections, favourites, address, login, city, country, products, role})
+  const {uid,email, login } = currentUser
   
+  const [credential, setCredential] = useState({uid, email, login})
   const notify = (message) => toast(`${message}`);
-  
-  useEffect(() => {
-    console.log({credential})
-    console.log({status: currentProfil.role})
-   }, [credential])
-
+  const [collection, setCollection] = useState([])
+  const [tags, setTags] = useState([])
+  const [address, setAddress] = useState('')
+  const [city, setCity] = useState('')
+  const [country, setCountry] = useState('')
+  const [products, setProducts] = useState([])
+  const [role, setRole] = useState('')
+  const [loginupdate, setLogin] = useState(login)
+ 
 const handleUpdateProfil = async event => {
   event.preventDefault();
     try {
-      updateProfil(credential)
+      //updateProfil(credential)
+      signProfil({uid, loginupdate, email, address, city, country, role, collection,tags, products })
       history.push(`/profil`);
     }catch(error) {
     notify(`${error}` )
   }
 }
-const setRole = (role) => {
-  setCredential({...credential,role})
+const onSignProfil = async () => {
+  
+    try {
+      console.log({uid, loginupdate, email, address, city, country, role, collection,tags, products })
+      //updateProfil(credential)
+      await signProfil({uid, loginupdate, email, address, city, country, role, collection,tags, products })
+      history.push(`/profil`);
+    }catch(error) {
+    notify(`${error}` )
+  }
 }
-const handleChangeProfil = (event ) => {
-  const {value, name} = event.target
-  setCredential({...credential, [name]: value })
-}
+
 
 return(
 <MainContainer>
@@ -61,11 +66,11 @@ return(
     <FormInput
       type='text'
       name='login'
-      value={credential.login}
-      placeholder={credential.login}
-      onChange={handleChangeProfil}
+      value={loginupdate}
+      placeholder={loginupdate}
+      onChange= {(e) => setLogin(e.target.value)}
       label='Login'
-      required
+      
     />
     <FormInput
       type='email'
@@ -77,34 +82,54 @@ return(
     />
     <FormInput
       type='text'
+      name='collection'
+      value={collection}
+      placeholder={collection}
+      onChange= {(e) => setCollection(e.target.value)}
+      label='Collection'
+      
+    />
+
+    <FormInput
+      type='text'
+      name='tags'
+      value={tags}
+      placeholder={tags}
+      onChange= {(e) => setTags(e.target.value)}
+      label='tags'
+      
+    />
+    <FormInput
+      type='text'
       name='address'
-      value={credential.address}
+      value={address}
       placeholder={address}
-      onChange={handleChangeProfil}
+      onChange={(e) => setAddress(e.target.value)}
       label='address'
-      required
+      
     />
     <FormInput
       type='text'
       name='city'
-      value={credential.city}
+      value={city}
       placeholder={city}
-      onChange={handleChangeProfil}
+      onChange={(e) => setCity(e.target.value) }
       label='city'
-      required
+      
     />
     <FormInput
       type='text'
       name='country'
-      value={credential.country}
+      value={country}
       placeholder={country}
-      onChange={handleChangeProfil}
+      onChange={(e) => setCountry(e.target.value)}
       label='country'
-      required
+      
     />
-     <RadioButton handleChange={setRole} role={role}/>
+     <RadioButton  handleChange={setRole} />
     <ButtonsBarContainer>
-      <CustomButton type="submit" onClick={(e) => handleUpdateProfil(e)}>update</CustomButton>
+      <CustomButton type="submit" >update</CustomButton>
+      <CustomButton type="button" onClick={(e) => onSignProfil(e)}>Create Profil</CustomButton>
       <Message>
         
       </Message>
@@ -114,8 +139,8 @@ return(
     </ProfilContainer>
 {/*  /**PRODUCT MANAGEMENT*/}  
   <CollectionContainer id="CollectionContainer">
-      { (credential.role === 'org') ?
-      <ProductEdit /> : 
+      { (role === 'org') ?
+      <ProductEdit  setCollection={setCollection} setTags={setTags} setProducts={setProducts}  /> : 
       <ProductsList />
       }
     </CollectionContainer>
@@ -126,20 +151,23 @@ return(
 
 const mapStateToProps = createStructuredSelector ({
   currentProfil: selectCurrentProfil,
+  currentUser: selectCurrentUser,
   collection:selectCurrentCollection || 'hectic', 
-  products:selectCurrentProducts || []
-
+  products:selectCurrentProducts || [],
+  role: selectCurrentRole
+  
 })
 
 const mapDispatchToProps = (dispatch) => ({
   createProduct:(product) => dispatch(addProductStart(product)),
   updateProduct:(product) => dispatch(updateProductStart(product)),
   getProfilDocument:(uid) => dispatch(getProfilDocument(uid)),
-  updateProfil:(credential) => dispatch(updateProfilStart(credential))
+  updateProfil:(profil) => dispatch(updateProfilStart(profil)),
+  signProfil:(profil) => dispatch(signProfilStart(profil))
 })
 const composedProfilProductPage = compose(
 connect(mapStateToProps, mapDispatchToProps),
-withAuthorization,
+withRouter,
 )(ProfilProductsPage)
 
 export default composedProfilProductPage;

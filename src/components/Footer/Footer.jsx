@@ -6,7 +6,7 @@ const Footer = ({loading,error}) => {
 return (
         <FooterContainer>
             <NavigationContainer>
-                <OptionLink href='https://lami1a.org'> company </OptionLink> 
+                <OptionLink  to='' href='https://lami1a.org'> company </OptionLink> 
                 <OptionLink to='/careers'>careers</OptionLink> 
                 <OptionLink to='/policy'>policy</OptionLink> 
             </NavigationContainer>

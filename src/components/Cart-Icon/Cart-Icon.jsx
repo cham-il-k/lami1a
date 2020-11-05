@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-
+import {withRouter} from 'react-router-dom'
 import { toggleCartHidden } from '../../store/actions/cart';
 import { selectCartItemsCount } from '../../store/selectors/cart';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -12,8 +12,8 @@ import {
   ItemCountContainer
 } from './cart-icon.styled';
 
-const CartIcon = ({ toggleCartHidden, itemCount }) => (
-  <CartContainer onClick={toggleCartHidden}>
+const CartIcon = ({ toggleCartHidden, itemCount, history }) => (
+  <CartContainer onClick={() => history.push('/profil')}>
     <ShoppingIcon>
       <FontAwesomeIcon className="shoppingIcon" icon={faShoppingCart} />
     </ShoppingIcon>
@@ -21,16 +21,10 @@ const CartIcon = ({ toggleCartHidden, itemCount }) => (
   </CartContainer>
 );
 
-const mapDispatchToProps = dispatch => ({
-  toggleCartHidden: () => dispatch(toggleCartHidden())
-});
-
 const mapStateToProps = createStructuredSelector({
   itemCount: selectCartItemsCount,
-  toggleCartHidden: toggleCartHidden
 });
 
-export default connect(
+export default withRouter(connect(
   mapStateToProps,
-  mapDispatchToProps
-)(CartIcon);
+)(CartIcon));

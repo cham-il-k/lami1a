@@ -3,14 +3,13 @@ import CustomButton from '../CustomButton/CustomButton';
 import {green2} from './../variables'
 
 export const CartDropdownContainer = styled.div`
-  position: absolute;
-  width: 340px;
-  height: 340px;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   padding: 5px;
   border-radius:.5rem;
-  border: 1px solid ${green2};
+  //border: 1px solid ${green2};
   background-color: white;
   top: 90px;
   right: -10px;
@@ -20,6 +19,7 @@ export const CartDropdownContainer = styled.div`
 export const CartDropdownButton = styled(CustomButton)`
   margin-top: auto;
   font-size:10px;
+  align-self:center;
 `;
 
 export const EmptyMessageContainer = styled.span`

@@ -14,7 +14,7 @@ import {
 } from './cart.dropdown.styled';
 
 const CartDropdown = ({ cartItems, history, dispatch, onRemoveItem, onToggleCartHidden }) => {
-  console.log({cartItems})
+  //console.log({cartItems})
   return (
         <CartDropdownContainer>
           <CartItemsContainer>

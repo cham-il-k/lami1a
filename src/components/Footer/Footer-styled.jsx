@@ -3,8 +3,6 @@ import {Link} from 'react-router-dom'
 import { green1,maxWidth, blanc, green2, green4, textBlack, blue41,} from './../../components/variables'
 
 export const FooterContainer = styled.div`
-    position:fixed;
-    bottom:0;
     width:100%;
     background-color: ${blanc};
     display: flex;

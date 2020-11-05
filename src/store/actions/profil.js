@@ -14,9 +14,20 @@ export const LOGOUT_START = 'LOGOUT_START'
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS'
 export const LOGOUT_FAIL = 'LOGOUT_FAIL'
 
+
+export const SET_NULL_CURRENT_USER = 'SET_NULL_CURRENT_USER'
+export const SET_NULL_ERROR = 'SET_NULL_ERROR'
+export const SET_NULL_CURRENT_PROFIL = 'SET_NULL_CURRENT_PROFIL'
+export const SEND_MESSAGE = 'SEND_MESSAGE'
+export const SET_CURRENT_USER = 'SET_CURRENT_USER'
+export const CHECK_CURRENT_USER = 'CHECK_CURRENT_USER'
+
+export const SIGN_PROFIL_FAIL = 'SIGN_PROFIL_FAIL'
+export const SIGN_PROFIL_SUCCESS = 'SIGN_PROFIL_SUCCESS'
+export const SIGN_PROFIL_START = 'SIGN_PROFIL_SUCCESS'
+
 export const CHECK_PROFIL_SESSION = 'CHECK_PROFIL_SESSION'
 export const IS_AUTHENTICATED_FAIL =  'IS_AUTHENTICATED_FAIL'
-
 export const GET_PROFIL_DOCUMENT = 'GET_PROFIL_DOCUMENT'
 export const SET_COLLECTION_SELECTION = 'SET_COLLECTION_SELECTION'
 export const SET_CURRENT_PROFIL = 'SET_CURRENT_PROFIL'
@@ -39,14 +50,16 @@ export const REMOVE_FROM_COLLECTION = 'REMOVE_FROM_COLLECTION';
 export const checkProfilSession = () => ({
     type: CHECK_PROFIL_SESSION
 })
-
+export const checkCurrentUser = () => ({
+    type: CHECK_CURRENT_USER
+})
 export const getProfilDocument = (uid) => ({
     type: GET_PROFIL_DOCUMENT,
     payload:uid
 })
 
 export const setCurrentProfil = (profil) => {
-  // console.log({profil})
+  //console.log({profil})
     return { 
        type:SET_CURRENT_PROFIL,
         payload: profil
@@ -57,6 +70,14 @@ export const signUpStart = ({...cred}) => {
     return {
         type:SIGNUP_START,
         payload: cred 
+    }
+}
+
+export const signProfilStart = (profil) => {
+    console.log({profil})
+    return {
+        type:SIGN_PROFIL_START,
+        payload: profil 
     }
 }
 export const  signUpSuccess = async (userCred) => {
@@ -70,13 +91,15 @@ export const signUpFail = (error) => {
     console.warn({error})
     return {
         type:SIGNUP_FAIL,
-        error:{...error},
+        error:error,
     }
 }
-export const emailSigninStart = ({...emailAndPassword}) => ({
-    type: EMAIL_SIGNIN_START,
-    payload:emailAndPassword
-})
+
+export const emailSigninStart = (emailAndPassword) => {
+    console.warn({emailAndPassword})
+ return{   type: EMAIL_SIGNIN_START,
+    payload:emailAndPassword}
+}
 
 export const signInSuccess = (profil) => {
 //console.log({profil})
@@ -86,15 +109,63 @@ export const signInSuccess = (profil) => {
 }
 }
 
-export const signInFail = (error) => ({
+export const signInFail = (error) =>{ 
+    console.log({...error})
+return {
     type: SIGNIN_FAIL,
-    payload: error
+    error: {...error}
     
-})
-export const isAuthenticatedFail =(error) => ({
+}}
+
+export const signProfilFail = (error) =>{ 
+    console.log({...error})
+return {
+    type: SIGN_PROFIL_FAIL,
+    error: {...error}
+    
+}}
+
+export const signProfilSuccess = (profil) =>{ 
+    console.log({profil})
+return {
+    type: SIGN_PROFIL_SUCCESS,
+    payload: profil
+    
+}}
+
+export const setNullError = () => ({
+    type: SET_NULL_ERROR,
+    })
+
+
+export const setNullCurrentProfil = () => ({
+    type: SET_NULL_CURRENT_PROFIL,
+    })    
+
+export const setNullCurrentUser = () => ({
+    type: SET_NULL_CURRENT_USER,
+    })    
+
+export const sendMessage = (message) => {
+    return {
+        type: SEND_MESSAGE,
+        payload: message
+    }
+} 
+ export const setCurrentUser = (user) => {
+     return {
+         type:SET_CURRENT_USER,
+         payload:user
+     }
+ }
+
+export const isAuthenticatedFail =(error) => {
+    
+    return({
     type:IS_AUTHENTICATED_FAIL,
     payload: error
-})
+    })
+}
 export const googleSigninStart = () => ({
     type: GOOGLE_SIGNIN_START,
     

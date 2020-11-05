@@ -9,11 +9,12 @@ export const apiGetCurrentProfil = () => {
     return new Promise((resolve, reject) => {
       const unsubscribe =  auth.onAuthStateChanged(userAuth => {
         unsubscribe()
-        
+        //console.log({userAuth})
         resolve(userAuth)
       }, reject)
   })
   } 
+
   
   export const apiRegister = async (cred) => {
     try {

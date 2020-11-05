@@ -31,5 +31,5 @@ const mapStateToProps =  (state, ownProps) => createStructuredSelector({
 const ProductsCollectionPage = compose(
   connect(mapStateToProps))(ProductsPage)
 
-  export default ProductsCollectionPage;
+export default ProductsCollectionPage;
 

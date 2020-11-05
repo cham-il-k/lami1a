@@ -6,6 +6,18 @@ export const selectCurrentProfil = createSelector(
   [selectProfil],
   profil => profil.currentProfil
 );
+export const selectCurrentUser = createSelector(
+  [selectProfil],
+  profil => profil.currentUser
+);
+export const selectCurrentRole = createSelector(
+  [selectProfil],
+  profil => {
+    console.log({profil})
+    return profil.status
+  }
+);
+
 export const selectErrorProfil = createSelector(
   [selectProfil],
   profil => profil.error

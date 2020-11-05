@@ -6,7 +6,7 @@ import CartIcon from '../Cart-Icon/Cart-Icon';
 import CartDropdown from '../Cart-Dropdown/Cart-Dropdown';
 import { createStructuredSelector } from 'reselect'
 import LogoBox from './../Logo/Logo'
-import { selectCurrentProfil } from '../../store/selectors/profil';
+import { selectCurrentProfil, selectCurrentUser } from '../../store/selectors/profil';
 import { selectCartHidden } from '../../store/selectors/cart';
 import {isEmpty} from '../../util/validators'
 import { logOutStart } from './../../store/actions/profil'
@@ -17,7 +17,7 @@ import {
   OptionLink,
   ToggleButton
 } from './header-styled';
-const Header = ({ currentProfil, hidden, logOutStart }) => {
+const Header = ({ currentProfil,currentUser, hidden, logOutStart }) => {
   const [toggle, setToggleMenu] =useState(false)  
   return (
       <HeaderContainer>
@@ -30,17 +30,17 @@ const Header = ({ currentProfil, hidden, logOutStart }) => {
           <LogoBox className='logo' />
         </LogoContainer>
         <OptionsContainer>
-          { (!isEmpty(currentProfil)) ? (
+          { (!isEmpty(currentUser) || !isEmpty(currentProfil) ) ? (
            <>
            <OptionLink to='/profil'>Profil</OptionLink>
            <OptionLink to='/collection'>Collection</OptionLink>
            <OptionLink to='/messages'>Messages</OptionLink>
           
+           <OptionLink to='/contact'>CONTACT</OptionLink>
         </>): (<></>)
           }<OptionLink to='/shop'>SHOP</OptionLink>
-          <OptionLink to='/contact'>CONTACT</OptionLink>
           { 
-           !isEmpty(currentProfil)  ? (
+           !isEmpty(currentUser) && !isEmpty(currentProfil) ? (
            
           <OptionLink to='/' onClick={logOutStart}>
               SIGN OUT
@@ -52,7 +52,7 @@ const Header = ({ currentProfil, hidden, logOutStart }) => {
             )}
               <CartIcon />
         </OptionsContainer>
-        {hidden ? null : <CartDropdown />}
+        
       </>
       }  
       </HeaderContainer>
@@ -61,6 +61,7 @@ const Header = ({ currentProfil, hidden, logOutStart }) => {
   }
  const mapStateToProps = createStructuredSelector({
   currentProfil: selectCurrentProfil,
+  currentUser: selectCurrentUser,
   hidden: selectCartHidden
 });
 const mapDispatchToProps = (dispatch) => ({

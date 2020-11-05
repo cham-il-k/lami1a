@@ -14,12 +14,6 @@ import SearchHeader from './components/Header/SearchHeader'
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary'
 
 const App = ({ fetchSelectionsStart, checkProfilSession, currentProfil, fetchProductsStart }) => {
-
-  useEffect(()=> {
-
-
-  },[selectBooks, selectProducts])
-
  useEffect(() => {
       fetchSelectionsStart()
      // createProductsCollection()

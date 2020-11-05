@@ -9,13 +9,16 @@ import ComposedProfilMessages from '../profil/profilMessages.jsx'
 import Spinner from './../../components/Spinner/Spinner'
 import Selection from './../../components/Selection/Selection'
 import {isEmpty} from '../../util/validators'
+import ContactModal from './../../components/Contact-Modal/ContactModal'
 import SignUpContain from './../../components/SignUp/SignUp'
 import SignInContain from '../../components/SignIn/SignIn';
-import {checkProfilSession} from './../../store/actions/profil'
-import  { selectCurrentProfil} from './../../store/selectors/profil'
+import {checkProfilSession, isAuthenticatedFail, setCurrentProfil, checkCurrentUser} from './../../store/actions/profil'
+import  { selectCurrentProfil, selectCurrentUser} from './../../store/selectors/profil'
+import  {apiGetCurrentProfil} from './../../store/api/profils'
 import { MainContainer } from'./main.styled';
 import {auth} from './../../util/db/db'
 import ErrorBoundary from './../../components/ErrorBoundary/ErrorBoundary'
+//import { checkCurrentUser } from '../../store/sagas/profil.js';
 
 const LazyContact = lazy(() => {
     return import('../contact/contact')
@@ -29,11 +32,15 @@ const LazyCheckoutPage = lazy(() => {
     return import('./../checkout/checkout.jsx')
 }
 )
-const MainPage = ({ currentProfil, checkProfilSession}) => {
+const MainPage = ({ currentUser, checkCurrentUser,  currentProfil, checkProfilSession}) => {
     useEffect(() => {
-        checkProfilSession()
-       }, [checkProfilSession]) 
-      
+        checkCurrentUser()
+    }, []) 
+
+useEffect(() => {
+console.log({currentUser})
+}, [currentUser]) 
+
       
 
 return (
@@ -50,18 +57,27 @@ return (
             
             <Suspense fallback={<Spinner />}>
             <Route exact path='/signup' render={() => {
-                console.log({currentProfil})  
-                return isEmpty(currentProfil) ? (<SignUpContain/>) : <Redirect to='/'/>
+                console.log({currentUser})  
+                return isEmpty(currentUser) ? (<SignUpContain/>) : <Redirect to='/'/>
             }
-        }/>    
+            }/>    
             <Route exact path='/signin' render={ () => {
-                if(!isEmpty(currentProfil))  console.log(currentProfil.email)  
-                return isEmpty(currentProfil) ?  (<SignInContain />): <Redirect to='/'/>
+                if(!isEmpty(currentUser))  console.log(currentProfil.email)  
+                return isEmpty(currentUser) ?  (<SignInContain />): <Redirect to='/'/>
             }
             } />
-            <Route exact path='/profil' component={ProfilProductsPage} />
-            <Route exact path='/messages' component={ComposedProfilMessages} />
-            <Route exact path='/contact' component= {LazyContact} />
+            <Route exact path='/profil' render={ () => {
+                return !isEmpty(currentUser) ?  (<ProfilProductsPage />): <Redirect to='/signup'/>
+            }}/>
+
+            <Route exact path='/messages' render={ () => {
+                            return !isEmpty(currentUser) ?  (<ComposedProfilMessages/>): <Redirect to='/signup'/>
+                        }}/>
+
+            <Route exact path='/contact' render={ () => {
+                return !isEmpty(currentUser) ?  (<ContactModal isOpen={true} /> ): <Redirect to='/signup'/>
+            }}/>
+            
             <Route exact path='/about' component= {LazyAbout} />
             <Route exact path='/checkout' component={LazyCheckoutPage} />
             {/* <Route exact path='/products' component={ProductRoute} />
@@ -74,11 +90,15 @@ return (
     }
 
 const mapStateToProps = createStructuredSelector ({
-    currentProfil: selectCurrentProfil
+    currentProfil: selectCurrentProfil,
+    currentUser: selectCurrentUser
+
 })
 const mapDispatcToProps = (dispatch) => ({
-  checkProfilSession: () => dispatch(checkProfilSession()),
-
+   checkProfilSession: () => dispatch(checkProfilSession()),
+   checkCurrentUser: () => dispatch(checkCurrentUser()),
+   setCurrentProfil : (profil) => dispatch(setCurrentProfil(profil)),  
+   isAuthenticatedFail: (error) => dispatch(isAuthenticatedFail(error)) 
 })
 
 

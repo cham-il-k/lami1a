@@ -7,11 +7,10 @@ import CustomButton from './../CustomButton/CustomButton';
 import {  createStructuredSelector } from 'reselect'
 import { selectCurrentProfil, selectErrorProfil} from './../../store/selectors/profil'
 import { SpanError, ShowPasswordContainer,SignUpContainer, SignUpTitle, ButtonsBarContainer, Message, ShowPasswordInput } from './signUp.styled';
-
 import { ToastContainer, toast } from 'react-toastify';
 import {isSameAs, isEmpty } from '../../util/validators'
 import {useForm} from 'react-hook-form'
-import { signUpStart } from './../../store/actions/profil'
+import { signUpStart, setNullError } from './../../store/actions/profil'
 import 'react-toastify/dist/ReactToastify.css';
 
 const initialLocation = {
@@ -20,26 +19,38 @@ const initialLocation = {
   speed: null
 }
 const SignUp = ({error, signUpStart, profil, match, history} ) => {
-  
-useEffect(() => {
-  document.title='Lami1a Selection'
-  console.log({profil})
-  console.log({error})  
-},[error, profil])
 
-
+//console.log({error})
 const [email, setEmail] = useState('')
 const [login, setLogin] = useState('')
 const [password, setPassword] = useState('')
 const [retypePassword, setRetypePassword] = useState('')
 const [showPassword, setShowPassword] = useState(false)
 const [redirect, setRedirect] = useState(false)
+//const [error, setError] = useState(null)
 const notify = (message) => toast(`${message}`);
+
+const notifyError = () => toast.error(`SignUp Error  ! ${error['error']}` , {
+  position: toast.POSITION.BOTTOM_RIGHT
+});
+useEffect(() => {
+  setNullError()
+
+}, [])
+useEffect(() => {
+  document.title='Lami1a Selection'
+  
+  if(!isEmpty(error) && error['error'] === 'auth/email-already-in-use') {
+   notifyError()
+   history.push('/signin')
+  }
+
+},[error, profil])
 
 const  handleSubmit = async (e) =>  
   {
   e.preventDefault()
-  console.log({email})
+  //console.log({email})
   try {
     let cred ={ email, login, password }
     const result =  await signUpStart(cred)
@@ -49,9 +60,8 @@ const  handleSubmit = async (e) =>
         notify('you cant register !!')
       } 
       } catch (error) {
-      console.log({error})
-      if (error['code'] === "auth/email-already-in-use" || error['code'] ==='auth/email-already-registred')
-      notify(error['message'])
+      if (error['error'] === "auth/email-already-in-use" || error['error'] ==='auth/email-already-registred')
+      notifyError()
       return history.push('/signin')
   } 
 }
@@ -90,7 +100,8 @@ const mapStateToProps = createStructuredSelector ({
 })
 
 const mapDispatchToProps = ( dispatch) => ({
-  signUpStart: (userCredential) => dispatch(signUpStart(userCredential))
+  signUpStart: (userCredential) => dispatch(signUpStart(userCredential)),
+  setNullError: () => dispatch(setNullError())
 })
 
 const SignUpContain = compose(

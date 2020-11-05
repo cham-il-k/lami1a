@@ -1,4 +1,11 @@
 import React, {Component} from 'react';
+import { connect } from 'react-redux';
+import { createStructuredSelector} from 'reselect'
+import Spinner from '../Spinner/Spinner'
+import {compose} from 'redux'
+
+import ProductItemCompose from '../Product-Item/Product-Item';
+import { selectProduct } from '../../store/selectors/selection';
 import Modal from 'react-modal'
 import {
   ProductsPageContainer,ContentTitle

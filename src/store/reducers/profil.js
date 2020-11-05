@@ -3,23 +3,26 @@ import {
     SIGNIN_FAIL,SIGNIN_SUCCESS, EMAIL_SIGNIN_START,
     SIGNUP_FAIL, SIGNUP_SUCCESS,
      LOGOUT_SUCCESS,LOGOUT_FAIL, 
-    SET_CURRENT_PROFIL,
+     SET_NULL_CURRENT_PROFIL,
+     SET_CURRENT_PROFIL,
     ADD_TO_COLLECTION,
     UPDATE_PROFIL_SUCCESS,
     GET_COLLECTION,
     REMOVE_FROM_COLLECTION,
     GET_ALL_PROFILS,
-    IS_AUTHENTICATED_FAIL
-
+    IS_AUTHENTICATED_FAIL,
+    SET_NULL_ERROR,
+    SET_CURRENT_USER,
+    SET_NULL_CURRENT_USER
 } from '../actions/profil'
     import { removeProductsFromProfil } from './reducersUtils'
     
     const initialState = {
         currentProfil: '',
+        currentUser:'', 
         products: '',
         collection:'',
-        //status: user / org / fam
-        status:'user',
+        role:'user',
         admin:false,
         authenticated:false,
         loading: false,
@@ -44,7 +47,7 @@ const profilReducer = (state = initialState, action) => {
                 loading: false,
                 error: null,
                 authenticated:true,
-                currentProfil:action.payload
+                currentUser:action.payload
             };
         case  UPDATE_PROFIL_SUCCESS:    
             return {
@@ -61,9 +64,34 @@ const profilReducer = (state = initialState, action) => {
             return {
                 ...state,
                 loading: false,
-                error: action.payload,
+                error: action.error,
                 authenticated:false
             };
+        case SET_NULL_ERROR:
+            return {
+            ...state,
+            error:null
+        }
+        case SET_NULL_CURRENT_PROFIL:
+            return {
+                ...state,
+                currentProfil: null,
+                authenticated:false
+            }
+        
+        case SET_NULL_CURRENT_USER:
+            return {
+                ...state,
+                currentUser: null,
+                authenticated:false
+            }    
+         case SET_CURRENT_USER:
+             return{
+                ...state,
+                currentUser:action.payload,
+                loading:false,
+                error:null
+         }       
         case GET_COLLECTION:
             return {
                 ...state,
@@ -91,7 +119,9 @@ const profilReducer = (state = initialState, action) => {
                 currentProfil:'',
                 error: null,
                 authenticated:false,
-                id:'',
+                products: '',
+                collection:'',
+                currentUser:''
             };
         default:
             return state;

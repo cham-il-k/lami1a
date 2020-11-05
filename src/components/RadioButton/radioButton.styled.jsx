@@ -5,8 +5,8 @@ import {Link} from 'react-router-dom'
 export const RadioParent = styled.div`
   display:flex;
   justify-content:center;
-  margin-right:.5rem;
   align-items: center;
+  margin:1rem .5rem 2rem .5rem;
 
   `
 export const RadioContainer = styled.div`
@@ -27,6 +27,8 @@ export const RadioContainer = styled.div`
 export const RadioLabel = styled.label`
   font-size:1rem;
   font-weight:300;
+  color:${textBlue};
+  
   margin-right:.5rem;
   & > span  {
     margin-left:2px

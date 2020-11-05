@@ -44,6 +44,7 @@ export const BackgroundImageContainer = styled.div`
   width: 100%;
   height: 100%;
   background-size: cover;
+  background-repeat: no-repeat;
   background-position: center, center;
   background-image: ${({ imageUrl }) => `url('${imageUrl}')`};
 `;

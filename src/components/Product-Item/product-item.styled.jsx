@@ -51,7 +51,7 @@ export const BackgroundImage = styled.div`
   border-radius:.5rem;
   height: 60%;
   cursor: pointer;
-  background-size: cover;
+  background-size: contain;
   background-position: center;
   margin-bottom: 5px;
   background-image: ${({imageUrl}) => `url("${imageUrl}")`};

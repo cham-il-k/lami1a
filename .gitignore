@@ -18,6 +18,7 @@ srv/config
 dist/
 node_modules
 functions/node_modules
+src/config
 __*
 .firebase*
 firebase*
